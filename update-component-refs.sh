@@ -2,109 +2,71 @@
 
 echo "Updating component references in blade templates..."
 
-# Array of common component types to check
-COMPONENTS=(
-  "input"
-  "button"
-  "label"
-  "form"
-  "select"
-  "textarea"
-  "checkbox"
-  "radio"
-  "table"
-  "link"
-  "card"
-  "error"
-  "action-message"
-  "danger-button"
-  "secondary-button"
-  "modal"
-  "dropdown"
-  "icon"
-  "badge"
-  "pagination"
-)
+# Update Input Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-input /<x-input.input /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-form /<x-input.form /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-textarea /<x-input.textarea /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-select /<x-input.select /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-checkbox /<x-input.checkbox /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-radio /<x-input.radio /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-input-error /<x-input.input-error /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-label /<x-input.label /g' {} \;
 
-# For each component type, find and update references
-for component in "${COMPONENTS[@]}"; do
-  echo "Checking for $component components..."
-  
-  # Find files using the component format <x-componentname
-  grep_pattern="<x-$component\\b"
-  files=$(grep -l "$grep_pattern" $(find resources/views -name "*.blade.php") 2>/dev/null)
-  
-  if [ -n "$files" ]; then
-    echo "Found files using $component component:"
-    echo "$files"
-    
-    # For each file, update the component references
-    for file in $files; do
-      echo "Updating $component references in $file"
-      
-      # Update opening tags - use different patterns based on component type
-      case $component in
-        "input"|"label"|"select"|"textarea"|"checkbox"|"radio")
-          # These should go to form subdirectory
-          sed -i "s/<x-$component\\b/<x-form.$component/g" "$file"
-          ;;
-        "button"|"danger-button"|"secondary-button")
-          # These should go to buttons subdirectory
-          sed -i "s/<x-$component\\b/<x-button.$component/g" "$file"
-          ;;
-        "table"|"pagination")
-          # These should go to table subdirectory
-          sed -i "s/<x-$component\\b/<x-table.$component/g" "$file"
-          ;;
-        "link"|"card"|"modal"|"dropdown"|"icon"|"badge")
-          # These should go to ui subdirectory
-          sed -i "s/<x-$component\\b/<x-ui.$component/g" "$file"
-          ;;
-        "error"|"action-message")
-          # These should go to form subdirectory
-          sed -i "s/<x-$component\\b/<x-form.$component/g" "$file"
-          ;;
-        *)
-          # Default case - use the component name as subdirectory
-          sed -i "s/<x-$component\\b/<x-$component.index/g" "$file"
-          ;;
-      esac
-      
-      # Update closing tags for components that have them
-      if [[ "$component" != "input" && "$component" != "label" && "$component" != "error" ]]; then
-        # Determine the appropriate prefix based on the component type
-        case $component in
-          "button"|"danger-button"|"secondary-button")
-            prefix="button"
-            ;;
-          "table"|"pagination")
-            prefix="table"
-            ;;
-          "link"|"card"|"modal"|"dropdown"|"icon"|"badge")
-            prefix="ui"
-            ;;
-          "select"|"textarea"|"checkbox"|"radio"|"action-message")
-            prefix="form"
-            ;;
-          *)
-            prefix="$component"
-            ;;
-        esac
-        
-        # Apply the appropriate closing tag update
-        case $component in
-          "button"|"danger-button"|"secondary-button"|"table"|"pagination"|"link"|"card"|"modal"|"dropdown"|"icon"|"badge"|"select"|"textarea"|"checkbox"|"radio"|"action-message")
-            sed -i "s|</x-$component>|</x-$prefix.$component>|g" "$file"
-            ;;
-          *)
-            sed -i "s|</x-$component>|</x-$component.index>|g" "$file"
-            ;;
-        esac
-      fi
-    done
-  else
-    echo "No files found using $component component"
-  fi
-done
+# Update UI Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-button /<x-ui.button /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-card /<x-ui.card /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-avatar /<x-ui.avatar /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-badge /<x-ui.badge /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-dropdown-item /<x-ui.dropdown.item /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-dropdown-menu /<x-ui.dropdown.menu /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-modal /<x-ui.modal /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-empty-state /<x-ui.empty-state /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-container /<x-ui.container /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-link /<x-ui.link /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-dark-mode-toggle /<x-ui.dark-mode-toggle /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-status /<x-ui.status /g' {} \;
 
-echo "Component reference updates complete!" 
+# Update Layout Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-layouts\.app /<x-layout.app /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-layouts\.app>/<\/x-layout.app>/g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-layouts\.auth /<x-layout.auth /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-layouts\.auth>/<\/x-layout.auth>/g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-heading /<x-layout.heading /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-subheading /<x-layout.subheading /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-text /<x-layout.text /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-separator /<x-layout.separator /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-spacer /<x-layout.spacer /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-header /<x-layout.header /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-section-header /<x-layout.section-header /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-app-logo /<x-layout.app-logo /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-app-logo-icon /<x-layout.app-logo-icon /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-placeholder-pattern /<x-layout.placeholder-pattern /g' {} \;
+
+# Update Data Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-table /<x-data.table /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-table\.row /<x-data.table.row /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-table\.cell /<x-data.table.cell /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-table\.heading /<x-data.table.heading /g' {} \;
+
+# Update Authentication Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-auth-header /<x-auth.auth-header /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-auth-session-status /<x-auth.auth-session-status /g' {} \;
+
+# Update Feedback Components
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-error /<x-feedback.error /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-action-message /<x-feedback.action-message /g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-alert /<x-feedback.alert /g' {} \;
+
+# Fix incorrect double namespacing
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-input\.input\./<x-input./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-input\.input\./<\/x-input./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-form\.index\.input\./<x-input./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-form\.index\.input\./<\/x-input./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-form\.input\./<x-input./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-form\.input\./<\/x-input./g' {} \;
+
+# Fix specific components with nested namespaces
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<x-input\.form\.index\./<x-input.form./g' {} \;
+find resources/views -name "*.blade.php" -type f -exec sed -i 's/<\/x-input\.form\.index\./<\/x-input.form./g' {} \;
+
+echo "Component references updated successfully!" 
