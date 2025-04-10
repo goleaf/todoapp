@@ -22,7 +22,7 @@ $classes = [
             <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <x-input.label :for="$id" :value="$label" />
+    <x-form.index.input.input.label :for="$id" :value="$label" />
 </div>
 <?php else: ?>
 <div class="group grid size-5 grid-cols-1">

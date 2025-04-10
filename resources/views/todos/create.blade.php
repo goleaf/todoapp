@@ -26,8 +26,8 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {{-- Title --}}
                     <div class="sm:col-span-4">
-                        <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                            <x-form.index.input.input 
                                 type="text" 
                                 name="title" 
                                 id="title" 
@@ -41,13 +41,13 @@
 
                     {{-- Description --}}
                     <div class="col-span-full">
-                        <x-input.form.group 
+                        <x-form.index.input.form.group 
                             :label="__('Description')" 
                             for="description" 
                             :error="$errors->first('description')" 
                             :helpText="__('Write a few sentences about the task.')"
                         >
-                            <x-input.textarea
+                            <x-form.index.input.textarea
                                 id="description"
                                 name="description"
                                 :invalid="$errors->has('description')"
@@ -58,8 +58,8 @@
 
                     {{-- Category --}}
                      <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Category')" for="category_id" :error="$errors->first('category_id')">
-                            <x-input.select id="category_id" name="category_id" :invalid="$errors->has('category_id')">
+                        <x-form.index.input.form.group :label="__('Category')" for="category_id" :error="$errors->first('category_id')">
+                            <x-form.index.input.select id="category_id" name="category_id" :invalid="$errors->has('category_id')">
                                 <option value="">{{ __('Select a category') }}</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -72,8 +72,8 @@
 
                      {{-- Parent Todo --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Parent Todo')" for="parent_id" :error="$errors->first('parent_id')">
-                            <x-input.select id="parent_id" name="parent_id" :invalid="$errors->has('parent_id')">
+                        <x-form.index.input.form.group :label="__('Parent Todo')" for="parent_id" :error="$errors->first('parent_id')">
+                            <x-form.index.input.select id="parent_id" name="parent_id" :invalid="$errors->has('parent_id')">
                                 <option value="">{{ __('None (Top Level Todo)') }}</option>
                                 @foreach ($parentTodos as $todo)
                                     <option value="{{ $todo->id }}" {{ old('parent_id') == $todo->id ? 'selected' : '' }}>
@@ -86,8 +86,8 @@
 
                      {{-- Due Date --}}
                     <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('Due Date')" for="due_date" :error="$errors->first('due_date')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Due Date')" for="due_date" :error="$errors->first('due_date')">
+                            <x-form.index.input.input 
                                 type="date" 
                                 name="due_date" 
                                 id="due_date" 
@@ -99,8 +99,8 @@
 
                      {{-- Priority --}}
                     <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('Priority')" for="priority" :error="$errors->first('priority')">
-                            <x-input.select id="priority" name="priority" required :invalid="$errors->has('priority')">
+                        <x-form.index.input.form.group :label="__('Priority')" for="priority" :error="$errors->first('priority')">
+                            <x-form.index.input.select id="priority" name="priority" required :invalid="$errors->has('priority')">
                                 <option value="">{{ __('Select priority') }}</option>
                                 @foreach ($priorities as $key => $priority)
                                     <option value="{{ $key }}" {{ old('priority') == $key ? 'selected' : '' }}>
@@ -113,8 +113,8 @@
 
                      {{-- Status --}}
                     <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
-                            <x-input.select id="status" name="status" :invalid="$errors->has('status')">
+                        <x-form.index.input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
+                            <x-form.index.input.select id="status" name="status" :invalid="$errors->has('status')">
                                 <option value="">{{ __('Select status') }}</option>
                                 @foreach ($statuses as $key => $status)
                                     <option value="{{ $key }}" {{ old('status') == $key ? 'selected' : '' }}>

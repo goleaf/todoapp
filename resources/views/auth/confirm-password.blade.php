@@ -8,9 +8,9 @@
     <!-- Session Status -->
     <x-auth.auth-session-status class="text-center" :status="session('status')" />
 
-    <x-input.form method="post" action="{{ route('confirmation.store') }}" class="space-y-6">
+    <x-form.index.input.form method="post" action="{{ route('confirmation.store') }}" class="space-y-6">
         <!-- Password -->
-        <x-input.input
+        <x-form.index.input.input
             type="password"
             :label="__('Password')"
             name="password"

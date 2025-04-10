@@ -26,8 +26,8 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {{-- Name --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Name')" for="name" :error="$errors->first('name')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Name')" for="name" :error="$errors->first('name')">
+                            <x-form.index.input.input 
                                 type="text" 
                                 name="name" 
                                 id="name" 
@@ -41,8 +41,8 @@
 
                     {{-- Email --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Email address')" for="email" :error="$errors->first('email')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Email address')" for="email" :error="$errors->first('email')">
+                            <x-form.index.input.input 
                                 type="email" 
                                 name="email" 
                                 id="email" 
@@ -55,8 +55,8 @@
 
                     {{-- Password --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Password')" for="password" :error="$errors->first('password')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Password')" for="password" :error="$errors->first('password')">
+                            <x-form.index.input.input 
                                 type="password" 
                                 name="password" 
                                 id="password" 
@@ -68,8 +68,8 @@
 
                     {{-- Confirm Password --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Confirm Password')" for="password_confirmation">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Confirm Password')" for="password_confirmation">
+                            <x-form.index.input.input 
                                 type="password" 
                                 name="password_confirmation" 
                                 id="password_confirmation" 

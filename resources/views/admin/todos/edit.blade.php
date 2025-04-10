@@ -27,8 +27,8 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {{-- User --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
-                            <x-input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
+                        <x-form.index.input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
+                            <x-form.index.input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
                                 <option value="">{{ __('Select a user') }}</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('user_id', $todo->user_id) == $user->id ? 'selected' : '' }}>
@@ -41,8 +41,8 @@
 
                     {{-- Title --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
-                            <x-input.input 
+                        <x-form.index.input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                            <x-form.index.input.input 
                                 type="text" 
                                 name="title" 
                                 id="title" 
@@ -56,13 +56,13 @@
 
                     {{-- Description --}}
                      <div class="col-span-full">
-                        <x-input.form.group 
+                        <x-form.index.input.form.group 
                             :label="__('Description')" 
                             for="description" 
                             :error="$errors->first('description')" 
                             :helpText="__('Write a few sentences about the task.')"
                         >
-                            <x-input.textarea 
+                            <x-form.index.input.textarea 
                                 id="description" 
                                 name="description" 
                                 :invalid="$errors->has('description')"
@@ -73,8 +73,8 @@
 
                     {{-- Status --}}
                     <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
-                            <x-input.select id="status" name="status" :invalid="$errors->has('status')">
+                        <x-form.index.input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
+                            <x-form.index.input.select id="status" name="status" :invalid="$errors->has('status')">
                                 <option value="">{{ __('Select status') }}</option>
                                 @foreach ($statuses as $key => $status)
                                     <option value="{{ $key }}" {{ old('status', $todo->status->value) == $key ? 'selected' : '' }}>

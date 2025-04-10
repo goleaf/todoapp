@@ -4,26 +4,26 @@
     <div class="mt-6">
         <x-auth.auth-session-status class="text-center" :status="session('status')" />
 
-        <x-input.form method="post" :action="route('login')" class="space-y-6">
+        <x-form.index.input.form method="post" :action="route('login')" class="space-y-6">
             <div>
-                <x-input.label for="email">{{ __('Your email') }}</x-input.label>
-                <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autofocus autocomplete="username" />
-                <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-form.index.input.label for="email">{{ __('Your email') }}</x-input.label>
+                <x-form.index.input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autofocus autocomplete="username" />
+                <x-form.index.input.input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <div>
                 <div class="flex items-center justify-between">
-                    <x-input.label for="password">{{ __('Password') }}</x-input.label>
-                    <x-input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="current-password" />
-                    <x-input.input-error :messages="$errors->get('password')" class="mt-2" />
+                    <x-form.index.input.label for="password">{{ __('Password') }}</x-input.label>
+                    <x-form.index.input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="current-password" />
+                    <x-form.index.input.input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
             </div>
 
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <x-input.checkbox id="remember" name="remember" />
+                    <x-form.index.input.checkbox id="remember" name="remember" />
                     <div class="ml-2">
-                        <x-input.label for="remember">{{ __('Remember me') }}</x-input.label>
+                        <x-form.index.input.label for="remember">{{ __('Remember me') }}</x-input.label>
                     </div>
                 </div>
                 <x-ui.link :href="route('password.request')">{{ __('Forgot your password?') }}</x-ui.link>

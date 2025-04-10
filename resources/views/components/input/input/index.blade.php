@@ -20,10 +20,10 @@ $classes = [
 @endphp
 
 <?php if ($label): ?>
-<x-input.field>
-    <x-input.label :for="$id" :value="$label" />
+<x-form.index.input.field>
+    <x-form.index.input.label :for="$id" :value="$label" />
     <input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">
-    <x-input.input-error :for="$id" />
+    <x-form.index.input.input-error :for="$id" />
 </x-input.field>
 <?php else: ?>
 <input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">

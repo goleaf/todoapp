@@ -3,11 +3,11 @@
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
-        <x-input.form method="put" action="{{ route('settings.profile.update') }}" class="my-6 w-full space-y-6">
-            <x-input.input type="text" :label="__('Name')" :value="$user->name" name="name" required autofocus autocomplete="name" />
+        <x-form.index.input.form method="put" action="{{ route('settings.profile.update') }}" class="my-6 w-full space-y-6">
+            <x-form.index.input.input type="text" :label="__('Name')" :value="$user->name" name="name" required autofocus autocomplete="name" />
 
             <div>
-                <x-input.input type="email" :label="__('Email')" :value="$user->email" name="email" required autocomplete="email" />
+                <x-form.index.input.input type="email" :label="__('Email')" :value="$user->email" name="email" required autocomplete="email" />
 
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
                     <div>
@@ -50,7 +50,7 @@
             </x-ui.button>
 
             <x-ui.modal id="confirm_user_deletion" :open="$errors->has('password')">
-                <x-input.form method="delete" action="{{ route('settings.profile.destroy') }}" class="space-y-6">
+                <x-form.index.input.form method="delete" action="{{ route('settings.profile.destroy') }}" class="space-y-6">
                     <div>
                         <x-layout.heading size="lg">{{ __('Are you sure you want to delete your account?') }}</x-layout.heading>
                         <x-layout.subheading>
@@ -58,7 +58,7 @@
                         </x-layout.subheading>
                     </div>
 
-                    <x-input.input type="password" :label="__('Password')" name="password" />
+                    <x-form.index.input.input type="password" :label="__('Password')" name="password" />
 
                     <div class="flex justify-end space-x-2">
                         <x-ui.button variant="secondary" form="confirm_user_deletion_close">{{ __('Cancel') }}</x-ui.button>

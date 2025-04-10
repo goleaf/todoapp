@@ -5,9 +5,9 @@
     <!-- Session Status -->
     <x-auth.auth-session-status class="text-center" :status="session('status')" />
 
-    <x-input.form method="post" action="{{ route('password.email') }}" class="space-y-6">
+    <x-form.index.input.form method="post" action="{{ route('password.email') }}" class="space-y-6">
         <!-- Email Address -->
-        <x-input.input
+        <x-form.index.input.input
             type="email"
             :label="__('Email address')"
             name="email"

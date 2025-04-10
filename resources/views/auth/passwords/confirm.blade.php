@@ -18,9 +18,9 @@
 
                     <!-- Password -->
                     <div>
-                        <x-input.label for="password">{{ __('Password') }}</x-input.label>
-                        <x-input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="current-password" />
-                        <x-input.input-error :messages="$errors->get('password')" class="mt-2" />
+                        <x-form.index.input.label for="password">{{ __('Password') }}</x-input.label>
+                        <x-form.index.input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="current-password" />
+                        <x-form.index.input.input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end">
