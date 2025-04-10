@@ -1,7 +1,7 @@
-<x-guest-layout>
+<x-layout.auth>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a href="{{ url('/') }}" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-             <x-application-logo class="w-8 h-8 mr-2" /> 
+        <a href="/">
+            <x-layout.app-logo-icon class="w-8 h-8 mr-2" />
             {{ config('app.name', 'Laravel') }}
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -25,19 +25,17 @@
                         @csrf
 
                         <div>
-                             <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ __('Resend Verification Email') }}</button>
+                            <x-ui.button type="submit" variant="primary">{{ __('Resend Verification Email') }}</x-ui.button>
                         </div>
                     </form>
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 ml-4">
-                            {{ __('Log Out') }}
-                        </button>
+                        <x-ui.button type="submit" variant="link" class="ml-4">{{ __('Log Out') }}</x-ui.button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</x-guest-layout>
+</x-layout.auth>

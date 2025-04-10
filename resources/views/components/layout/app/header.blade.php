@@ -14,24 +14,24 @@
                     <x-layout.app-logo />
                 </a>
 
-                <x-navbar class="-mb-px max-lg:hidden">
-                    <x-navbar.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
+                <x-layout.navbar class="-mb-px max-lg:hidden">
+                    <x-layout.navbar.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-navbar.item>
                 </x-navbar>
 
                 <x-layout.spacer />
 
-                <x-navbar class="mr-1.5 space-x-0.5 py-0!">
-                    <x-navbar.item class="!h-10 [&>div>svg]:size-5" before="phosphor-magnifying-glass" href="#" label="Search" />
-                    <x-navbar.item
+                <x-layout.navbar class="mr-1.5 space-x-0.5 py-0!">
+                    <x-layout.navbar.item class="!h-10 [&>div>svg]:size-5" before="phosphor-magnifying-glass" href="#" label="Search" />
+                    <x-layout.navbar.item
                         class="h-10 max-lg:hidden [&>div>svg]:size-5"
                         before="phosphor-git-branch"
                         href="https://github.com/imacrayon/blade-starter-kit"
                         target="_blank"
                         label="Repository"
                     />
-                    <x-navbar.item
+                    <x-layout.navbar.item
                         class="h-10 max-lg:hidden [&>div>svg]:size-5"
                         before="phosphor-book-open-text"
                         href="https://laravel.com/docs/starter-kits"
@@ -41,7 +41,7 @@
                 </x-navbar>
 
                 <!-- Desktop User Menu -->
-                <x-popover align="top" justify="right">
+                <x-ui.popover align="top" justify="right">
                     <button type="button" class="w-full group flex items-center rounded-lg p-1 hover:bg-gray-800/5 dark:hover:bg-white/10">
                         <span class="shrink-0 size-8 bg-gray-200 rounded-sm overflow-hidden dark:bg-gray-700">
                             <span class="w-full h-full flex items-center justify-center text-sm">
@@ -64,11 +64,11 @@
                                 <span class="truncate text-xs">{{ auth()->user()->email }}</span>
                             </div>
                         </div>
-                        <x-popover.separator />
-                        <x-popover.item before="phosphor-gear-fine" href="/settings/profile">{{ __('Settings') }}</x-popover.item>
-                        <x-popover.separator />
-                        <x-input.input.form method="post" action="{{ route('logout') }}" class="w-full flex">
-                            <x-popover.item before="phosphor-sign-out">{{ __('Log Out') }}</x-popover.item>
+                        <x-ui.popover.separator />
+                        <x-ui.popover.item before="phosphor-gear-fine" href="/settings/profile">{{ __('Settings') }}</x-popover.item>
+                        <x-ui.popover.separator />
+                        <x-input.form method="post" action="{{ route('logout') }}" class="w-full flex">
+                            <x-ui.popover.item before="phosphor-sign-out">{{ __('Log Out') }}</x-popover.item>
                         </x-form>
                     </x-slot:menu>
                 </x-popover>
@@ -85,9 +85,9 @@
                 <x-layout.app-logo />
             </a>
 
-            <x-navlist>
-                <x-navlist.group :heading="__('Platform')">
-                    <x-navlist.item before="phosphor-squares-four" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
+            <x-layout.navlist>
+                <x-layout.navlist.group :heading="__('Platform')">
+                    <x-layout.navlist.item before="phosphor-squares-four" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                     </x-navlist.item>
                 </x-navlist.group>
@@ -95,12 +95,12 @@
 
             <x-layout.spacer />
 
-            <x-navlist>
-                <x-navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
+            <x-layout.navlist>
+                <x-layout.navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
                 {{ __('Repository') }}
                 </x-navlist.item>
 
-                <x-navlist.item before="phosphor-book-open-text" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
+                <x-layout.navlist.item before="phosphor-book-open-text" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
                 {{ __('Documentation') }}
                 </x-navlist.item>
             </x-navlist>

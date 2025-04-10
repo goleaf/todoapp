@@ -20,10 +20,10 @@
     <span class="sr-only" x-text="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"></span>
     
     <template x-if="darkMode">
-        <x-heroicon-o-sun class="h-5 w-5" />
+        <x-ui.icon.heroicon-o-sun class="h-5 w-5" />
     </template>
     
     <template x-if="!darkMode">
-        <x-heroicon-o-moon class="h-5 w-5" />
+        <x-ui.icon.heroicon-o-moon class="h-5 w-5" />
     </template>
 </button> 

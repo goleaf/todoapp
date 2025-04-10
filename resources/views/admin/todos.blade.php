@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout.app>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -6,9 +6,7 @@
             </h2>
             {{-- Optional: Add Create button if Admins can create todos --}}
             {{-- <a href="{{ route('admin.todos.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-1.5 -ml-0.5">
-                    <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                </svg>
+                 <x-ui.icon.heroicon-s-plus class="w-5 h-5 mr-1.5 -ml-0.5" />
                 {{ __('Create New Todo') }}
             </a> --}}
         </div>
@@ -21,7 +19,7 @@
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
         @if($todos->count() > 0)
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+                <x-data.table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100 sm:pl-6">{{ __('ID') }}</th>
@@ -76,19 +74,19 @@
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <div class="flex space-x-3 justify-end">
                                          {{-- Assuming admin routes like admin.todos.show, admin.todos.edit, etc. exist --}}
-                                        <a href="{{ route('admin.todos.show', $todo) }}" class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-200">{{ __('View') }}</a>
-                                        <a href="{{ route('admin.todos.edit', $todo) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-200">{{ __('Edit') }}</a>
+                                        <x-ui.link href="{{ route('admin.todos.show', $todo) }}" class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-200">{{ __('View') }}</x-ui.link>
+                                        <x-ui.link href="{{ route('admin.todos.edit', $todo) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-200">{{ __('Edit') }}</x-ui.link>
                                         <form action="{{ route('admin.todos.destroy', $todo) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this todo?') }}')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">{{ __('Delete') }}</button>
+                                            <x-ui.button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">{{ __('Delete') }}</x-ui.button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </x-data.table>
             </div>
             
             {{-- Pagination --}}
@@ -100,22 +98,17 @@
         @else
             {{-- Empty State --}}
              <div class="text-center px-4 py-12 sm:p-16">
-                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3.75A1.75 1.75 0 0 1 4.75 2h14.5A1.75 1.75 0 0 1 21 3.75v16.5A1.75 1.75 0 0 1 19.25 22H4.75A1.75 1.75 0 0 1 3 20.25V3.75Z" />
-                </svg>
+                 <x-ui.icon.heroicon-o-clipboard-document-list class="mx-auto h-12 w-12 text-gray-400" />
                 <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('No todos found') }}</h3>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('There are currently no todos in the system.') }}</p>
                  {{-- Optional: Add Create button if Admins can create todos --}}
                 {{-- <div class="mt-6">
                     <a href="{{ route('admin.todos.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-1.5 -ml-0.5">
-                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                        </svg>
+                         <x-ui.icon.heroicon-s-plus class="w-5 h-5 mr-1.5 -ml-0.5" />
                         {{ __('Create New Todo') }}
                     </a>
                 </div> --}}
             </div>
         @endif
     </div>
-</x-app-layout>
+</x-layout.app>

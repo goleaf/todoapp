@@ -13,7 +13,7 @@
             {{ $icon }}
         </div>
     @else
-        <x-heroicon-o-document-text class="mx-auto h-12 w-12 text-gray-400" />
+        <x-ui.icon.heroicon-o-document-text class="mx-auto h-12 w-12 text-gray-400" />
     @endif
     
     <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">

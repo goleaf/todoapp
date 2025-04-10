@@ -20,11 +20,11 @@
             
             <span class="ml-2 flex-none rounded">
                 @if ($sortField === $currentSort && $sortDirection === 'asc')
-                    <x-heroicon-s-chevron-up class="h-4 w-4 text-gray-400" />
+                    <x-ui.icon.heroicon-s-chevron-up class="h-4 w-4 text-gray-400" />
                 @elseif ($sortField === $currentSort && $sortDirection === 'desc')
-                    <x-heroicon-s-chevron-down class="h-4 w-4 text-gray-400" />
+                    <x-ui.icon.heroicon-s-chevron-down class="h-4 w-4 text-gray-400" />
                 @else
-                    <x-heroicon-o-arrows-up-down class="invisible group-hover:visible h-4 w-4 text-gray-400" />
+                    <x-ui.icon.heroicon-o-arrows-up-down class="invisible group-hover:visible h-4 w-4 text-gray-400" />
                 @endif
             </span>
         </div>

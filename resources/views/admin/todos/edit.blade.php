@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout.app>
     <x-slot name="header">
          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -10,7 +10,7 @@
                 :icon="app('heroicon')->solid('arrow-left')"
             >
                 {{ __('Back to Todos') }}
-            </x-button>
+            </x-ui.button>
         </div>
     </x-slot>
 
@@ -27,20 +27,20 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {{-- User --}}
                     <div class="sm:col-span-3">
-                        <x-input.input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
+                        <x-input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
                             <x-input.input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ old('user_id', $todo->user_id) == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }} ({{ $user->email }})
                                     </option>
                                 @endforeach
-                            </x-select>
-                        </x-form.group>
+                            </x-input.select>
+                        </x-input.form.group>
                     </div>
 
                     {{-- Title --}}
                     <div class="sm:col-span-3">
-                        <x-input.input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                        <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
                             <x-input.input 
                                 type="text" 
                                 name="title" 
@@ -50,12 +50,12 @@
                                 autofocus 
                                 :invalid="$errors->has('title')" 
                             />
-                        </x-form.group>
+                        </x-input.form.group>
                     </div>
 
                     {{-- Description --}}
                      <div class="col-span-full">
-                        <x-input.input.form.group 
+                        <x-input.form.group 
                             :label="__('Description')" 
                             for="description" 
                             :error="$errors->first('description')" 
@@ -68,18 +68,18 @@
                                 :value="old('description', $todo->description)" 
                                 :invalid="$errors->has('description')" 
                             />
-                        </x-form.group>
+                        </x-input.form.group>
                     </div>
 
                     {{-- Status --}}
                     <div class="sm:col-span-2">
-                        <x-input.input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
+                        <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
                             <x-input.input.select id="status" name="status" :invalid="$errors->has('status')">
                                 @foreach (App\Enums\TodoStatus::cases() as $status)
                                     <option value="{{ $status->value }}" {{ old('status', $todo->status->value) == $status->value ? 'selected' : '' }}>{{ $status->label() }}</option>
                                 @endforeach
-                            </x-select>
-                        </x-form.group>
+                            </x-input.select>
+                        </x-input.form.group>
                     </div>
                 </div>
             </div>
@@ -90,15 +90,15 @@
                     variant="secondary"
                 >
                     {{ __('Cancel') }}
-                </x-button>
+                </x-ui.button>
                 <x-ui.button 
                     type="submit" 
                     variant="primary" 
                     :icon="app('heroicon')->outline('arrow-path')"
                 >
                     {{ __('Update Todo') }}
-                </x-button>
+                </x-ui.button>
             </div>
         </form>
-    </x-card>
-</x-app-layout>
+    </x-ui.card>
+</x-layout.app>

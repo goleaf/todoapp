@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout.app>
     <x-slot name="header">
          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight truncate" title="{{ $todo->title }}">
@@ -12,7 +12,7 @@
                     :icon="app('heroicon')->outline('pencil-square')"
                 >
                     {{ __('Edit') }}
-                </x-button>
+                </x-ui.button>
                 <x-ui.button 
                     href="{{ route('admin.todos.index') }}" 
                     variant="secondary" 
@@ -20,7 +20,7 @@
                     :icon="app('heroicon')->outline('arrow-left')"
                 >
                     {{ __('Back to Todos') }}
-                </x-button>
+                </x-ui.button>
             </div>
         </div>
     </x-slot>
@@ -115,7 +115,7 @@
             </div>
             @endif
         </dl>
-    </x-card>
+    </x-ui.card>
 
     {{-- Subtasks Section --}}
     <x-ui.card class="mt-6">
@@ -130,7 +130,7 @@
                     :icon="app('heroicon')->outline('plus')"
                 >
                     {{ __('Add Subtask') }}
-                </x-button> --}}
+                </x-ui.button> --}}
             </div>
         </x-slot>
         
@@ -176,7 +176,7 @@
                                 class="hidden sm:block"
                             >
                                 {{ __('View') }}<span class="sr-only">, {{ $subtask->title }}</span>
-                            </x-button>
+                            </x-ui.button>
                             <x-ui.button 
                                 href="{{ route('admin.todos.edit', $subtask) }}" 
                                 variant="warning" 
@@ -184,7 +184,7 @@
                                 class="hidden sm:block"
                             >
                                 {{ __('Edit') }}<span class="sr-only">, {{ $subtask->title }}</span>
-                            </x-button>
+                            </x-ui.button>
                        </div>
                     </li>
                 @endforeach
@@ -193,7 +193,7 @@
             <div class="rounded-md bg-blue-50 dark:bg-blue-900/50 p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                         <x-heroicon-o-information-circle class="h-5 w-5 text-blue-400" />
+                         <x-ui.icon.heroicon-o-information-circle class="h-5 w-5 text-blue-400" />
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700 dark:text-blue-300">
@@ -216,7 +216,7 @@
                         :icon="app('heroicon')->outline('trash')"
                     >
                         {{ __('Delete Todo') }}
-                    </x-button>
+                    </x-ui.button>
                 </form>
                 <x-ui.button 
                     href="{{ route('admin.todos.edit', $todo) }}" 
@@ -225,8 +225,8 @@
                     :icon="app('heroicon')->outline('pencil-square')"
                 >
                     {{ __('Edit Todo') }}
-                </x-button>
+                </x-ui.button>
             </div>
         </x-slot>
-    </x-card>
-</x-app-layout> 
+    </x-ui.card>
+</x-layout.app> 
