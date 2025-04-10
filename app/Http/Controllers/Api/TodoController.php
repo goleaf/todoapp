@@ -20,6 +20,15 @@ class TodoController extends Controller
         $userId = $request->user()->id;
         $query = Todo::query()->where('user_id', $userId);
 
+        // --- DEBUGGING --- >>
+        /* dd([
+            'userId' => $userId,
+            'sql' => $query->toSql(),
+            'bindings' => $query->getBindings(),
+            'count_before_filters' => $query->count(),
+        ]); */
+        // --- DEBUGGING --- <<
+
         // Filtering
         if ($status = $request->input('status')) { // Use $request->input()
             $query->where('status', $status);
@@ -41,7 +50,8 @@ class TodoController extends Controller
 
         // Eager load the user relationship
         // $todos = $query->with('user')->paginate(10);
-        $todos = $query->paginate(10);
+        $todos = $query->paginate(10); // Revert back to paginate()
+        // $todos = $query->get(); // Use get() instead of paginate()
 
         return response()->json($todos);
     }
