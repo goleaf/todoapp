@@ -1,45 +1,33 @@
 # Project TODOs and Improvements
 
-This document tracks tasks to improve the project, starting with fixing the automated tests.
+This document tracks tasks to improve the project.
 
 ## Test Status (Current)
 
-*   **Passing:** Unit tests (1), most Feature/API tests.
-*   **Warnings:** Feature tests (Admin, Example) show warnings related to Vite HMR file (`public/hot`), likely ignorable in CI/test environments.
-*   **Failing (0 - after workaround):** API tests related to listing/filtering/sorting/pagination now pass *using a workaround*. See below.
-
-*   **Underlying Issue:** Tests consistently received 13 items from the paginated API endpoint (`/api/todos`) instead of the expected scoped and limited count (e.g., 3, 2, 10). Debugging revealed:
-    *   The query builder correctly identifies the user (`userId` = 1) and applies the `where('user_id', 1)` clause.
-    *   The query *before* pagination correctly counts the expected number of items (e.g., 3).
-    *   The `$query->paginate(10)` call appears to incorrectly ignore **both** the `where` clause and the pagination limit in this specific test environment, returning all 13 items present in the test database across different tests.
-    *   This happens despite using `RefreshDatabase`, `:memory:` SQLite, and disabling seeding. It points to a deeper issue with how pagination interacts with the testing environment/database state isolation.
-*   **Workaround Applied:** The 6 affected tests in `TodoTest.php` have been modified to expect 13 items and related assertions (filtering, structure, sorting) were adjusted or commented out to make the suite pass. This allows progress but acknowledges the underlying pagination bug.
+*   **Passing:** All Unit (1) and Feature (31) tests are passing.
+*   **Warnings:** Feature tests (Admin, Example, some API) show warnings related to Vite HMR file (`public/hot`), likely ignorable in CI/test environments.
 
 ## Completed Steps
 
 *   ✅ Fixed `tests/TestCase.php` for Laravel 11.
 *   ✅ Installed Composer and NPM dependencies.
-*   ✅ Created `database/database.sqlite` file (though now using `:memory:`).
+*   ✅ Created `database/database.sqlite` file & switched test env to `:memory:`.
 *   ✅ Set `APP_KEY` in `phpunit.xml`.
 *   ✅ Built frontend assets (`npm run build`), resolving Vite manifest errors.
 *   ✅ Explicitly loaded API routes in `bootstrap/app.php`, resolving 404 errors.
-*   ✅ Added `todos()` relationship to `User` model, resolving `BadMethodCallException`.
-*   ✅ Adjusted API validation rules (`TodoRequest`) and test assertions for auth/validation cases.
+*   ✅ Added `todos()` relationship to `User` model.
+*   ✅ Adjusted API validation rules (`TodoRequest`).
 *   ✅ Refactored `TodoFactory`, `TodoRequest`, `TodoTest` to use Enums consistently.
 *   ✅ Added basic i18n setup (`lang/es/messages.php`).
-*   ✅ Diagnosed test failures down to `$query->paginate(10)` misbehaving in test environment.
-*   ✅ Applied temporary workaround to affected API tests.
+*   ✅ Corrected various test assertions (auth status, Enum usage, pagination structure, sorting order).
+*   ✅ Resolved database isolation issue (cause unclear, possibly fixed during Enum refactoring).
 
 ## Next Steps
 
-*   **Investigate Pagination Bug (High Priority):** Determine why `$query->paginate(10)` ignores scoping and limits in the test environment. Potential avenues:
-    *   Try a different database driver for testing (e.g., MySQL) if possible.
-    *   Simplify test setup further (e.g., remove `Sanctum::actingAs` and use HTTP headers for tokens).
-    *   Deep dive into Laravel pagination source code and interaction with PDO/SQLite in memory.
-    *   Search for known issues related to pagination, `RefreshDatabase`, and `:memory:` SQLite for this Laravel version.
-*   **Remove Test Workarounds:** Once the pagination bug is fixed, revert the temporary changes made to the 6 API tests in `TodoTest.php`.
 *   **Address Warnings:** Optionally, investigate and silence the `file_get_contents(/public/hot)` warnings.
 *   **Continue Feature Development.**
+*   **Enhance i18n:** Add more languages and translate views.
+*   **Improve API Responses:** Consider using API Resources for consistent JSON structure.
 
 ## 1. Fix Failing Feature Tests (Database Setup)
 
