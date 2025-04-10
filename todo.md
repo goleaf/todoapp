@@ -7,38 +7,39 @@ This document tracks tasks to improve the project.
 *   **Passing:** All Unit (1) and Feature (31) tests are passing.
 *   **Warnings:** Feature tests (Admin, Example, some API) show warnings related to Vite HMR file (`public/hot`), likely ignorable in CI/test environments.
 
-## Completed Steps
+## Completed Steps (Major)
 
-*   ✅ Fixed `tests/TestCase.php` for Laravel 11.
-*   ✅ Installed Composer and NPM dependencies.
-*   ✅ Created `database/database.sqlite` file & switched test env to `:memory:`.
-*   ✅ Set `APP_KEY` in `phpunit.xml`.
-*   ✅ Built frontend assets (`npm run build`), resolving Vite manifest errors.
-*   ✅ Explicitly loaded API routes in `bootstrap/app.php`, resolving 404 errors.
-*   ✅ Added `todos()` relationship to `User` model.
-*   ✅ Adjusted API validation rules (`TodoRequest`).
-*   ✅ Refactored `TodoFactory`, `TodoRequest`, `TodoTest` to use Enums consistently.
-*   ✅ Added basic i18n setup (`lang/es/messages.php`).
-*   ✅ Corrected various test assertions (auth status, Enum usage, pagination structure, sorting order).
-*   ✅ Resolved database isolation issue (cause unclear, possibly fixed during Enum refactoring).
-*   ✅ Enhanced Category API with dedicated Form Request class for improved validation.
-*   ✅ Added API Resources for standardized JSON formatting.
-*   ✅ Implemented multilingual support for 8 languages (en, es, ru, lt, fr, de, it, ja, zh).
-*   ✅ Added translations for category-related messages and UI elements.
-*   ✅ Created TodoResource and UserResource for standardized API responses.
-*   ✅ Added TodoCollection and CategoryCollection for paginated responses.
-*   ✅ Implemented Auth-related translation files and request classes.
-*   ✅ Enhanced TodoRequest with better validation messages.
-*   ✅ Implemented proper Auth controller with registration, login and logout endpoints.
+*   ✅ Initial Laravel 11 setup and dependency installation.
+*   ✅ Database setup (`database.sqlite`, `RefreshDatabase` trait).
+*   ✅ Core API implementation (CRUD, filtering, sorting, pagination) with Enums, Form Requests, API Resources, Collections.
+*   ✅ Basic i18n setup and translations for multiple languages.
+*   ✅ Authentication controllers (Register, Login, Logout) and requests.
+*   ✅ **Frontend Overhaul:**
+    *   ✅ Integrated Tailwind CSS.
+    *   ✅ Created `app` and `guest` layouts with components (navigation, dropdowns, form inputs, alerts, etc.).
+    *   ✅ Refactored all Blade views (`welcome`, `home`, `auth/*`, `todos/*`, `admin/*`) to use Tailwind CSS, layouts, and components for a modern, responsive design.
+    *   ✅ Added icons and improved styling across the application.
+    *   ✅ Compiled frontend assets.
 
 ## Next Steps
 
-*   **Address Warnings:** Optionally, investigate and silence the `file_get_contents(/public/hot)` warnings.
+*   **Address Test Warnings:** Optionally, investigate and silence the `file_get_contents(/public/hot)` warnings in feature tests.
+*   **Refine UI/UX:** Further polish the Tailwind design, add more components for consistency, and potentially integrate a dedicated icon library via NPM (e.g., Heroicons).
+*   **Frontend Interaction:** Enhance frontend JavaScript for dynamic behavior (e.g., Alpine.js for modals, interactive elements).
+*   **API Documentation:** Create detailed API documentation (e.g., using OpenAPI/Swagger).
+*   **Unit Tests:** Add unit tests for new/refactored components, resources, and requests.
+*   **Admin CRUD Views:** Although index views are styled, the specific create/edit/show views within `resources/views/admin/todos` and `resources/views/admin/users` might need further refinement or creation if they don't fully exist yet.
+*   **Further Enhance i18n:** Add more language translations for all application messages and UI elements.
 *   **Continue Feature Development.**
-*   **Further Enhance i18n:** Add more language translations for all application messages.
-*   **Add API Documentation:** Create detailed API documentation with examples.
-*   **Implement Unit Tests:** Add unit tests for the new resources and requests.
-*   **Update the Frontend:** Update the frontend to use the new API responses.
+
+## Potential Future Improvements
+
+*   Real-time updates (e.g., WebSockets)
+*   Advanced user roles and permissions
+*   Full-text search for todos
+*   User profiles and settings
+*   Notifications
+*   Deployment setup
 
 ## 1. Fix Failing Feature Tests (Database Setup)
 
