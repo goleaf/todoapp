@@ -7,36 +7,43 @@ use App\Http\Requests\Api\TodoRequest;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Auth; // Import TodoRequest
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Http\Request; // Add this line
 
 class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) // Inject Request
     {
-        $query = Auth::user()->todos();
+        // Use $request->user()->id for explicit user scope
+        $userId = $request->user()->id;
+        $query = Todo::query()->where('user_id', $userId);
 
         // Filtering
-        if ($status = request('status')) {
+        if ($status = $request->input('status')) { // Use $request->input()
             $query->where('status', $status);
         }
-        if ($priority = request('priority')) {
+        if ($priority = $request->input('priority')) { // Use $request->input()
             $query->where('priority', $priority);
         }
-        if ($dueDate = request('due_date')) {
+        if ($dueDate = $request->input('due_date')) { // Use $request->input()
             $query->whereDate('due_date', $dueDate);
         }
 
         // Sorting
-        if ($sort = request('sort')) {
-            $direction = request('direction', 'asc');
+        if ($sort = $request->input('sort')) { // Use $request->input()
+            $direction = $request->input('direction', 'asc'); // Use $request->input()
             $query->orderBy($sort, $direction);
         } else {
             $query->latest();
         }
 
-        return response()->json($query->paginate(10));
+        // Eager load the user relationship
+        // $todos = $query->with('user')->paginate(10);
+        $todos = $query->paginate(10);
+
+        return response()->json($todos);
     }
 
     /**

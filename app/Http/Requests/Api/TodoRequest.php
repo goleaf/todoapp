@@ -22,12 +22,22 @@ class TodoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => 'required|string|max:255',
+        $rules = [
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
-            'priority' => 'required|in:low,medium,high',
             'status' => 'sometimes|in:pending,completed',
         ];
+
+        if ($this->isMethod('post')) {
+            // Required on creation
+            $rules['title'] = 'required|string|max:255';
+            $rules['priority'] = 'required|in:low,medium,high';
+        } else {
+            // Sometimes required on update (allow partial updates)
+            $rules['title'] = 'sometimes|required|string|max:255';
+            $rules['priority'] = 'sometimes|required|in:low,medium,high';
+        }
+
+        return $rules;
     }
 }

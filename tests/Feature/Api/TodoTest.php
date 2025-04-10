@@ -13,6 +13,14 @@ class TodoTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Prevent automatic seeding when using RefreshDatabase.
+     */
+    public function seed($seeder = null): void
+    {
+        // Do nothing, override default seeding behavior
+    }
+
     public function test_todos_can_be_listed_by_authenticated_user(): void
     {
         $user = User::factory()->create();
@@ -54,12 +62,11 @@ class TodoTest extends TestCase
     public function test_todo_cannot_be_created_by_unauthenticated_user(): void
     {
         $response = $this->postJson('/api/todos', [
-            'title' => '',
+            'title' => 'Test Todo',
+            'priority' => 'low',
         ]);
 
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['title']);
-
+        $response->assertStatus(401);
     }
 
     public function test_todo_can_be_updated_by_owner(): void

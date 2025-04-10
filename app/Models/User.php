@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the todos for the user.
+     */
+    public function todos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

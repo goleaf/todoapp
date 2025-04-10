@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Artisan;
 
 abstract class TestCase extends BaseTestCase
 {
-    use \Illuminate\Foundation\Testing\Concerns\CreatesApplication;
-
-    protected function setUp(): void
+    /**
+     * Creates the application.
+     */
+    public function createApplication(): \Illuminate\Foundation\Application
     {
-        parent::setUp();
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->bootstrap();
-        Artisan::call('migrate');
+        $app = require __DIR__.'/../bootstrap/app.php';
+
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+        return $app;
     }
 }
