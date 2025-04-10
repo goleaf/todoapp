@@ -75,8 +75,8 @@
             
             {{-- Pagination --}}
              @if ($users->hasPages())
-                 <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-4 sm:px-6">
-                    {{ $users->links() }}
+                 <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                    <x-data.pagination :paginator="$users" />
                 </div>
              @endif
         @else

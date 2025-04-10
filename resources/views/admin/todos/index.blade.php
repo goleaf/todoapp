@@ -80,11 +80,9 @@
                         </x-data.table>
                     </div>
 
-                    @if($todos->hasPages())
-                        <div class="mt-4">
-                            {{ $todos->links() }}
-                        </div>
-                    @endif
+                    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                        <x-data.pagination :paginator="$todos" />
+                    </div>
                 </div>
             </div>
         </div>

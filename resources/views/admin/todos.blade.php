@@ -87,14 +87,10 @@
                         @endforeach
                     </tbody>
                 </x-data.table>
-            </div>
-            
-            {{-- Pagination --}}
-             @if ($todos->hasPages())
-                 <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-4 sm:px-6">
-                    {{ $todos->links() }}
+                <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                    <x-data.pagination :paginator="$todos" />
                 </div>
-             @endif
+            </div>
         @else
             {{-- Empty State --}}
              <div class="text-center px-4 py-12 sm:p-16">
