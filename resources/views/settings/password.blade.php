@@ -3,22 +3,22 @@
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
-        <x-form.index.input.form method="put" action="{{ route('settings.password.update') }}" class="mt-6 space-y-6">
-            <x-form.index.input.input
+        <x-input.form method="put" action="{{ route('settings.password.update') }}" class="mt-6 space-y-6">
+            <x-input.input
                 type="password"
                 name="current_password"
                 :label="__('Current password')"
                 required
                 autocomplete="current-password"
             />
-            <x-form.index.input.input
+            <x-input.input
                 type="password"
                 name="password"
                 :label="__('New password')"
                 required
                 autocomplete="new-password"
             />
-            <x-form.index.input.input
+            <x-input.input
                 type="password"
                 name="password_confirmation"
                 :label="__('Confirm Password')"

@@ -1,7 +1,7 @@
 <x-layout.auth>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="/">
-            <x-layout.app-logo-icon class="w-8 h-8 mr-2" />
+            <x-layout.app.logo-icon class="w-8 h-8 mr-2" />
             {{ config('app.name', 'Laravel') }}
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -22,23 +22,23 @@
 
                     <!-- Email Address -->
                     <div>
-                        <x-form.index.input.label for="email">{{ __('Your email') }}</x-input.label>
-                        <x-form.index.input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email', $request->email)" autofocus autocomplete="username" />
-                        <x-form.index.input.input-error :messages="$errors->get('email')" class="mt-2" />
+                        <x-input.label for="email">{{ __('Your email') }}</x-input.label>
+                        <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email', $request->email)" autofocus autocomplete="username" />
+                        <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <!-- Password -->
                     <div class="mt-4">
-                        <x-form.index.input.label for="password">{{ __('New Password') }}</x-input.label>
-                        <x-form.index.input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
-                        <x-form.index.input.input-error :messages="$errors->get('password')" class="mt-2" />
+                        <x-input.label for="password">{{ __('New Password') }}</x-input.label>
+                        <x-input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
+                        <x-input.input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 
                      <!-- Confirm Password -->
                     <div class="mt-4">
-                        <x-form.index.input.label for="password_confirmation">{{ __('Confirm New Password') }}</x-input.label>
-                        <x-form.index.input.input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
-                        <x-form.index.input.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        <x-input.label for="password_confirmation">{{ __('Confirm New Password') }}</x-input.label>
+                        <x-input.input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
+                        <x-input.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
                     
                     <x-ui.button type="submit" variant="primary" class="w-full">{{ __('Reset Password') }}</x-ui.button>

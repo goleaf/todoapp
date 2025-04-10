@@ -19,7 +19,7 @@
         @endif
 
         <main>
-            @include('layouts.partials.alerts')
+            <x-layout.app.alerts />
             {{ $slot }}
         </main>
     </div>

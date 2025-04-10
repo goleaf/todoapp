@@ -9,7 +9,7 @@
                 <div class="absolute inset-0 bg-gray-900"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium">
                     <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-layout.app-logo-icon class="mr-2 h-7 fill-current text-white" />
+                        <x-layout.app.logo-icon class="mr-2 h-7 fill-current text-white" />
                     </span>
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -20,8 +20,8 @@
 
                 <div class="relative z-20 mt-auto">
                     <blockquote class="space-y-2">
-                        <x-layout.heading size="xl">&ldquo;{{ trim($message) }}&rdquo;</x-heading>
-                        <footer><x-layout.heading>{{ trim($author) }}</x-heading></footer>
+                        <x-layout.heading size="xl">&ldquo;{{ trim($message) }}&rdquo;</x-layout.heading>
+                        <footer><x-layout.heading>{{ trim($author) }}</x-layout.heading></footer>
                     </blockquote>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                     <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden">
                         <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                            <x-layout.app-logo-icon class="size-9 fill-current text-black dark:text-white" />
+                            <x-layout.app.logo-icon class="size-9 fill-current text-black dark:text-white" />
                         </span>
 
                         <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>

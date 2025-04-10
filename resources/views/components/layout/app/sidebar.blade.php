@@ -4,7 +4,7 @@
     </x-sidebar.toggle>
 
     <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2">
-        <x-layout.app-logo />
+        <x-layout.app.logo />
     </a>
 
     <x-layout.navlist>

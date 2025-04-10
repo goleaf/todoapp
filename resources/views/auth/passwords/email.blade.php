@@ -1,7 +1,7 @@
 <x-layout.auth>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="/">
-            <x-layout.app-logo-icon class="w-8 h-8 mr-2" />
+            <x-layout.app.logo-icon class="w-8 h-8 mr-2" />
             {{ config('app.name', 'Laravel') }}
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -21,9 +21,9 @@
 
                     <!-- Email Address -->
                     <div>
-                        <x-form.index.input.label for="email">{{ __('Your email') }}</x-input.label>
-                        <x-form.index.input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autofocus autocomplete="username" />
-                        <x-form.index.input.input-error :messages="$errors->get('email')" class="mt-2" />
+                        <x-input.label for="email">{{ __('Your email') }}</x-input.label>
+                        <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autofocus autocomplete="username" />
+                        <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end">

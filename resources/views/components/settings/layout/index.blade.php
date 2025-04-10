@@ -10,8 +10,8 @@
     <x-layout.separator class="md:hidden" />
 
     <div class="flex-1 self-stretch max-md:pt-6">
-        <x-layout.heading>{{ $heading ?? '' }}</x-heading>
-        <x-layout.subheading>{{ $subheading ?? '' }}</x-subheading>
+        <x-layout.heading>{{ $heading ?? '' }}</x-layout.heading>
+        <x-layout.subheading>{{ $subheading ?? '' }}</x-layout.subheading>
 
         <div class="mt-5 w-full max-w-lg">
             {{ $slot }}

@@ -1,8 +1,8 @@
 <x-layout.header class="lg:hidden">
     <x-ui.container class="min-h-14 flex items-center">
-        <x-sidebar.toggle class="lg:hidden w-10 p-0">
+        <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
             <x-phosphor-list aria-hidden="true" width="20" height="20" />
-        </x-sidebar.toggle>
+        </x-layout.sidebar.toggle>
 
         <x-layout.spacer />
 

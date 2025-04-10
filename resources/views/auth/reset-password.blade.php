@@ -5,9 +5,9 @@
     <!-- Session Status -->
     <x-auth.auth-session-status class="text-center" :status="session('status')" />
 
-    <x-form.index.input.form method="post" action="{{ route('password.store', $request->token) }}" class="space-y-6">
+    <x-input.form method="post" action="{{ route('password.store', $request->token) }}" class="space-y-6">
         <!-- Email Address -->
-        <x-form.index.input.input
+        <x-input.input
             type="email"
             :label="__('Email')"
             name="email"
@@ -17,7 +17,7 @@
         />
 
         <!-- Password -->
-        <x-form.index.input.input
+        <x-input.input
             type="password"
             :label="__('Password')"
             name="password"
@@ -26,7 +26,7 @@
         />
 
         <!-- Confirm Password -->
-        <x-form.index.input.input
+        <x-input.input
             type="password"
             :label="__('Confirm password')"
             name="password_confirmation"
@@ -37,4 +37,4 @@
         <x-ui.button class="w-full">{{ __('Reset password') }}</x-ui.button>
     </x-input.form>
 </div>
-</x-layouts.auth>
+</x-layout.auth>

@@ -5,9 +5,9 @@
     <!-- Session Status -->
     <x-auth.auth-session-status class="text-center" :status="session('status')" />
 
-    <x-form.index.input.form method="post" action="{{ route('password.email') }}" class="space-y-6">
+    <x-input.form method="post" action="{{ route('password.email') }}" class="space-y-6">
         <!-- Email Address -->
-        <x-form.index.input.input
+        <x-input.input
             type="email"
             :label="__('Email address')"
             name="email"
@@ -23,4 +23,4 @@
         <x-ui.link :href="route('login')">log in</x-ui.link>
     </div>
 </div>
-</x-layouts.auth>
+</x-layout.auth>

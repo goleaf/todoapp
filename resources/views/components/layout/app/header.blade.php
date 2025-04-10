@@ -6,12 +6,12 @@
     <body class="layout min-h-screen bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
         <x-layout.header class="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
             <x-ui.container class="flex items-center">
-                <x-sidebar.toggle class="lg:hidden w-10 p-0">
+                <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
                     <x-phosphor-list aria-hidden="true" width="20" height="20" />
-                </x-sidebar.toggle>
+                </x-layout.sidebar.toggle>
 
                 <a href="{{ route('dashboard') }}" class="ml-2 mr-5 flex items-center space-x-2 lg:ml-0">
-                    <x-layout.app-logo />
+                    <x-layout.app.logo />
                 </a>
 
                 <x-layout.navbar class="-mb-px max-lg:hidden">
@@ -76,35 +76,35 @@
         </x-layout.header>
 
         <!-- Mobile Menu -->
-        <x-sidebar stashable sticky class="lg:hidden border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
-            <x-sidebar.toggle class="lg:hidden w-10 p-0">
+        <x-layout.sidebar stashable sticky class="lg:hidden border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
+            <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
                 <x-phosphor-x aria-hidden="true" width="20" height="20" />
-            </x-sidebar.toggle>
+            </x-layout.sidebar.toggle>
 
             <a href="{{ route('dashboard') }}" class="ml-1 flex items-center space-x-2">
-                <x-layout.app-logo />
+                <x-layout.app.logo />
             </a>
 
             <x-layout.navlist>
                 <x-layout.navlist.group :heading="__('Platform')">
                     <x-layout.navlist.item before="phosphor-squares-four" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
-                    </x-navlist.item>
-                </x-navlist.group>
-            </x-navlist>
+                    </x-layout.navlist.item>
+                </x-layout.navlist.group>
+            </x-layout.navlist>
 
             <x-layout.spacer />
 
             <x-layout.navlist>
                 <x-layout.navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
                 {{ __('Repository') }}
-                </x-navlist.item>
+                </x-layout.navlist.item>
 
                 <x-layout.navlist.item before="phosphor-book-open-text" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
                 {{ __('Documentation') }}
-                </x-navlist.item>
-            </x-navlist>
-        </x-sidebar>
+                </x-layout.navlist.item>
+            </x-layout.navlist>
+        </x-layout.sidebar>
 
         {{ $slot }}
 

@@ -4,6 +4,6 @@
 ])
 
 <div class="text-center">
-    <x-layout.heading size="xl">{{ $title }}</x-heading>
-    <x-layout.subheading>{{ $description }}</x-subheading>
+    <x-layout.heading size="xl">{{ $title }}</x-layout.heading>
+    <x-layout.subheading>{{ $description }}</x-layout.subheading>
 </div>
