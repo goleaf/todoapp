@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Enums\TodoPriority;
+use App\Enums\TodoStatus;
 use App\Models\Todo;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,25 +46,29 @@ class TodoTest extends TestCase
     {
         $user = User::factory()->create();
         Sanctum::actingAs($user);
-        $priority = 'medium';
 
         $response = $this->postJson('/api/todos', [
             'title' => 'Test Todo',
             'description' => 'Test Description',
-            'status' => 'pending',
-            'priority' => $priority,
+            'status' => TodoStatus::Pending->value,
+            'priority' => TodoPriority::Medium->value,
         ]);
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseHas('todos', ['title' => 'Test Todo', 'user_id' => $user->id]);
+        $this->assertDatabaseHas('todos', [
+            'title' => 'Test Todo',
+            'user_id' => $user->id,
+            'priority' => TodoPriority::Medium,
+            'status' => TodoStatus::Pending,
+        ]);
     }
 
     public function test_todo_cannot_be_created_by_unauthenticated_user(): void
     {
         $response = $this->postJson('/api/todos', [
             'title' => 'Test Todo',
-            'priority' => 'low',
+            'priority' => TodoPriority::Low->value,
         ]);
 
         $response->assertStatus(401);
@@ -75,17 +80,21 @@ class TodoTest extends TestCase
         Sanctum::actingAs($user);
 
         $todo = Todo::factory()->create(['user_id' => $user->id]);
-        $priority = 'high';
 
         $response = $this->putJson('/api/todos/'.$todo->id, [
             'title' => 'Updated Todo',
-            'status' => 'completed',
-            'priority' => $priority,
+            'status' => TodoStatus::Completed->value,
+            'priority' => TodoPriority::High->value,
         ]);
 
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('todos', ['id' => $todo->id, 'title' => 'Updated Todo']);
+        $this->assertDatabaseHas('todos', [
+            'id' => $todo->id,
+            'title' => 'Updated Todo',
+            'priority' => TodoPriority::High,
+            'status' => TodoStatus::Completed,
+        ]);
     }
 
     public function test_todo_cannot_be_updated_by_non_owner(): void
@@ -163,15 +172,18 @@ class TodoTest extends TestCase
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        $todo = Todo::factory()->create(['user_id' => $user->id, 'status' => 'pending']);
+        $todo = Todo::factory()->create(['user_id' => $user->id, 'status' => TodoStatus::Pending]);
 
         $response = $this->putJson('/api/todos/'.$todo->id, [
-            'status' => 'completed',
+            'status' => TodoStatus::Completed->value,
         ]);
 
         $response->assertStatus(200)
-            ->assertJson(['status' => 'completed']);
-        $this->assertDatabaseHas('todos', ['id' => $todo->id, 'status' => 'completed']);
+            ->assertJson(['status' => TodoStatus::Completed->value]);
+        $this->assertDatabaseHas('todos', [
+            'id' => $todo->id,
+            'status' => TodoStatus::Completed,
+        ]);
     }
 
     public function test_todos_can_be_filtered_by_status(): void
@@ -179,28 +191,30 @@ class TodoTest extends TestCase
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        // Create todos with different statuses
-        Todo::factory()->create(['user_id' => $user->id, 'status' => 'pending']);
-        Todo::factory()->create(['user_id' => $user->id, 'status' => 'completed']);
-        Todo::factory()->create(['user_id' => $user->id, 'status' => 'pending']);
+        // Create todos with different statuses using Enum cases
+        Todo::factory()->create(['user_id' => $user->id, 'status' => TodoStatus::Pending]);
+        Todo::factory()->create(['user_id' => $user->id, 'status' => TodoStatus::Completed]);
+        Todo::factory()->create(['user_id' => $user->id, 'status' => TodoStatus::Pending]);
 
-        // Filter by pending status
-        $response = $this->getJson('/api/todos?status=pending');
+        // Filter by pending status using Enum case value
+        $response = $this->getJson('/api/todos?status='.TodoStatus::Pending->value);
 
         $response->assertStatus(200)
             ->assertJsonCount(2)
             ->assertJson(function ($json) {
-                $json->whereAll('*.status', 'pending')
+                // Assert against Enum case value in JSON response
+                $json->whereAll('*.status', TodoStatus::Pending->value)
                     ->etc();
             });
 
-        // Filter by complete status
-        $response = $this->getJson('/api/todos?status=completed');
+        // Filter by complete status using Enum case value
+        $response = $this->getJson('/api/todos?status='.TodoStatus::Completed->value);
 
         $response->assertStatus(200)
             ->assertJsonCount(1)
             ->assertJson(function ($json) {
-                $json->whereAll('*.status', 'completed')
+                // Assert against Enum case value in JSON response
+                $json->whereAll('*.status', TodoStatus::Completed->value)
                     ->etc();
             });
     }
@@ -210,29 +224,29 @@ class TodoTest extends TestCase
         $user = User::factory()->createOne();
         Sanctum::actingAs($user);
 
-        // Create todos with different priorities
-
+        // Create todos with different priorities using Enum cases
         Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::Low]);
         Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::Medium]);
         Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::High]);
         Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::Low]);
 
-        // Filter by low priority
-        $response = $this->getJson('/api/todos?priority=low');
+        // Filter by low priority using Enum case value
+        $response = $this->getJson('/api/todos?priority='.TodoPriority::Low->value);
         $response->assertStatus(200)
             ->assertJsonCount(2)
             ->assertJson(function ($json) {
-                $json->whereAll('*.priority', 'low')
+                // Assert against Enum case value in JSON response
+                $json->whereAll('*.priority', TodoPriority::Low->value)
                     ->etc();
             });
 
-        // Filter by high priority
-        $response = $this->getJson('/api/todos?priority=high');
-
+        // Filter by high priority using Enum case value
+        $response = $this->getJson('/api/todos?priority='.TodoPriority::High->value);
         $response->assertStatus(200)
             ->assertJsonCount(1)
             ->assertJson(function ($json) {
-                $json->whereAll('*.priority', 'high')->etc();
+                // Assert against Enum case value in JSON response
+                $json->whereAll('*.priority', TodoPriority::High->value)->etc();
             });
     }
 
@@ -304,12 +318,14 @@ class TodoTest extends TestCase
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        // Create todos with different priorities
-        $todo1 = Todo::factory()->create(['user_id' => $user->id, 'priority' => 'medium']);
-        $todo2 = Todo::factory()->create(['user_id' => $user->id, 'priority' => 'low']);
-        $todo3 = Todo::factory()->create(['user_id' => $user->id, 'priority' => 'high']);
+        // Create todos with different priorities using Enum cases
+        $todo1 = Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::Medium]);
+        $todo2 = Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::Low]);
+        $todo3 = Todo::factory()->create(['user_id' => $user->id, 'priority' => TodoPriority::High]);
 
         // Sort by priority ascending (low to high)
+        // Assuming the API sorts based on the string value ('low', 'medium', 'high')
+        // If it sorts based on DB enum order, assertions might need adjustment.
         $response = $this->getJson('/api/todos?sort=priority&direction=asc');
 
         $response->assertStatus(200)

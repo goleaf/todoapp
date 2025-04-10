@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\TodoPriority;
+use App\Enums\TodoStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,13 +21,19 @@ class TodoFactory extends Factory
     {
         $user = User::inRandomOrder()->first();
 
+        // Create user if none exists (important for initial seeding or empty DB tests)
+        if (! $user) {
+            $user = User::factory()->create();
+        }
+
         return [
             'user_id' => $user->id,
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
-            'status' => 'pending',
+            // Use Enum cases directly
+            'priority' => $this->faker->randomElement(TodoPriority::cases()),
+            'status' => TodoStatus::Pending, // Default to Pending Enum case
         ];
     }
 }

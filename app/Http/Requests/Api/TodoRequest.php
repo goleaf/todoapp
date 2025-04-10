@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\TodoPriority;
+use App\Enums\TodoStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
 
 class TodoRequest extends FormRequest
 {
@@ -25,17 +28,17 @@ class TodoRequest extends FormRequest
         $rules = [
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
-            'status' => 'sometimes|in:pending,completed',
+            'status' => ['sometimes', new Enum(TodoStatus::class)],
         ];
 
         if ($this->isMethod('post')) {
             // Required on creation
             $rules['title'] = 'required|string|max:255';
-            $rules['priority'] = 'required|in:low,medium,high';
+            $rules['priority'] = ['required', new Enum(TodoPriority::class)];
         } else {
             // Sometimes required on update (allow partial updates)
             $rules['title'] = 'sometimes|required|string|max:255';
-            $rules['priority'] = 'sometimes|required|in:low,medium,high';
+            $rules['priority'] = ['sometimes', 'required', new Enum(TodoPriority::class)];
         }
 
         return $rules;
