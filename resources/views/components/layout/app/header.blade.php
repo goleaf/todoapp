@@ -17,8 +17,8 @@
                 <x-layout.navbar class="-mb-px max-lg:hidden">
                     <x-layout.navbar.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
-                    </x-navbar.item>
-                </x-navbar>
+                    </x-layout.navbar.item>
+                </x-layout.navbar>
 
                 <x-layout.spacer />
 
@@ -38,7 +38,7 @@
                         target="_blank"
                         label="Documentation"
                     />
-                </x-navbar>
+                </x-layout.navbar>
 
                 <!-- Desktop User Menu -->
                 <x-ui.popover align="top" justify="right">
@@ -67,13 +67,13 @@
                         <x-ui.popover.separator />
                         <x-ui.popover.item before="phosphor-gear-fine" href="/settings/profile">{{ __('Settings') }}</x-ui.popover.item>
                         <x-ui.popover.separator />
-                        <x-form.index.input.form method="post" action="{{ route('logout') }}" class="w-full flex">
+                        <x-input.form method="post" action="{{ route('logout') }}" class="w-full flex">
                             <x-ui.popover.item before="phosphor-sign-out">{{ __('Log Out') }}</x-ui.popover.item>
                         </x-input.form>
                     </x-slot:menu>
                 </x-ui.popover>
-            </x-container>
-        </x-header>
+            </x-ui.container>
+        </x-layout.header>
 
         <!-- Mobile Menu -->
         <x-sidebar stashable sticky class="lg:hidden border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">

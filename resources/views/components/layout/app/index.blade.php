@@ -6,7 +6,9 @@
 </head>
 <body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-900">
     <div class="min-h-screen">
-        <x-layout.app.navigation />
+        <x-layout.app.header />
+        <x-layout.app.sidebar />
+        <x-layout.app.mobile-menu />
 
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -17,7 +19,7 @@
         @endif
 
         <main>
-            <x-layout.app.alerts />
+            @include('layouts.partials.alerts')
             {{ $slot }}
         </main>
     </div>
