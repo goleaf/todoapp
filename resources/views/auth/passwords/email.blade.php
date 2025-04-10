@@ -21,7 +21,7 @@
 
                     <!-- Email Address -->
                     <div>
-                        <x-input.input.label for="email">{{ __('Your email') }}</x-input.label>
+                        <x-input.label for="email">{{ __('Your email') }}</x-input.label>
                         <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autofocus autocomplete="username" />
                         <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>

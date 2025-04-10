@@ -22,21 +22,21 @@
 
                     <!-- Email Address -->
                     <div>
-                        <x-input.input.label for="email">{{ __('Your email') }}</x-input.label>
+                        <x-input.label for="email">{{ __('Your email') }}</x-input.label>
                         <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email', $request->email)" autofocus autocomplete="username" />
                         <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <!-- Password -->
-                    <div>
-                        <x-input.input.label for="password">{{ __('New Password') }}</x-input.label>
+                    <div class="mt-4">
+                        <x-input.label for="password">{{ __('New Password') }}</x-input.label>
                         <x-input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
                         <x-input.input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 
                      <!-- Confirm Password -->
-                    <div>
-                        <x-input.input.label for="password_confirmation">{{ __('Confirm New Password') }}</x-input.label>
+                    <div class="mt-4">
+                        <x-input.label for="password_confirmation">{{ __('Confirm New Password') }}</x-input.label>
                         <x-input.input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
                         <x-input.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>

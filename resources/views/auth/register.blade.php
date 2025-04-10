@@ -8,28 +8,28 @@
     <x-input.form method="post" :action="route('register')" class="space-y-6">
         <!-- Name -->
         <div>
-            <x-input.input.label for="name">{{ __('Your Name') }}</x-input.label>
+            <x-input.label for="name">{{ __('Your Name') }}</x-input.label>
             <x-input.input type="text" name="name" id="name" class="mt-1" placeholder="John Doe" required="" :value="old('name')" autofocus autocomplete="name" />
             <x-input.input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input.input.label for="email">{{ __('Your email') }}</x-input.label>
+            <x-input.label for="email">{{ __('Your email') }}</x-input.label>
             <x-input.input type="email" name="email" id="email" class="mt-1" placeholder="name@company.com" required="" :value="old('email')" autocomplete="username" />
             <x-input.input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input.input.label for="password">{{ __('Password') }}</x-input.label>
+            <x-input.label for="password">{{ __('Password') }}</x-input.label>
             <x-input.input type="password" name="password" id="password" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
             <x-input.input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input.input.label for="password_confirmation">{{ __('Confirm Password') }}</x-input.label>
+            <x-input.label for="password_confirmation">{{ __('Confirm Password') }}</x-input.label>
             <x-input.input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" class="mt-1" required="" autocomplete="new-password" />
             <x-input.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
@@ -42,4 +42,4 @@
         <x-ui.link :href="route('login')">{{ __('Login here') }}</x-ui.link>
     </div>
 </div>
-</x-layouts.auth>
+</x-layout.auth>
