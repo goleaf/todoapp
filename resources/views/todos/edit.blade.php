@@ -57,12 +57,11 @@
                             :error="$errors->first('description')" 
                             :helpText="__('Write a few sentences about the task.')"
                         >
-                            <x-input.input.textarea 
-                                id="description" 
-                                name="description" 
-                                rows="3" 
-                                :value="old('description', $todo->description)" 
-                                :invalid="$errors->has('description')" 
+                            <x-input.textarea
+                                id="description"
+                                name="description"
+                                :invalid="$errors->has('description')"
+                                :value="old('description', $todo->description)"
                             />
                         </x-input.form.group>
                     </div>
@@ -70,9 +69,9 @@
                     {{-- Category --}}
                     <div class="sm:col-span-3">
                         <x-input.form.group :label="__('Category')" for="category_id" :error="$errors->first('category_id')">
-                            <x-input.input.select id="category_id" name="category_id" :invalid="$errors->has('category_id')">
-                                <option value="">{{ __('Select a category (optional)') }}</option>
-                                @foreach($categories as $category)
+                            <x-input.select id="category_id" name="category_id" :invalid="$errors->has('category_id')">
+                                <option value="">{{ __('Select a category') }}</option>
+                                @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $todo->category_id) == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
@@ -84,9 +83,9 @@
                     {{-- Parent Todo --}}
                     <div class="sm:col-span-3">
                         <x-input.form.group :label="__('Parent Todo')" for="parent_id" :error="$errors->first('parent_id')">
-                            <x-input.input.select id="parent_id" name="parent_id" :invalid="$errors->has('parent_id')">
-                                <option value="">{{ __('None (Top-level todo)') }}</option>
-                                @foreach($parentTodos as $parentTodo)
+                            <x-input.select id="parent_id" name="parent_id" :invalid="$errors->has('parent_id')">
+                                <option value="">{{ __('None (Top Level Todo)') }}</option>
+                                @foreach ($parentTodos as $parentTodo)
                                     @if($parentTodo->id !== $todo->id)
                                         <option value="{{ $parentTodo->id }}" {{ old('parent_id', $todo->parent_id) == $parentTodo->id ? 'selected' : '' }}>
                                             {{ $parentTodo->title }}
@@ -113,9 +112,12 @@
                     {{-- Priority --}}
                     <div class="sm:col-span-2">
                         <x-input.form.group :label="__('Priority')" for="priority" :error="$errors->first('priority')">
-                            <x-input.input.select id="priority" name="priority" required :invalid="$errors->has('priority')">
-                                @foreach (App\Enums\TodoPriority::cases() as $priority)
-                                    <option value="{{ $priority->value }}" {{ old('priority', $todo->priority->value) == $priority->value ? 'selected' : '' }}>{{ $priority->label() }}</option>
+                            <x-input.select id="priority" name="priority" required :invalid="$errors->has('priority')">
+                                <option value="">{{ __('Select priority') }}</option>
+                                @foreach ($priorities as $key => $priority)
+                                    <option value="{{ $key }}" {{ old('priority', $todo->priority->value) == $key ? 'selected' : '' }}>
+                                        {{ $priority }}
+                                    </option>
                                 @endforeach
                             </x-input.select>
                         </x-input.form.group>
@@ -124,9 +126,12 @@
                     {{-- Status --}}
                     <div class="sm:col-span-2">
                         <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
-                            <x-input.input.select id="status" name="status" :invalid="$errors->has('status')">
-                                @foreach (App\Enums\TodoStatus::cases() as $status)
-                                    <option value="{{ $status->value }}" {{ old('status', $todo->status->value) == $status->value ? 'selected' : '' }}>{{ $status->label() }}</option>
+                            <x-input.select id="status" name="status" :invalid="$errors->has('status')">
+                                <option value="">{{ __('Select status') }}</option>
+                                @foreach ($statuses as $key => $status)
+                                    <option value="{{ $key }}" {{ old('status', $todo->status->value) == $key ? 'selected' : '' }}>
+                                        {{ $status }}
+                                    </option>
                                 @endforeach
                             </x-input.select>
                         </x-input.form.group>

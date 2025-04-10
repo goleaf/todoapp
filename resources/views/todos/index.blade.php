@@ -24,12 +24,12 @@
             {{-- Category Filter --}}
             <div class="sm:col-span-2">
                 <x-input.form.group
-                    label="{{ __('Category') }}"
+                    :label="__('Category')"
                     for="category_id"
                 >
-                    <x-input.input.select id="category_id" name="category_id" class="block w-full">
+                    <x-input.select id="category_id" name="category_id" class="block w-full">
                         <option value="">{{ __('All Categories') }}</option>
-                        @foreach($categories as $category)
+                        @foreach ($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
@@ -41,13 +41,15 @@
             {{-- Status Filter --}}
             <div class="sm:col-span-2">
                 <x-input.form.group
-                    label="{{ __('Status') }}"
+                    :label="__('Status')"
                     for="status"
                 >
-                    <x-input.input.select id="status" name="status" class="block w-full">
+                    <x-input.select id="status" name="status" class="block w-full">
                         <option value="">{{ __('All Statuses') }}</option>
-                         @foreach (App\Enums\TodoStatus::cases() as $status)
-                            <option value="{{ $status->value }}" {{ request('status') == $status->value ? 'selected' : '' }}>{{ $status->label() }}</option>
+                        @foreach ($statuses as $key => $status)
+                            <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>
+                                {{ $status }}
+                            </option>
                         @endforeach
                     </x-input.select>
                 </x-input.form.group>
@@ -56,14 +58,14 @@
             {{-- Sort By --}}
             <div class="sm:col-span-2">
                 <x-input.form.group
-                    label="{{ __('Sort By') }}"
+                    :label="__('Sort By')"
                     for="sort"
                 >
-                    <x-input.input.select id="sort" name="sort" class="block w-full">
-                        <option value="created_at" {{ request('sort', 'created_at') == 'created_at' ? 'selected' : '' }}>{{ __('Creation Date') }}</option>
-                        <option value="title" {{ request('sort') == 'title' ? 'selected' : '' }}>{{ __('Title') }}</option>
-                        <option value="due_date" {{ request('sort') == 'due_date' ? 'selected' : '' }}>{{ __('Due Date') }}</option>
-                        <option value="priority" {{ request('sort') == 'priority' ? 'selected' : '' }}>{{ __('Priority') }}</option>
+                    <x-input.select id="sort" name="sort" class="block w-full">
+                        <option value="latest" {{ request('sort', 'latest') === 'latest' ? 'selected' : '' }}>{{ __('Newest First') }}</option>
+                        <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('Oldest First') }}</option>
+                        <option value="due_asc" {{ request('sort') === 'due_asc' ? 'selected' : '' }}>{{ __('Due Date (Oldest First)') }}</option>
+                        <option value="due_desc" {{ request('sort') === 'due_desc' ? 'selected' : '' }}>{{ __('Due Date (Newest First)') }}</option>
                     </x-input.select>
                 </x-input.form.group>
             </div>

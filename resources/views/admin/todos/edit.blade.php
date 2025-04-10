@@ -28,8 +28,9 @@
                     {{-- User --}}
                     <div class="sm:col-span-3">
                         <x-input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
-                            <x-input.input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
-                                @foreach($users as $user)
+                            <x-input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
+                                <option value="">{{ __('Select a user') }}</option>
+                                @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('user_id', $todo->user_id) == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }} ({{ $user->email }})
                                     </option>
@@ -61,12 +62,11 @@
                             :error="$errors->first('description')" 
                             :helpText="__('Write a few sentences about the task.')"
                         >
-                            <x-input.input.textarea 
+                            <x-input.textarea 
                                 id="description" 
                                 name="description" 
-                                rows="3" 
-                                :value="old('description', $todo->description)" 
-                                :invalid="$errors->has('description')" 
+                                :invalid="$errors->has('description')"
+                                :value="old('description', $todo->description)"
                             />
                         </x-input.form.group>
                     </div>
@@ -74,9 +74,12 @@
                     {{-- Status --}}
                     <div class="sm:col-span-2">
                         <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
-                            <x-input.input.select id="status" name="status" :invalid="$errors->has('status')">
-                                @foreach (App\Enums\TodoStatus::cases() as $status)
-                                    <option value="{{ $status->value }}" {{ old('status', $todo->status->value) == $status->value ? 'selected' : '' }}>{{ $status->label() }}</option>
+                            <x-input.select id="status" name="status" :invalid="$errors->has('status')">
+                                <option value="">{{ __('Select status') }}</option>
+                                @foreach ($statuses as $key => $status)
+                                    <option value="{{ $key }}" {{ old('status', $todo->status->value) == $key ? 'selected' : '' }}>
+                                        {{ $status }}
+                                    </option>
                                 @endforeach
                             </x-input.select>
                         </x-input.form.group>
