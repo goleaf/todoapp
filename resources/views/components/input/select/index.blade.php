@@ -15,8 +15,8 @@
   <div {{ $attributes->merge(['class' => 'relative bg-gray-50 border overflow-x-hidden divide-y divide-gray-200 overflow-y-scroll h-40']) }}>
     @if(! empty($options))
       @foreach($options as $v => $l)
-        <x-form.index.input.input.label for="{{ $name }}_{{ $loop->iteration }}" class="flex items-center space-x-2 w-full py-2 px-3 bg-white hover:bg-gray-50">
-          <x-form.index.input.input.checkbox name="{{ $name }}" id="{{ $name }}_{{ $loop->iteration }}" value="{{ $v }}" :checked="$isSelected($v)" />
+        <x-input.label for="{{ $name }}_{{ $loop->iteration }}" class="flex items-center space-x-2 w-full py-2 px-3 bg-white hover:bg-gray-50">
+          <x-input.checkbox name="{{ $name }}" id="{{ $name }}_{{ $loop->iteration }}" value="{{ $v }}" :checked="$isSelected($v)" />
           <span>{{ $l }}</span>
         </x-input.label>
       @endforeach
