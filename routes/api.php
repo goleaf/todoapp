@@ -16,4 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Todo API routes
     Route::apiResource('/todos', TodoController::class);
+
+    // Category API routes
+    Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
 });

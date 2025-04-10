@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/todos/{todo}/edit', [AdminController::class, 'editTodo'])->name('admin.todos.edit');
     Route::put('/todos/{todo}', [AdminController::class, 'updateTodo'])->name('admin.todos.update');
     Route::delete('/todos/{todo}', [AdminController::class, 'deleteTodo'])->name('admin.todos.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('todos', TodoController::class);
 });

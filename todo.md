@@ -21,13 +21,24 @@ This document tracks tasks to improve the project.
 *   ✅ Added basic i18n setup (`lang/es/messages.php`).
 *   ✅ Corrected various test assertions (auth status, Enum usage, pagination structure, sorting order).
 *   ✅ Resolved database isolation issue (cause unclear, possibly fixed during Enum refactoring).
+*   ✅ Enhanced Category API with dedicated Form Request class for improved validation.
+*   ✅ Added API Resources for standardized JSON formatting.
+*   ✅ Implemented multilingual support for 8 languages (en, es, ru, lt, fr, de, it, ja, zh).
+*   ✅ Added translations for category-related messages and UI elements.
+*   ✅ Created TodoResource and UserResource for standardized API responses.
+*   ✅ Added TodoCollection and CategoryCollection for paginated responses.
+*   ✅ Implemented Auth-related translation files and request classes.
+*   ✅ Enhanced TodoRequest with better validation messages.
+*   ✅ Implemented proper Auth controller with registration, login and logout endpoints.
 
 ## Next Steps
 
 *   **Address Warnings:** Optionally, investigate and silence the `file_get_contents(/public/hot)` warnings.
 *   **Continue Feature Development.**
-*   **Enhance i18n:** Add more languages and translate views.
-*   **Improve API Responses:** Consider using API Resources for consistent JSON structure.
+*   **Further Enhance i18n:** Add more language translations for all application messages.
+*   **Add API Documentation:** Create detailed API documentation with examples.
+*   **Implement Unit Tests:** Add unit tests for the new resources and requests.
+*   **Update the Frontend:** Update the frontend to use the new API responses.
 
 ## 1. Fix Failing Feature Tests (Database Setup)
 

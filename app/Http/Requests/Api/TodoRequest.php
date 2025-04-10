@@ -7,6 +7,7 @@ use App\Enums\TodoStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 class TodoRequest extends FormRequest
 {
@@ -25,7 +26,26 @@ class TodoRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->user()->id;
+
         $rules = [
+            'category_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('categories', 'id')->where(function ($query) use ($userId) {
+                    return $query->where('user_id', $userId);
+                }),
+            ],
+            'parent_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('todos', 'id')->where(function ($query) use ($userId) {
+                    return $query->where('user_id', $userId);
+                }),
+                Rule::when($this->isMethod('put') || $this->isMethod('patch'), [
+                    Rule::notIn([$this->route('todo')?->id]),
+                ]),
+            ],
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
             'status' => ['sometimes', new Enum(TodoStatus::class)],
@@ -42,5 +62,27 @@ class TodoRequest extends FormRequest
         }
 
         return $rules;
+    }
+    
+    /**
+     * Get custom messages for validator errors.
+     * 
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => __('validation.required', ['attribute' => __('todo.title')]),
+            'title.string' => __('validation.string', ['attribute' => __('todo.title')]),
+            'title.max' => __('validation.max.string', ['attribute' => __('todo.title'), 'max' => 255]),
+            'description.string' => __('validation.string', ['attribute' => __('todo.description')]),
+            'due_date.date' => __('validation.date', ['attribute' => __('todo.due_date')]),
+            'priority.required' => __('validation.required', ['attribute' => __('todo.priority')]),
+            'category_id.integer' => __('validation.integer', ['attribute' => __('category.category')]),
+            'category_id.exists' => __('validation.exists', ['attribute' => __('category.category')]),
+            'parent_id.integer' => __('validation.integer', ['attribute' => __('todo.parent')]),
+            'parent_id.exists' => __('validation.exists', ['attribute' => __('todo.parent')]),
+            'parent_id.not_in' => __('todo.self_parent'),
+        ];
     }
 }
