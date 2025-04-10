@@ -65,13 +65,13 @@
                             </div>
                         </div>
                         <x-ui.popover.separator />
-                        <x-ui.popover.item before="phosphor-gear-fine" href="/settings/profile">{{ __('Settings') }}</x-popover.item>
+                        <x-ui.popover.item before="phosphor-gear-fine" href="/settings/profile">{{ __('Settings') }}</x-ui.popover.item>
                         <x-ui.popover.separator />
-                        <x-input.form method="post" action="{{ route('logout') }}" class="w-full flex">
-                            <x-ui.popover.item before="phosphor-sign-out">{{ __('Log Out') }}</x-popover.item>
-                        </x-form>
+                        <x-form.index.input.form method="post" action="{{ route('logout') }}" class="w-full flex">
+                            <x-ui.popover.item before="phosphor-sign-out">{{ __('Log Out') }}</x-ui.popover.item>
+                        </x-input.form>
                     </x-slot:menu>
-                </x-popover>
+                </x-ui.popover>
             </x-container>
         </x-header>
 

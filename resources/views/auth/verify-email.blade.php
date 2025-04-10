@@ -21,4 +21,4 @@
         </x-input.form>
     </div>
 </div>
-</x-layouts.auth>
+</x-layout.auth>
