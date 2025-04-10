@@ -6,7 +6,7 @@
 @endphp
 
 @if($name)
-    <x-heroicon-o-{{ $name }} {{ $attrs }} />
+    <x-ui.icon.heroicon-o-{{ $name }} {{ $attrs }} />
 @else
     <span {{ $attrs }}></span>
 @endif 
