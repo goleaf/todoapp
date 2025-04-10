@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-bind:class="{'dark': darkMode }">
 <head>
-    @include('layouts.partials.head', ['title' => $title])
+    <x-layout.app.head :title="$title" />
 </head>
 <body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-900">
     <div class="min-h-screen">
-        @include('layouts.partials.navigation')
+        <x-layout.app.navigation />
 
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -17,7 +17,7 @@
         @endif
 
         <main>
-            @include('layouts.partials.alerts')
+            <x-layout.app.alerts />
             {{ $slot }}
         </main>
     </div>
