@@ -1,6 +1,6 @@
 <x-layout.sidebar sticky stashable class="border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
     <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
-        <x-ui.icon.phosphor-x aria-hidden="true" width="20" height="20" />
+        <x-phosphor-x aria-hidden="true" width="20" height="20" />
     </x-layout.sidebar.toggle>
 
     <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2">
@@ -38,7 +38,7 @@
                 {{ auth()->user()->name }}
             </span>
             <span class="shrink-0 ml-auto size-8 flex justify-center items-center">
-                <x-ui.icon.phosphor-caret-up-down aria-hidden="true" width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
+                <x-phosphor-caret-up-down aria-hidden="true" width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
             </span>
         </button>
         <x-slot:menu class="w-max">

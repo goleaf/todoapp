@@ -7,7 +7,7 @@
         <x-layout.header class="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
             <x-ui.container class="flex items-center">
                 <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
-                    <x-ui.icon.phosphor-list aria-hidden="true" width="20" height="20" />
+                    <x-phosphor-list aria-hidden="true" width="20" height="20" />
                 </x-layout.sidebar.toggle>
 
                 <a href="{{ route('dashboard') }}" class="ml-2 mr-5 flex items-center space-x-2 lg:ml-0">
@@ -49,7 +49,7 @@
                             </span>
                         </span>
                         <span class="shrink-0 ml-auto size-8 flex justify-center items-center">
-                            <x-ui.icon.phosphor-caret-down width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
+                            <x-phosphor-caret-down width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
                         </span>
                     </button>
                     <x-slot:menu class="w-max">
@@ -78,7 +78,7 @@
         <!-- Mobile Menu -->
         <x-layout.sidebar stashable sticky class="lg:hidden border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
             <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
-                <x-ui.icon.phosphor-x aria-hidden="true" width="20" height="20" />
+                <x-phosphor-x aria-hidden="true" width="20" height="20" />
             </x-layout.sidebar.toggle>
 
             <a href="{{ route('dashboard') }}" class="ml-1 flex items-center space-x-2">

@@ -1,0 +1,17 @@
+refactor: standardize popover and dropdown components
+
+- Update popover component to match dropdown component API
+- Make popover item component consistent with dropdown item component
+- Improve component interface for better developer experience
+- Consolidate animation and styling for consistency
+- Ensure all UI components follow the same patterns
+
+This commit improves component consistency and developer experience by standardizing the
+popover and dropdown components to share similar props and behavior patterns.
+
+refactor: standardize icon component references
+
+- Fixed inconsistent phosphor icon references
+- Standardized on direct phosphor icon components (x-phosphor-*)
+- Updated header, mobile-menu, and sidebar templates
+- Removed ui.icon prefix from icon components for consistency
