@@ -1,30 +1,51 @@
 @props([
-    'justify' => 'right',
-    'align' => 'end',
+    'align' => 'right',
+    'width' => '48',
+    'contentClasses' => 'p-1 bg-white dark:bg-gray-700',
+    'trigger' => null,
 ])
 
 @php
-$x = match ($justify) {
-    'left' => 'left-0 origin-left rtl:origin-right',
-    'right' => 'right-0 origin-right rtl:origin-left',
-};
-$y = match ($align) {
-    'top' => 'mt-1.5 top-full',
-    'bottom' => 'mb-1.5 bottom-full',
-};
+    $alignmentClasses = match ($align) {
+        'left' => 'origin-top-left left-0',
+        'top' => 'origin-top',
+        'bottom' => 'origin-bottom',
+        'right' => 'origin-top-right right-0',
+        'left-bottom' => 'origin-bottom-left left-0 bottom-0',
+        'right-bottom' => 'origin-bottom-right right-0 bottom-0',
+        default => 'origin-top-right right-0',
+    };
+
+    $widthClasses = match ($width) {
+        '48' => 'w-48',
+        '56' => 'w-56',
+        '64' => 'w-64',
+        '72' => 'w-72',
+        '80' => 'w-80',
+        'auto' => 'w-auto',
+        default => 'w-48',
+    };
 @endphp
 
-<div x-data="popover" class="relative">
-    {{ $slot }}
-    <div x-cloak {{ $menu->attributes->class([
-        $x, $y,
-        'absolute z-50',
-        '[:where(&)]:min-w-48 p-[.3125rem]',
-        'rounded-lg shadow-xs',
-        'border border-gray-200 dark:border-gray-600',
-        'bg-white dark:bg-gray-700',
-        'focus:outline-hidden',
-    ]) }}>
-        {{ $menu }}
+<div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
+    <div @click="open = !open">
+        {{ $trigger ?? $slot }}
+    </div>
+
+    <div 
+        x-show="open"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="transform opacity-0 scale-95"
+        x-transition:enter-end="transform opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="transform opacity-100 scale-100"
+        x-transition:leave-end="transform opacity-0 scale-95"
+        class="absolute z-50 mt-2 {{ $widthClasses }} rounded-md shadow-lg {{ $alignmentClasses }}"
+        style="display: none;"
+        @click="open = false"
+    >
+        <div class="rounded-md ring-1 ring-black ring-opacity-5 border border-gray-200 dark:border-gray-600 {{ $contentClasses }} shadow-xs">
+            {{ $menu ?? $slot }}
+        </div>
     </div>
 </div>
