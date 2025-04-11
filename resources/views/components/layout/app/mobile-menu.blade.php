@@ -1,7 +1,7 @@
 <x-layout.header class="lg:hidden">
     <x-ui.container class="min-h-14 flex items-center">
         <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
-            <x-phosphor-list aria-hidden="true" width="20" height="20" />
+            <x-ui.icon.phosphor-list aria-hidden="true" width="20" height="20" />
         </x-layout.sidebar.toggle>
 
         <x-layout.spacer />
@@ -14,7 +14,7 @@
                     </span>
                 </span>
                 <span class="shrink-0 ml-auto size-8 flex justify-center items-center">
-                    <x-phosphor-caret-down width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
+                    <x-ui.icon.phosphor-caret-down width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
                 </span>
             </button>
             <x-slot:menu>

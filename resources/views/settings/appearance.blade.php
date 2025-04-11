@@ -9,7 +9,7 @@
                 <x-ui.button type="button" variant="secondary" before="phosphor-sun-fill" value="light" onclick="setAppearance(this.value)">{{ __('Light') }}</x-ui.button>
                 <x-ui.button type="button" variant="secondary" before="phosphor-moon-fill" value="dark" onclick="setAppearance(this.value)">{{ __('Dark') }}</x-ui.button>
                 <x-ui.button type="button" variant="secondary" before="phosphor-monitor-fill" value="system" onclick="setAppearance(this.value)">{{ __('System') }}</x-ui.button>
-            </x-button.group>
+            </x-ui.button.group>
         </fieldset>
     </x-settings.layout>
 </div>

@@ -1,0 +1,17 @@
+refactor: complete Blade component reorganization
+
+This commit completes the reorganization of Blade components by:
+
+1. Removing all duplicate component files from category root directories
+2. Creating proper subdirectory structure for all components
+3. Implementing consistent index.blade.php pattern throughout
+
+Special enhancements:
+- Added app.blade.php and index.blade.php to layout/app/ directory
+- Added auth.blade.php and index.blade.php to layout/auth/ directory 
+- Created proper subdirectories for auth/auth-header and auth/auth-session-status
+- Ensured no components remain in any category root directory
+
+This change ensures a more maintainable and consistent component structure
+where all components follow the same organization pattern, making the codebase
+easier to navigate and understand. 

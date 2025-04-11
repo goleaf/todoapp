@@ -1,3 +1,184 @@
+# Component Structure Changes
+
+## Overview
+
+This document outlines the changes made to organize and standardize the component structure in our application. The goal was to:
+
+1. Move all components into appropriate category subfolders
+2. Update all blade templates to use the standardized naming conventions
+3. Identify and document potential duplications for future optimization
+
+## Component Categories
+
+Components are now organized into the following categories:
+
+- **Input Components** (`input/`): Form controls and input-related components
+- **UI Components** (`ui/`): Basic UI elements like buttons, cards, etc.
+- **Layout Components** (`layout/`): Structural components like app layouts, headers, etc.
+- **Data Components** (`data/`): Components for displaying and manipulating data
+- **Authentication Components** (`auth/`): Authentication-related components
+- **Feedback Components** (`feedback/`): Alerts, errors, and other feedback mechanisms
+- **Settings Components** (`settings/`): Settings-related components
+
+## Naming Conventions
+
+All component references now follow these patterns:
+
+- `<x-input.*>` for input components
+- `<x-ui.*>` for UI components
+- `<x-layout.*>` for layout components
+- `<x-data.*>` for data components
+- `<x-auth.*>` for authentication components
+- `<x-feedback.*>` for feedback components
+
+This ensures consistency and makes the component's purpose immediately clear from its name.
+
+## Component Structure
+
+Each component now follows this structure:
+- Category folder (`resources/views/components/{category}/`)
+- Component subfolder (`resources/views/components/{category}/{component-name}/`)
+- Index file for main implementation (`resources/views/components/{category}/{component-name}/index.blade.php`)
+- Additional files for subcomponents if needed
+
+## Scripts Used
+
+Three scripts were created to implement these changes:
+
+1. `update-components.sh`: Updated all component references in Blade templates
+2. `organize-components.sh`: Organized component files into appropriate subfolders
+3. `fix-form-tags.sh`: Fixed form group closing tags that were missed in the initial update
+4. `merge-components.sh`: Identified potential duplicate components for review
+
+## Potential Duplications
+
+Some components with similar functionality were identified and documented in `COMPONENT-NOTES.md` for future review:
+
+1. Navigation Items: `layout/navbar/item` and `layout/navlist/item`
+2. UI Item Components: `ui/dropdown/item` and `ui/popover/item`
+3. Group Components: `input/form/group`, `ui/button/group`, and `layout/navlist/group`
+
+## Current Component Inventory
+
+```
+resources/views/components/
+├── auth/
+│   ├── auth-header/
+│   │   └── index.blade.php
+│   └── auth-session-status/
+│       └── index.blade.php
+├── data/
+│   └── table/
+│       ├── cell.blade.php
+│       ├── heading.blade.php
+│       ├── index.blade.php
+│       └── row.blade.php
+├── feedback/
+│   ├── action-message/
+│   │   └── index.blade.php
+│   ├── alert/
+│   │   └── index.blade.php
+│   └── error/
+│       └── index.blade.php
+├── input/
+│   ├── checkbox/
+│   │   └── index.blade.php
+│   ├── field/
+│   │   └── index.blade.php
+│   ├── form/
+│   │   ├── group.blade.php
+│   │   └── index.blade.php
+│   ├── input/
+│   │   └── index.blade.php
+│   ├── input-error/
+│   │   └── index.blade.php
+│   ├── label/
+│   │   └── index.blade.php
+│   ├── radio/
+│   │   └── index.blade.php
+│   ├── select/
+│   │   └── index.blade.php
+│   └── textarea/
+│       └── index.blade.php
+├── layout/
+│   ├── app/
+│   │   ├── app.blade.php
+│   │   ├── header.blade.php
+│   │   ├── index.blade.php
+│   │   └── sidebar.blade.php
+│   ├── app-logo/
+│   │   └── index.blade.php
+│   ├── app-logo-icon/
+│   │   └── index.blade.php
+│   ├── auth/
+│   │   ├── auth.blade.php
+│   │   ├── card.blade.php
+│   │   ├── index.blade.php
+│   │   ├── simple.blade.php
+│   │   └── split.blade.php
+│   ├── header/
+│   │   └── index.blade.php
+│   ├── heading/
+│   │   └── index.blade.php
+│   ├── navbar/
+│   │   ├── index.blade.php
+│   │   └── item.blade.php
+│   ├── navlist/
+│   │   ├── group.blade.php
+│   │   ├── index.blade.php
+│   │   └── item.blade.php
+│   ├── placeholder-pattern/
+│   │   └── index.blade.php
+│   ├── section-header/
+│   │   └── index.blade.php
+│   ├── separator/
+│   │   └── index.blade.php
+│   ├── sidebar/
+│   │   ├── index.blade.php
+│   │   └── toggle.blade.php
+│   ├── spacer/
+│   │   └── index.blade.php
+│   ├── subheading/
+│   │   └── index.blade.php
+│   └── text/
+│       └── index.blade.php
+├── settings/
+│   └── layout/
+│       └── index.blade.php
+└── ui/
+    ├── avatar/
+    │   └── index.blade.php
+    ├── badge/
+    │   └── index.blade.php
+    ├── button/
+    │   ├── group.blade.php
+    │   └── index.blade.php
+    ├── card/
+    │   └── index.blade.php
+    ├── container/
+    │   └── index.blade.php
+    ├── dark-mode-toggle/
+    │   └── index.blade.php
+    ├── dropdown/
+    │   ├── item/
+    │   │   └── index.blade.php
+    │   └── menu/
+    │       └── index.blade.php
+    ├── empty-state/
+    │   └── index.blade.php
+    ├── link/
+    │   └── index.blade.php
+    ├── modal/
+    │   └── index.blade.php
+    ├── popover/
+    │   ├── index.blade.php
+    │   ├── item/
+    │   │   └── index.blade.php
+    │   └── separator.blade.php
+    └── status/
+        └── index.blade.php
+```
+
 # Component Hierarchy
 
 ## components/auth

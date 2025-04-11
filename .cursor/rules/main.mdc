@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Component Migration Rules
+
+## Input Components
+- Replace `<x-input` with `<x-input.input`
+- Replace `<x-form` with `<x-input.form`
+- Replace `<x-textarea` with `<x-input.textarea`
+- Replace `<x-select` with `<x-input.select`
+- Replace `<x-checkbox` with `<x-input.checkbox`
+- Replace `<x-radio` with `<x-input.radio`
+- Replace `<x-input-error` with `<x-input.input-error`
+- Replace `<x-label` with `<x-input.label`
+
+## UI Components
+- Replace `<x-button` with `<x-ui.button`
+- Replace `<x-card` with `<x-ui.card`
+- Replace `<x-avatar` with `<x-ui.avatar`
+- Replace `<x-badge` with `<x-ui.badge`
+- Replace `<x-dropdown-item` with `<x-ui.dropdown.item`
+- Replace `<x-dropdown-menu` with `<x-ui.dropdown.menu`
+- Replace `<x-modal` with `<x-ui.modal`
+- Replace `<x-empty-state` with `<x-ui.empty-state`
+- Replace `<x-container` with `<x-ui.container`
+- Replace `<x-link` with `<x-ui.link`
+- Replace `<x-dark-mode-toggle` with `<x-ui.dark-mode-toggle`
+- Replace `<x-status` with `<x-ui.status`
+
+## Layout Components
+- Replace `<x-layouts.app` with `<x-layout.app`
+- Replace `<x-layouts.auth` with `<x-layout.auth`
+- Replace `<x-heading` with `<x-layout.heading`
+- Replace `<x-subheading` with `<x-layout.subheading`
+- Replace `<x-text` with `<x-layout.text`
+- Replace `<x-separator` with `<x-layout.separator`
+- Replace `<x-spacer` with `<x-layout.spacer`
+- Replace `<x-header` with `<x-layout.header`
+- Replace `<x-section-header` with `<x-layout.section-header`
+- Replace `<x-app-logo` with `<x-layout.app-logo`
+- Replace `<x-app-logo-icon` with `<x-layout.app-logo-icon`
+- Replace `<x-placeholder-pattern` with `<x-layout.placeholder-pattern`
+
+## Data Components
+- Replace `<x-table` with `<x-data.table`
+- Replace `<x-table.row` with `<x-data.table.row` 
+- Replace `<x-table.cell` with `<x-data.table.cell`
+- Replace `<x-table.heading` with `<x-data.table.heading`
+
+## Authentication Components
+- Replace `<x-auth-header` with `<x-auth.auth-header`
+- Replace `<x-auth-session-status` with `<x-auth.auth-session-status`
+
+## Feedback Components
+- Replace `<x-error` with `<x-feedback.error`
+- Replace `<x-action-message` with `<x-feedback.action-message`
+- Replace `<x-alert` with `<x-feedback.alert` 
