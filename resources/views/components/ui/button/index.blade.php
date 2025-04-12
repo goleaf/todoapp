@@ -6,9 +6,12 @@
     'type' => 'button',
     'disabled' => false,
     'href' => null,
+    'before' => null,
 ])
 
 @php
+    use Illuminate\Support\Str;
+    
     $baseClasses = 'inline-flex items-center justify-center gap-2 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
     
     $variantClasses = [
@@ -55,21 +58,55 @@
         ]
     ];
     
-    $iconClasses = $icon ? $iconSizes[$size] : '';
-    $iconMarginClasses = $icon ? $iconMargins[$iconPosition][$size] : '';
+    $iconClasses = $iconSizes[$size];
+    $iconMarginClasses = $iconMargins[$iconPosition][$size];
     
     $classes = $baseClasses . ' ' . $variantClasses[$variant] . ' ' . $sizeClasses[$size];
     
     if ($disabled) {
         $classes .= ' opacity-50 cursor-not-allowed pointer-events-none';
     }
+    
+    // Handle icon rendering
+    $iconContent = null;
+    if ($icon) {
+        if (is_string($icon) && Str::startsWith($icon, 'heroicon-o-')) {
+            $iconName = Str::after($icon, 'heroicon-o-');
+            $iconContent = '<x-heroicon-o-' . $iconName . ' class="' . $iconClasses . '" />';
+        } elseif (is_string($icon) && Str::startsWith($icon, 'heroicon-s-')) {
+            $iconName = Str::after($icon, 'heroicon-s-');
+            $iconContent = '<x-heroicon-s-' . $iconName . ' class="' . $iconClasses . '" />';
+        } else {
+            $iconContent = $icon;
+        }
+    }
+    
+    // Handle before icon (used in dropdown items)
+    $beforeContent = null;
+    if ($before) {
+        if (is_string($before) && Str::startsWith($before, 'heroicon-o-')) {
+            $beforeName = Str::after($before, 'heroicon-o-');
+            $beforeContent = '<x-heroicon-o-' . $beforeName . ' class="' . $iconClasses . ' ' . $iconMarginClasses . '" />';
+        } elseif (is_string($before) && Str::startsWith($before, 'heroicon-s-')) {
+            $beforeName = Str::after($before, 'heroicon-s-');
+            $beforeContent = '<x-heroicon-s-' . $beforeName . ' class="' . $iconClasses . ' ' . $iconMarginClasses . '" />';
+        } else {
+            $beforeContent = $before;
+        }
+    }
 @endphp
 
 @if ($href)
     <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
+        @if ($before)
+            <span class="{{ $iconMarginClasses }}">
+                {!! $beforeContent !!}
+            </span>
+        @endif
+        
         @if ($icon && $iconPosition === 'left')
             <span class="{{ $iconMarginClasses }}">
-                {{ $icon }}
+                {!! $iconContent !!}
             </span>
         @endif
         
@@ -77,15 +114,21 @@
         
         @if ($icon && $iconPosition === 'right')
             <span class="{{ $iconMarginClasses }}">
-                {{ $icon }}
+                {!! $iconContent !!}
             </span>
         @endif
     </a>
 @else
     <button type="{{ $type }}" {{ $attributes->merge(['class' => $classes]) }} @if($disabled) disabled @endif>
+        @if ($before)
+            <span class="{{ $iconMarginClasses }}">
+                {!! $beforeContent !!}
+            </span>
+        @endif
+        
         @if ($icon && $iconPosition === 'left')
             <span class="{{ $iconMarginClasses }}">
-                {{ $icon }}
+                {!! $iconContent !!}
             </span>
         @endif
         
@@ -93,7 +136,7 @@
         
         @if ($icon && $iconPosition === 'right')
             <span class="{{ $iconMarginClasses }}">
-                {{ $icon }}
+                {!! $iconContent !!}
             </span>
         @endif
     </button>

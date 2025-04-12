@@ -4,7 +4,7 @@
         <strong class="font-bold">{{ __('Success!') }}</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <x-ui.icon.heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-green-500 cursor-pointer" role="button" />
+            <x-heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-green-500 cursor-pointer" role="button" />
         </span>
     </div>
 @endif
@@ -15,7 +15,7 @@
         <strong class="font-bold">{{ __('Error!') }}</strong>
         <span class="block sm:inline">{{ session('error') ?? session('status') }}</span>
          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <x-ui.icon.heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" />
+            <x-heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" />
         </span>
     </div>
 @endif
@@ -26,7 +26,7 @@
         <strong class="font-bold">{{ __('Oops! Something went wrong.') }}</strong>
         <span class="block sm:inline">{{ __('Please check the form below for errors.') }}</span>
          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <x-ui.icon.heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" />
+            <x-heroicon-s-x-mark @click="show = false" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" />
         </span>
         <ul class="mt-3 list-disc list-inside text-sm">
             @foreach ($errors->all() as $error)
