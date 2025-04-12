@@ -20,14 +20,16 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
+        // Re-fetch the user to ensure we have the latest state
+        $createdUser = User::find($user->id);
 
         $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
+            'email' => $createdUser->email,
+            'password' => 'password', // Factory uses 'password' by default
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $this->assertAuthenticatedAs($createdUser); // More specific assertion
+        $response->assertRedirect(route('dashboard', [], false));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

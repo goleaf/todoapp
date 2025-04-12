@@ -1,5 +1,9 @@
 @props([
+    'formControlAttributes' => '',
     'size' => 'base',
+    'label' => null,
+    'id' => null,
+    'value' => '',
 ])
 
 @php
@@ -22,9 +26,9 @@ $classes = [
 <?php if ($label): ?>
 <x-input.field>
     <x-input.label :for="$id" :value="$label" />
-    <input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">
+    <input {{ $formControlAttributes }} {{ $attributes->merge(['id' => $id])->class($classes) }} value="{{ $value }}">
     <x-input.input-error :for="$id" />
 </x-input.field>
 <?php else: ?>
-<input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">
+<input {{ $formControlAttributes }} {{ $attributes->merge(['id' => $id])->class($classes) }} value="{{ $value }}">
 <?php endif; ?>

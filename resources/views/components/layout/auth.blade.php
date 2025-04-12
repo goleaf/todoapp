@@ -1,4 +1,3 @@
-@props(['title' => config('app.name')])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-bind:class="{'dark': darkMode }">
 <head>
@@ -25,4 +24,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>

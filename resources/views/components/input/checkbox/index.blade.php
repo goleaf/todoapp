@@ -1,3 +1,10 @@
+@props([
+    'formControlAttributes' => '',
+    'label' => null,
+    'id' => null,
+    'value' => '1',
+])
+
 @php
 $classes = [
     'col-start-1 row-start-1 appearance-none forced-colors:appearance-auto',

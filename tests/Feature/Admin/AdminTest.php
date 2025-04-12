@@ -12,7 +12,7 @@ class AdminTest extends TestCase
 
     public function test_admin_users_page_is_accessible_by_authenticated_user(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_admin' => true]);
 
         $response = $this->actingAs($user)->get('/admin/users');
 
@@ -22,7 +22,7 @@ class AdminTest extends TestCase
 
     public function test_admin_todos_page_is_accessible_by_authenticated_user(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_admin' => true]);
 
         $response = $this->actingAs($user)->get('/admin/todos');
 
@@ -46,7 +46,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_create_user(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $this->actingAs($admin);
 
         $response = $this->get('/admin/users/create');
@@ -66,7 +66,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_edit_user(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $this->actingAs($admin);
 
@@ -85,7 +85,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_delete_user(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $this->actingAs($admin);
 
@@ -96,7 +96,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_create_todo(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $this->actingAs($admin);
 
@@ -117,7 +117,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_edit_todo(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $todo = \App\Models\Todo::factory()->create(['user_id' => $user->id]);
         $this->actingAs($admin);
@@ -139,7 +139,7 @@ class AdminTest extends TestCase
 
     public function test_admin_can_delete_todo(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $todo = \App\Models\Todo::factory()->create(['user_id' => $user->id]);
         $this->actingAs($admin);
@@ -151,7 +151,7 @@ class AdminTest extends TestCase
 
     public function test_user_validation_on_create(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $this->actingAs($admin);
 
         $userData = [
@@ -167,7 +167,7 @@ class AdminTest extends TestCase
 
     public function test_user_validation_on_update(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $this->actingAs($admin);
 
@@ -182,7 +182,7 @@ class AdminTest extends TestCase
 
     public function test_todo_validation_on_create(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $this->actingAs($admin);
 
         $todoData = [
@@ -196,7 +196,7 @@ class AdminTest extends TestCase
 
     public function test_todo_validation_on_update(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
         $user = User::factory()->create();
         $todo = \App\Models\Todo::factory()->create(['user_id' => $user->id]);
         $this->actingAs($admin);
