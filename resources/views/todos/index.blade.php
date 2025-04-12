@@ -151,44 +151,43 @@
                                 0
                             @endif
                         </x-data.table.cell>
-                        <x-data.table.cell type="action">
-                            <div class="flex items-center justify-end space-x-3">
-                                <x-ui.dropdown.menu>
-                                    <x-slot name="trigger">
-                                        <button type="button" class="flex items-center text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 focus:outline-none">
-                                            <x-ui.icon.heroicon-s-ellipsis-vertical class="h-5 w-5" />
-                                        </button>
-                                    </x-slot>
-
-                                    <x-ui.dropdown.item 
+                        <x-data.table.cell class="text-right">
+                            <x-ui.popover>
+                                <x-slot name="trigger">
+                                    <x-ui.button variant="ghost" size="sm" :icon="app('heroicon')->outline('ellipsis-horizontal')" />
+                                </x-slot>
+                                <x-slot name="menu">
+                                    <x-ui.popover.item 
                                         type="link" 
-                                        href="{{ route('todos.show', $todo) }}" 
-                                        :icon="app('heroicon')->outline('eye')"
+                                        :href="route('todos.show', $todo)" 
+                                        :before="app('heroicon')->outline('eye')"
                                     >
                                         {{ __('View') }}
-                                    </x-ui.dropdown.item>
-                                    <x-ui.dropdown.item 
+                                    </x-ui.popover.item>
+                                    <x-ui.popover.item 
                                         type="link" 
-                                        href="{{ route('todos.edit', $todo) }}" 
-                                        :icon="app('heroicon')->outline('pencil-square')"
+                                        :href="route('todos.edit', $todo)" 
+                                        :before="app('heroicon')->outline('pencil-square')"
                                     >
                                         {{ __('Edit') }}
-                                    </x-ui.dropdown.item>
-                                    <x-ui.dropdown.item type="divider" />
-                                    <form action="{{ route('todos.destroy', $todo) }}" method="POST" class="inline">
+                                    </x-ui.popover.item>
+
+                                    <x-ui.popover.item type="divider" />
+
+                                    <form method="POST" action="{{ route('todos.destroy', $todo) }}" class="w-full">
                                         @csrf
                                         @method('DELETE')
-                                        <x-ui.dropdown.item 
+                                        <x-ui.popover.item 
                                             type="submit" 
-                                            destructive
-                                            :icon="app('heroicon')->outline('trash')"
-                                            onclick="return confirm('{{ __('Are you sure you want to delete this todo?') }}')"
+                                            destructive 
+                                            :before="app('heroicon')->outline('trash')"
+                                            onclick="return confirm('Are you sure you want to delete this todo?')"
                                         >
                                             {{ __('Delete') }}
-                                        </x-ui.dropdown.item>
+                                        </x-ui.popover.item>
                                     </form>
-                                </x-ui.dropdown.menu>
-                            </div>
+                                </x-slot>
+                            </x-ui.popover>
                         </x-data.table.cell>
                     </x-data.table.row>
                 @endforeach
