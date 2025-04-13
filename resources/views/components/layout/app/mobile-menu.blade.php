@@ -1,4 +1,8 @@
-<div x-data="{ open: false }" x-on:toggle-mobile-menu.window="open = !open" :class="{'block': open, 'hidden': !open}" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700">
+<div 
+    x-data="{}"
+    x-show="$store.sidebar.open"
+    class="md:hidden border-t border-gray-200 dark:border-gray-700"
+>
     <div class="px-2 pt-2 pb-3 space-y-1">
         <x-layout.navlist.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
             {{ __('Dashboard') }}

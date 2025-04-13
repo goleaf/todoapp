@@ -11,6 +11,18 @@
             <div class="px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
+                        <!-- Mobile menu button -->
+                        <div class="flex items-center mr-2 md:hidden">
+                            <button 
+                                type="button" 
+                                class="flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400" 
+                                x-on:click="$store.sidebar.toggle()"
+                                aria-label="{{ __('Toggle sidebar') }}"
+                            >
+                                <x-ui.icon icon="phosphor-list" aria-hidden="true" width="20" height="20" />
+                            </button>
+                        </div>
+                        
                         <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
                             <x-layout.app.logo />
                         </a>
@@ -20,6 +32,12 @@
                             <x-layout.navbar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
                             </x-layout.navbar.item>
+                            
+                            @if(Route::has('todos.index'))
+                            <x-layout.navbar.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
+                                {{ __('Todos') }}
+                            </x-layout.navbar.item>
+                            @endif
                             
                             <!-- Add other navigation items here -->
                         </nav>
@@ -92,61 +110,6 @@
                             </div>
                         </div>
                         @endauth
-                        
-                        <!-- Mobile menu button -->
-                        <div class="flex items-center md:hidden">
-                            <button type="button" class="flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400" x-on:click="$dispatch('toggle-mobile-menu')">
-                                <x-ui.icon icon="phosphor-list" aria-hidden="true" width="20" height="20" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Mobile menu -->
-            <div x-data="{ open: false }" x-on:toggle-mobile-menu.window="open = !open" :class="{'block': open, 'hidden': !open}" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <x-layout.navlist.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-layout.navlist.item>
-                    <!-- Add other mobile navigation items here -->
-                </div>
-                
-                <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-                    @auth
-                    <div class="px-4 flex items-center">
-                        <div class="flex-shrink-0">
-                            <div class="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center uppercase font-medium">
-                                {{ auth()->user()->initials() }}
-                            </div>
-                        </div>
-                        <div class="ml-3">
-                            <div class="text-base font-medium text-gray-800 dark:text-gray-200">{{ auth()->user()->name }}</div>
-                            <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-3 px-2 space-y-1">
-                        <x-layout.navlist.item :href="route('settings.profile.edit')">
-                            {{ __('Settings') }}
-                        </x-layout.navlist.item>
-                        
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-layout.navlist.item href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-layout.navlist.item>
-                        </form>
-                    </div>
-                    @endauth
-                    
-                    <div class="mt-3 px-2 space-y-1">
-                        <x-layout.navlist.item href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
-                            {{ __('Repository') }}
-                        </x-layout.navlist.item>
-                        <x-layout.navlist.item href="https://laravel.com/docs/starter-kits" target="_blank">
-                            {{ __('Documentation') }}
-                        </x-layout.navlist.item>
                     </div>
                 </div>
             </div>

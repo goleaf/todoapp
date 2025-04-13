@@ -1,7 +1,6 @@
 <x-ui.button
     type="button"
-    x-init=""
-    x-on:click="document.body.hasAttribute('data-show-stashed-sidebar') ? document.body.removeAttribute('data-show-stashed-sidebar') : document.body.setAttribute('data-show-stashed-sidebar', '')"
+    x-on:click="$store.sidebar.toggle()"
     aria-label="{{ __('Toggle sidebar') }}"
-    {{ $attributes->class(['shrink-0']) }}
+    {{ $attributes->class(['shrink-0 lg:hidden']) }}
 >{{ $slot }}</x-ui.button>
