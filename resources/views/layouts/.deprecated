@@ -1,0 +1,2 @@
+This directory contains deprecated layout files that have been migrated to components/layout.
+These files are kept for reference but should be removed when all migration is verified.
