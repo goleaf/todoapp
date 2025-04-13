@@ -23,7 +23,12 @@ class HeroiconServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Register Heroicon component aliases
-        Blade::componentNamespace('BladeUI\\Heroicons\\Components', 'heroicon');
+        Blade::componentNamespace('BladeUI\\Heroicons\\Components', 'ui.icon.heroicon');
+        
+        // Register components in the ui.icon.heroicon-o namespace 
+        Blade::component('components.ui.icon.heroicon-o.check-circle', 'ui.icon.heroicon-o-check-circle');
+        Blade::component('components.ui.icon.heroicon-s.check-circle', 'ui.icon.heroicon-s-check-circle');
+        Blade::component('components.ui.icon.heroicon-s.ellipsis-vertical', 'ui.icon.heroicon-s-ellipsis-vertical');
         
         // Add a custom alias for accessing heroicons
         $this->app->singleton('heroicon', function ($app) {
@@ -37,12 +42,12 @@ class HeroiconServiceProvider extends ServiceProvider
                 
                 public function outline($name)
                 {
-                    return "heroicon-o-{$name}";
+                    return "ui.icon.heroicon-o-{$name}";
                 }
                 
                 public function solid($name)
                 {
-                    return "heroicon-s-{$name}";
+                    return "ui.icon.heroicon-s-{$name}";
                 }
             };
         });
