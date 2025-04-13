@@ -23,13 +23,18 @@ class TodoCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'meta' => [
-                'total_count' => $this->resource->total(),
-                'count' => $this->count(),
-                'per_page' => $this->resource->perPage(),
-                'current_page' => $this->resource->currentPage(),
-                'total_pages' => $this->resource->lastPage(),
-            ],
+            'current_page' => $this->resource->currentPage(),
+            'first_page_url' => $this->resource->url(1),
+            'from' => $this->resource->firstItem(),
+            'last_page' => $this->resource->lastPage(),
+            'last_page_url' => $this->resource->url($this->resource->lastPage()),
+            'links' => $this->resource->linkCollection()->toArray(),
+            'next_page_url' => $this->resource->nextPageUrl(),
+            'path' => $this->resource->path(),
+            'per_page' => $this->resource->perPage(),
+            'prev_page_url' => $this->resource->previousPageUrl(),
+            'to' => $this->resource->lastItem(),
+            'total' => $this->resource->total(),
         ];
     }
 } 

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Settings;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\TodoController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
