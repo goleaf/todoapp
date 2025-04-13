@@ -6,6 +6,10 @@
     'after' => '',
 ])
 
+@php
+use Illuminate\Support\Str;
+@endphp
+
 <a aria-current="{{ $current ? 'page' : '' }}" {{ $attributes->class([
     'h-10 lg:h-8 relative flex items-center space-x-2 rounded-lg',
     'py-0 text-left w-full px-3 my-px',
@@ -21,17 +25,25 @@
         'secondary' => 'aria-current:bg-gray-800/[4%] dark:aria-current:bg-white/[7%]',
     },
 ]) }}>
-    <?php if (is_string($before) && $before !== ''): ?>
-        <x-ui.dynamic-component :component="$before" aria-hidden="true" width="16" height="16" class="shrink-0" />
-    <?php else: ?>
+    @if (is_string($before) && $before !== '')
+        @if (Str::startsWith($before, 'phosphor-') || Str::startsWith($before, 'heroicon-'))
+            <x-ui.icon :icon="$before" aria-hidden="true" width="16" height="16" class="shrink-0" />
+        @else
+            <x-ui.dynamic-component :component="$before" aria-hidden="true" width="16" height="16" class="shrink-0" />
+        @endif
+    @else
         {{ $before }}
-    <?php endif; ?>
-    <?php if ($slot->isNotEmpty()): ?>
+    @endif
+    @if ($slot->isNotEmpty())
         <div class="flex-1 text-sm font-medium leading-none whitespace-nowrap">{{ $slot }}</div>
-    <?php endif; ?>
-    <?php if (is_string($after) && $after !== ''): ?>
-        <x-ui.dynamic-component :component="$after" aria-hidden="true" width="16" height="16" class="shrink-0 ml-1" />
-    <?php else: ?>
+    @endif
+    @if (is_string($after) && $after !== '')
+        @if (Str::startsWith($after, 'phosphor-') || Str::startsWith($after, 'heroicon-'))
+            <x-ui.icon :icon="$after" aria-hidden="true" width="16" height="16" class="shrink-0 ml-1" />
+        @else
+            <x-ui.dynamic-component :component="$after" aria-hidden="true" width="16" height="16" class="shrink-0 ml-1" />
+        @endif
+    @else
         {{ $after }}
-    <?php endif; ?>
+    @endif
 </a>

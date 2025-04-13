@@ -1,14 +1,14 @@
 <x-layout.sidebar sticky stashable class="border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
     <x-layout.sidebar.toggle class="lg:hidden w-10 p-0">
-        <x-ui.icon.phosphor-x aria-hidden="true" width="20" height="20" />
+        <x-ui.icon icon="phosphor-x" aria-hidden="true" width="20" height="20" />
     </x-layout.sidebar.toggle>
 
-    <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2">
+    <a href="{{ route('dashboard') }}" class="mb-2 flex items-center space-x-2">
         <x-layout.app.logo />
     </a>
 
     <x-layout.navlist>
-        <x-layout.navlist.group :heading="__('Platform')">
+        <x-layout.navlist.group :heading="__('Platform')" class="mb-2">
             <x-layout.navlist.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-layout.navlist.item>
@@ -18,11 +18,11 @@
     <x-layout.spacer />
 
     <x-layout.navlist>
-        <x-layout.navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
+        <x-layout.navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
         {{ __('Repository') }}
         </x-layout.navlist.item>
 
-        <x-layout.navlist.item before="phosphor-book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
+        <x-layout.navlist.item before="phosphor-book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
         {{ __('Documentation') }}
         </x-layout.navlist.item>
     </x-layout.navlist>
@@ -38,7 +38,7 @@
                 {{ auth()->user()->name }}
             </span>
             <span class="shrink-0 ml-auto size-8 flex justify-center items-center">
-                <x-ui.icon.phosphor-caret-up-down aria-hidden="true" width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
+                <x-ui.icon icon="phosphor-caret-up-down" aria-hidden="true" width="16" height="16" class="text-gray-400 dark:text-white/80 group-hover:text-gray-800 dark:group-hover:text-white" />
             </span>
         </button>
         <x-slot:menu class="w-max">

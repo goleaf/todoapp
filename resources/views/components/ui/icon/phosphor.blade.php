@@ -5,10 +5,8 @@ use Illuminate\Support\Str;
 
 $name = Str::afterLast($icon, '.');
 
-if (View::exists("components.ui.icons.phosphor.{$name}")) {
-    $component = "ui.icons.phosphor.{$name}";
-} elseif (View::exists("components.ui.icon.phosphor-{$name}")) {
-    $component = "ui.icon.phosphor-{$name}";
+if (View::exists("components.ui.icon.phosphor.{$name}")) {
+    $component = "ui.icon.phosphor.{$name}";
 } else {
     $component = null;
 }

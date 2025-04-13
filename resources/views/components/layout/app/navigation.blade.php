@@ -6,8 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        {{-- Replace with SVG Logo --}}
-                         <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">{{ config('app.name', 'Laravel') }}</span>
+                        <x-layout.app.logo />
                     </a>
                 </div>
 
@@ -16,9 +15,11 @@
                     <x-layout.navbar.item :href="route('home')" :current="request()->routeIs('home')">
                         {{ __('Dashboard') }}
                     </x-layout.navbar.item>
-                     <x-layout.navbar.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
+                    @if(Route::has('todos.index'))
+                    <x-layout.navbar.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
                         {{ __('Todos') }}
                     </x-layout.navbar.item>
+                    @endif
                     {{-- Add other main navigation links here --}}
                 </div>
             </div>
@@ -28,6 +29,18 @@
                 
                 <!-- Dark Mode Toggle -->
                 <x-ui.dark-mode-toggle />
+                
+                <!-- Documentation and Repository Links -->
+                <div class="hidden md:flex md:items-center md:space-x-3 ml-4">
+                    <a href="https://github.com/imacrayon/blade-starter-kit" target="_blank" 
+                       class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
+                        {{ __('Repository') }}
+                    </a>
+                    <a href="https://laravel.com/docs/starter-kits" target="_blank" 
+                       class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
+                        {{ __('Documentation') }}
+                    </a>
+                </div>
                 
                 @guest
                     <x-layout.navbar.item :href="route('login')" :current="request()->routeIs('login')">
@@ -40,26 +53,25 @@
                         </x-layout.navbar.item>
                     @endif
                  @else
-                    {{-- Use Popover component instead of Dropdown --}}
+                    {{-- Use Popover component for user menu --}}
                     <x-ui.popover align="bottom" justify="right">
                         {{-- Trigger slot --}}
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                              <div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-2">
-                                {{-- Placeholder for user avatar or initial --}}
                                 <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr(Auth::user()->name, 0, 1) }}</span>
                             </div>
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
-                                <x-ui.icon.heroicon-s-chevron-down class="fill-current h-4 w-4" />
+                                <x-ui.icon icon="heroicon-s-chevron-down" class="fill-current h-4 w-4" />
                             </div>
                         </button>
 
                         {{-- Menu slot --}}
                         <x-slot name="menu">
-                             {{-- <x-ui.popover.item :href="route('profile.edit')">
+                             <x-ui.popover.item :href="route('settings.profile.edit')">
                                 {{ __('Profile') }}
-                            </x-ui.popover.item> --}}
+                            </x-ui.popover.item>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
@@ -79,8 +91,8 @@
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-                    <x-ui.icon.heroicon-o-bars-3 x-show="!open" class="h-6 w-6" />
-                    <x-ui.icon.heroicon-o-x-mark x-show="open" class="h-6 w-6" style="display: none;" />
+                    <x-ui.icon icon="heroicon-o-bars-3" x-show="!open" class="h-6 w-6" />
+                    <x-ui.icon icon="heroicon-o-x-mark" x-show="open" class="h-6 w-6" style="display: none;" />
                 </button>
             </div>
         </div>
@@ -92,9 +104,11 @@
             <x-layout.navlist.item :href="route('home')" :current="request()->routeIs('home')">
                 {{ __('Dashboard') }}
             </x-layout.navlist.item>
-             <x-layout.navlist.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
+            @if(Route::has('todos.index'))
+            <x-layout.navlist.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
                 {{ __('Todos') }}
             </x-layout.navlist.item>
+            @endif
             {{-- Add other main responsive navigation links here --}}
         </div>
 
@@ -119,9 +133,9 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    {{-- <x-layout.navlist.item :href="route('profile.edit')">
+                    <x-layout.navlist.item :href="route('settings.profile.edit')">
                         {{ __('Profile') }}
-                    </x-layout.navlist.item> --}}
+                    </x-layout.navlist.item>
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
@@ -135,6 +149,16 @@
                     </form>
                 </div>
             @endguest
+            
+            <!-- Documentation and Repository Links for mobile -->
+            <div class="mt-3 space-y-1 px-4">
+                <x-layout.navlist.item href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
+                    {{ __('Repository') }}
+                </x-layout.navlist.item>
+                <x-layout.navlist.item href="https://laravel.com/docs/starter-kits" target="_blank">
+                    {{ __('Documentation') }}
+                </x-layout.navlist.item>
+            </div>
         </div>
     </div>
-</nav> 
+</nav>

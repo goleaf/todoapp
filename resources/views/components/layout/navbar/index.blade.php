@@ -1,10 +1,5 @@
-@props([
-    'scrollable' => false,
-])
+@props(['containerClass' => ''])
 
-<nav {{ $attributes->class([
-    'flex items-center gap-1 py-3',
-    'overflow-x-auto overflow-y-hidden' => $scrollable
-]) }}>
+<nav {{ $attributes->class(['flex items-center space-x-4', $containerClass]) }}>
     {{ $slot }}
 </nav>

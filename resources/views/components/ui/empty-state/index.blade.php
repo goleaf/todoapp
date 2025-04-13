@@ -10,10 +10,14 @@
 <div {{ $attributes->merge(['class' => 'text-center px-4 py-12 sm:p-16']) }}>
     @if($icon)
         <div class="mx-auto h-12 w-12 text-gray-400">
-            {{ $icon }}
+            @if(is_string($icon) && (Str::startsWith($icon, 'heroicon-') || Str::startsWith($icon, 'phosphor-')))
+                <x-ui.dynamic-component :component="'ui.icon.' . $icon" class="mx-auto h-12 w-12" />
+            @else
+                {{ $icon }}
+            @endif
         </div>
     @else
-        <x-ui.icon.heroicon-o-document-text class="mx-auto h-12 w-12 text-gray-400" />
+        <x-ui.icon icon="heroicon-o-document-text" class="mx-auto h-12 w-12 text-gray-400" />
     @endif
     
     <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">

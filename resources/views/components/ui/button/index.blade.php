@@ -66,47 +66,19 @@
     if ($disabled) {
         $classes .= ' opacity-50 cursor-not-allowed pointer-events-none';
     }
-    
-    // Handle icon rendering
-    $iconContent = null;
-    if ($icon) {
-        if (is_string($icon) && Str::startsWith($icon, 'heroicon-o-')) {
-            $iconName = Str::after($icon, 'heroicon-o-');
-            $iconContent = '<x-heroicon-o-' . $iconName . ' class="' . $iconClasses . '" />';
-        } elseif (is_string($icon) && Str::startsWith($icon, 'heroicon-s-')) {
-            $iconName = Str::after($icon, 'heroicon-s-');
-            $iconContent = '<x-heroicon-s-' . $iconName . ' class="' . $iconClasses . '" />';
-        } else {
-            $iconContent = $icon;
-        }
-    }
-    
-    // Handle before icon (used in dropdown items)
-    $beforeContent = null;
-    if ($before) {
-        if (is_string($before) && Str::startsWith($before, 'heroicon-o-')) {
-            $beforeName = Str::after($before, 'heroicon-o-');
-            $beforeContent = '<x-heroicon-o-' . $beforeName . ' class="' . $iconClasses . ' ' . $iconMarginClasses . '" />';
-        } elseif (is_string($before) && Str::startsWith($before, 'heroicon-s-')) {
-            $beforeName = Str::after($before, 'heroicon-s-');
-            $beforeContent = '<x-heroicon-s-' . $beforeName . ' class="' . $iconClasses . ' ' . $iconMarginClasses . '" />';
-        } else {
-            $beforeContent = $before;
-        }
-    }
 @endphp
 
 @if ($href)
     <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
         @if ($before)
             <span class="{{ $iconMarginClasses }}">
-                {!! $beforeContent !!}
+                <x-ui.button.render-icon :icon="$before" :classes="$iconClasses" />
             </span>
         @endif
         
         @if ($icon && $iconPosition === 'left')
             <span class="{{ $iconMarginClasses }}">
-                {!! $iconContent !!}
+                <x-ui.button.render-icon :icon="$icon" :classes="$iconClasses" />
             </span>
         @endif
         
@@ -114,7 +86,7 @@
         
         @if ($icon && $iconPosition === 'right')
             <span class="{{ $iconMarginClasses }}">
-                {!! $iconContent !!}
+                <x-ui.button.render-icon :icon="$icon" :classes="$iconClasses" />
             </span>
         @endif
     </a>
@@ -122,13 +94,13 @@
     <button type="{{ $type }}" {{ $attributes->merge(['class' => $classes]) }} @if($disabled) disabled @endif>
         @if ($before)
             <span class="{{ $iconMarginClasses }}">
-                {!! $beforeContent !!}
+                <x-ui.button.render-icon :icon="$before" :classes="$iconClasses" />
             </span>
         @endif
         
         @if ($icon && $iconPosition === 'left')
             <span class="{{ $iconMarginClasses }}">
-                {!! $iconContent !!}
+                <x-ui.button.render-icon :icon="$icon" :classes="$iconClasses" />
             </span>
         @endif
         
@@ -136,7 +108,7 @@
         
         @if ($icon && $iconPosition === 'right')
             <span class="{{ $iconMarginClasses }}">
-                {!! $iconContent !!}
+                <x-ui.button.render-icon :icon="$icon" :classes="$iconClasses" />
             </span>
         @endif
     </button>
