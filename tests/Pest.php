@@ -45,3 +45,12 @@ function something()
 {
     // ..
 }
+
+function login($user = null)
+{
+    $user = $user ?: \App\Models\User::factory()->create();
+    
+    test()->actingAs($user);
+    
+    return $user;
+}
