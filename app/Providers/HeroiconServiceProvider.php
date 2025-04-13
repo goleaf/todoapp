@@ -25,8 +25,17 @@ class HeroiconServiceProvider extends ServiceProvider
         // Register Heroicon component aliases
         Blade::componentNamespace('BladeUI\\Heroicons\\Components', 'ui.icon.heroicon');
         
-        // Register components in the ui.icon.heroicon-o namespace 
+        // Register components in the heroicon-o namespace 
         Blade::component('components.ui.icon.heroicon-o.check-circle', 'ui.icon.heroicon-o-check-circle');
+        Blade::component('components.ui.icon.heroicon-o.ellipsis-horizontal', 'ui.icon.heroicon-o-ellipsis-horizontal');
+        Blade::component('components.ui.icon.heroicon-o.clipboard-document-list', 'ui.icon.heroicon-o-clipboard-document-list');
+        Blade::component('components.ui.icon.heroicon-o.funnel', 'ui.icon.heroicon-o-funnel');
+        Blade::component('components.ui.icon.heroicon-o.plus', 'ui.icon.heroicon-o-plus');
+        Blade::component('components.ui.icon.heroicon-o.eye', 'ui.icon.heroicon-o-eye');
+        Blade::component('components.ui.icon.heroicon-o.pencil-square', 'ui.icon.heroicon-o-pencil-square');
+        Blade::component('components.ui.icon.heroicon-o.trash', 'ui.icon.heroicon-o-trash');
+        
+        // Register components in the heroicon-s namespace
         Blade::component('components.ui.icon.heroicon-s.check-circle', 'ui.icon.heroicon-s-check-circle');
         Blade::component('components.ui.icon.heroicon-s.ellipsis-vertical', 'ui.icon.heroicon-s-ellipsis-vertical');
         
