@@ -13,9 +13,9 @@
         x-on:mousedown.away="open = false"
         aria-expanded="false"
         aria-haspopup="true"
-        aria-label="{{ __('Accessibility options') }}"
+        aria-label="{{ __('ui.accessibility_options') }}"
     >
-        <span class="sr-only">{{ __('Open accessibility menu') }}</span>
+        <span class="sr-only">{{ __('ui.open_accessibility_menu') }}</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
             <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
@@ -43,13 +43,13 @@
     >
         <div class="py-1">
             <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider py-2">
-                {{ __('Accessibility Options') }}
+                {{ __('ui.accessibility_options_title') }}
             </h3>
             
             <!-- Text Size Controls -->
             <div class="py-2">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {{ __('Text Size') }}
+                    {{ __('ui.text_size') }}
                 </label>
                 <div class="flex items-center space-x-2">
                     <button
@@ -58,7 +58,7 @@
                         x-data
                         @click="$dispatch('text-size-change', 'small')"
                     >
-                        {{ __('Small') }}
+                        {{ __('ui.small') }}
                     </button>
                     <button
                         type="button"
@@ -66,7 +66,7 @@
                         x-data
                         @click="$dispatch('text-size-change', 'medium')"
                     >
-                        {{ __('Medium') }}
+                        {{ __('ui.medium') }}
                     </button>
                     <button
                         type="button"
@@ -74,7 +74,7 @@
                         x-data
                         @click="$dispatch('text-size-change', 'large')"
                     >
-                        {{ __('Large') }}
+                        {{ __('ui.large') }}
                     </button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="py-2">
                 <div class="flex items-center justify-between">
                     <label for="high-contrast-toggle-menu" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {{ __('High Contrast') }}
+                        {{ __('ui.high_contrast') }}
                     </label>
                     <button
                         id="high-contrast-toggle-menu"
@@ -91,7 +91,7 @@
                         class="high-contrast-toggle relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                         aria-pressed="false"
                     >
-                        <span class="sr-only">{{ __('Toggle high contrast') }}</span>
+                        <span class="sr-only">{{ __('ui.toggle_high_contrast') }}</span>
                         <span 
                             aria-hidden="true" 
                             class="high-contrast-toggle-indicator pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
@@ -99,7 +99,7 @@
                     </button>
                 </div>
                 <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    {{ __('Keyboard shortcut: Alt+H') }}
+                    {{ __('ui.keyboard_shortcut_high_contrast') }}
                 </p>
             </div>
         </div>

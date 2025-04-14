@@ -3,7 +3,7 @@
     <button id="high-contrast-toggle" 
             class="high-contrast-toggle" 
             aria-pressed="false"
-            title="Toggle high contrast mode (Alt+H)">
+            title="{{ __('accessibility.toggle_high_contrast') }} (Alt+H)">
         <span class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -11,7 +11,7 @@
                 <path d="M12 2v20"></path>
             </svg>
         </span>
-        <span class="label">High Contrast: <span class="status-text">Off</span></span>
+        <span class="label">{{ __('accessibility.high_contrast') }}: <span class="status-text">Off</span></span>
     </button>
 </div>
 
