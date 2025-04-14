@@ -1,15 +1,15 @@
-<x-layout.app :title="__('Dashboard')">
+<x-layout.app :title="__('dashboard.dashboard')">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('My Todos') }}
+                {{ __('dashboard.my_todos') }}
             </h2>
             <x-ui.button 
                 href="{{ route('dashboard') }}?new=true" 
                 variant="primary" 
                 icon="heroicon-o-plus"
             >
-                {{ __('New Todo') }}
+                {{ __('dashboard.new_todo') }}
             </x-ui.button>
         </div>
 
@@ -20,7 +20,7 @@
                 <form id="new-todo-form" method="POST" action="{{ route('api.todos.store') }}" class="space-y-6">
                     @csrf
                     <div class="space-y-4">
-                        <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                        <x-input.form.group :label="__('dashboard.title')" for="title" :error="$errors->first('title')">
                             <x-input.input 
                                 type="text" 
                                 name="title" 
@@ -32,7 +32,7 @@
                         </x-input.form.group>
 
                         <x-input.form.group 
-                            :label="__('Description')" 
+                            :label="__('dashboard.description')" 
                             for="description" 
                             :error="$errors->first('description')"
                         >
@@ -49,14 +49,14 @@
                             href="{{ route('dashboard') }}" 
                             variant="secondary"
                         >
-                            {{ __('Cancel') }}
+                            {{ __('dashboard.cancel') }}
                         </x-ui.button>
                         <x-ui.button 
                             type="submit" 
                             variant="primary" 
                             icon="heroicon-o-check-circle"
                         >
-                            {{ __('Create Todo') }}
+                            {{ __('dashboard.create_todo') }}
                         </x-ui.button>
                     </div>
                 </form>
@@ -69,7 +69,7 @@
             <x-ui.card>
                 <x-slot name="header">
                     <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
-                        {{ __('Your Todo List') }}
+                        {{ __('dashboard.your_todo_list') }}
                     </h3>
                 </x-slot>
                 
@@ -77,8 +77,8 @@
                     <div class="py-10 text-center">
                         <x-ui.empty-state 
                             icon="heroicon-o-clipboard-document-list" 
-                            title="No todos yet" 
-                            description="Create your first todo to get started!" 
+                            title="{{ __('dashboard.no_todos_yet') }}" 
+                            description="{{ __('dashboard.create_first_todo') }}" 
                         />
                     </div>
                 </div>
@@ -214,7 +214,7 @@
                 
                 document.querySelectorAll('.delete-todo').forEach(button => {
                     button.addEventListener('click', function() {
-                        if (!confirm('Are you sure you want to delete this todo?')) {
+                        if (!confirm('{{ __('dashboard.delete_confirmation') }}')) {
                             return;
                         }
                         
@@ -240,8 +240,8 @@
                                         <div class="py-10 text-center">
                                             <x-ui.empty-state 
                                                 icon="heroicon-o-clipboard-document-list" 
-                                                title="No todos yet" 
-                                                description="Create your first todo to get started!" 
+                                                title="{{ __('dashboard.no_todos_yet') }}" 
+                                                description="{{ __('dashboard.create_first_todo') }}" 
                                             />
                                         </div>
                                     `;

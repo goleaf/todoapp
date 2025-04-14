@@ -68,7 +68,7 @@
                                 <p class="font-semibold">{{ __('help.create_task_step3') }}</p>
                             </div>
                             <div class="ml-11">
-                                <x-ui.button size="lg" variant="success">{{ __('help.save') }}</x-ui.button>
+                                <x-ui.button size="lg" variant="success">{{ __('common.save') }}</x-ui.button>
                             </div>
                         </div>
 
@@ -163,7 +163,7 @@
                                 <x-ui.icon icon="heroicon-o-magnifying-glass" class="w-6 h-6" />
                             </span>
                             <div>
-                                <h3 class="text-xl font-bold mb-1">{{ __('help.search') }}</h3>
+                                <h3 class="text-xl font-bold mb-1">{{ __('common.search') }}</h3>
                                 <p>{{ __('help.search_description') }}</p>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                                 <x-ui.icon icon="heroicon-o-funnel" class="w-6 h-6" />
                             </span>
                             <div>
-                                <h3 class="text-xl font-bold mb-1">{{ __('help.filter') }}</h3>
+                                <h3 class="text-xl font-bold mb-1">{{ __('common.filter') }}</h3>
                                 <p>{{ __('help.filter_description') }}</p>
                                 <ul class="list-disc ml-5 mt-2 space-y-1">
                                     <li>{{ __('help.filter_category') }}</li>
@@ -204,11 +204,11 @@
             <!-- Accessibility Features -->
             <section class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
                 <div class="bg-indigo-600 px-6 py-4">
-                    <h2 class="text-2xl font-bold text-white">{{ __('help.accessibility_features') }}</h2>
+                    <h2 class="text-2xl font-bold text-white">{{ __('accessibility.accessibility_features') }}</h2>
                 </div>
                 <div class="p-6">
                     <div class="space-y-6 text-lg">
-                        <p>{{ __('help.accessibility_intro') }}</p>
+                        <p>{{ __('accessibility.accessibility_intro') }}</p>
                         
                         <!-- Text Size -->
                         <div class="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -217,14 +217,14 @@
                             </span>
                             <div>
                                 <h3 class="text-xl font-bold mb-1">{{ __('help.text_size_controls') }}</h3>
-                                <p>{{ __('help.text_size_description') }}</p>
+                                <p>{{ __('accessibility.text_size_description') }}</p>
                                 <ul class="list-disc ml-5 mt-2 space-y-1">
-                                    <li>{{ __('help.text_size_small') }}</li>
-                                    <li>{{ __('help.text_size_medium') }}</li>
-                                    <li>{{ __('help.text_size_large') }}</li>
+                                    <li>{{ __('accessibility.text_size_small') }}</li>
+                                    <li>{{ __('accessibility.text_size_medium') }}</li>
+                                    <li>{{ __('accessibility.text_size_large') }}</li>
                                 </ul>
                                 <div class="mt-3">
-                                    <p class="font-semibold mb-1">{{ __('help.how_to_change_text_size') }}</p>
+                                    <p class="font-semibold mb-1">{{ __('accessibility.how_to_change_text_size') }}</p>
                                     <ol class="list-decimal ml-5 space-y-1">
                                         <li>{{ __('help.text_size_step1') }}</li>
                                         <li>{{ __('help.text_size_step2') }}</li>
@@ -239,10 +239,10 @@
                                 <x-ui.icon icon="heroicon-o-eye" class="w-6 h-6" />
                             </span>
                             <div>
-                                <h3 class="text-xl font-bold mb-1">{{ __('help.high_contrast_mode') }}</h3>
+                                <h3 class="text-xl font-bold mb-1">{{ __('accessibility.high_contrast_mode') }}</h3>
                                 <p>{{ __('help.high_contrast_description') }}</p>
                                 <div class="mt-3">
-                                    <p class="font-semibold mb-1">{{ __('help.how_to_enable_high_contrast') }}</p>
+                                    <p class="font-semibold mb-1">{{ __('accessibility.how_to_enable_high_contrast') }}</p>
                                     <ol class="list-decimal ml-5 space-y-1">
                                         <li>{{ __('help.high_contrast_step1') }}</li>
                                         <li>{{ __('help.high_contrast_step2') }}</li>
@@ -263,7 +263,7 @@
                                 <x-ui.icon icon="heroicon-o-keyboard" class="w-6 h-6" />
                             </span>
                             <div>
-                                <h3 class="text-xl font-bold mb-1">{{ __('help.keyboard_navigation') }}</h3>
+                                <h3 class="text-xl font-bold mb-1">{{ __('accessibility.keyboard_navigation') }}</h3>
                                 <p>{{ __('help.keyboard_description') }}</p>
                                 <ul class="list-disc ml-5 mt-2 space-y-1">
                                     <li>{{ __('help.keyboard_tab') }}</li>
@@ -280,12 +280,12 @@
                                 <x-ui.icon icon="heroicon-o-speaker-wave" class="w-6 h-6" />
                             </span>
                             <div>
-                                <h3 class="text-xl font-bold mb-1">{{ __('help.screen_reader') }}</h3>
-                                <p>{{ __('help.screen_reader_description') }}</p>
+                                <h3 class="text-xl font-bold mb-1">{{ __('accessibility.screen_reader_title') }}</h3>
+                                <p>{{ __('accessibility.screen_reader_description') }}</p>
                                 <ul class="list-disc ml-5 mt-2 space-y-1">
-                                    <li>{{ __('help.screen_reader_aria') }}</li>
-                                    <li>{{ __('help.screen_reader_announcements') }}</li>
-                                    <li>{{ __('help.screen_reader_semantic') }}</li>
+                                    <li>{{ __('accessibility.screen_reader_aria') }}</li>
+                                    <li>{{ __('accessibility.screen_reader_announcements') }}</li>
+                                    <li>{{ __('accessibility.screen_reader_semantic') }}</li>
                                 </ul>
                             </div>
                         </div>
