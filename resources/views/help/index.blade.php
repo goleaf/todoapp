@@ -201,6 +201,98 @@
                 </div>
             </section>
             
+            <!-- Accessibility Features -->
+            <section class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">{{ __('Accessibility Features') }}</h2>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-6 text-lg">
+                        <p>{{ __('Our app includes accessibility features to help make it usable for everyone:') }}</p>
+                        
+                        <!-- Text Size -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <span class="mt-1 text-indigo-500 dark:text-indigo-400">
+                                <x-ui.icon icon="heroicon-o-text-size" class="w-6 h-6" />
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">{{ __('Text Size Controls') }}</h3>
+                                <p>{{ __('Adjust the size of text throughout the app for better readability:') }}</p>
+                                <ul class="list-disc ml-5 mt-2 space-y-1">
+                                    <li>{{ __('Small: For users who prefer more compact text') }}</li>
+                                    <li>{{ __('Medium: Default size') }}</li>
+                                    <li>{{ __('Large: For improved readability') }}</li>
+                                </ul>
+                                <div class="mt-3">
+                                    <p class="font-semibold mb-1">{{ __('How to change text size:') }}</p>
+                                    <ol class="list-decimal ml-5 space-y-1">
+                                        <li>{{ __('Click on the text size icon in the navigation bar') }}</li>
+                                        <li>{{ __('Select your preferred size from the dropdown menu') }}</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- High Contrast -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <span class="mt-1 text-indigo-500 dark:text-indigo-400">
+                                <x-ui.icon icon="heroicon-o-eye" class="w-6 h-6" />
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">{{ __('High Contrast Mode') }}</h3>
+                                <p>{{ __('Improve visibility with higher contrast colors:') }}</p>
+                                <div class="mt-3">
+                                    <p class="font-semibold mb-1">{{ __('How to enable high contrast:') }}</p>
+                                    <ol class="list-decimal ml-5 space-y-1">
+                                        <li>{{ __('Click on the high contrast toggle in the navigation bar') }}</li>
+                                        <li>{{ __('Or use the keyboard shortcut: Alt+H') }}</li>
+                                    </ol>
+                                </div>
+                                <div class="flex items-start space-x-3 p-3 mt-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
+                                    <span class="mt-1 text-indigo-500 dark:text-indigo-400">
+                                        <x-ui.icon icon="heroicon-o-light-bulb" class="w-6 h-6" />
+                                    </span>
+                                    <p>{{ __('Tip: Your accessibility preferences will be remembered even after you log out!') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Keyboard Navigation -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <span class="mt-1 text-indigo-500 dark:text-indigo-400">
+                                <x-ui.icon icon="heroicon-o-keyboard" class="w-6 h-6" />
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">{{ __('Keyboard Navigation') }}</h3>
+                                <p>{{ __('Navigate the app using just your keyboard:') }}</p>
+                                <ul class="list-disc ml-5 mt-2 space-y-1">
+                                    <li>{{ __('Tab: Move between interactive elements') }}</li>
+                                    <li>{{ __('Enter/Space: Activate buttons and controls') }}</li>
+                                    <li>{{ __('Escape: Close dialogs and dropdowns') }}</li>
+                                    <li>{{ __('Alt+H: Toggle high contrast mode') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Screen Reader Support -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <span class="mt-1 text-indigo-500 dark:text-indigo-400">
+                                <x-ui.icon icon="heroicon-o-speaker-wave" class="w-6 h-6" />
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">{{ __('Screen Reader Support') }}</h3>
+                                <p>{{ __('Our app is compatible with screen readers, with features like:') }}</p>
+                                <ul class="list-disc ml-5 mt-2 space-y-1">
+                                    <li>{{ __('ARIA labels for all interactive elements') }}</li>
+                                    <li>{{ __('Screen reader announcements for important changes') }}</li>
+                                    <li>{{ __('Semantic HTML structure for better navigation') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <!-- Getting Help -->
             <section class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
                 <div class="bg-red-600 px-6 py-4">
