@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multilingual support for 8 languages (en, es, ru, lt, fr, de, it, ja, zh)
   - Added translations for messages, categories, todos and auth
   - Implemented localized validation error messages
+- Accessibility improvements
+  - Added text size control styles (`text-size-small`, `text-size-medium`, `text-size-large`)
+  - Implemented high contrast mode toggle with keyboard shortcut support (Alt+H)
+  - Added screen reader announcements for UI state changes
+  - Enhanced component namespacing to improve maintenance and organization
 
 ## [2.0.0]
 

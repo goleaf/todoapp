@@ -16,6 +16,10 @@ A modern todo management application built with Laravel and Tailwind CSS.
 - **Multilingual Support**: Available in 8 languages (English, Russian, Lithuanian, French, German, Italian, Japanese, Chinese)
 - **Standardized API Responses**: Consistent JSON formatting using API Resources
 - **Form Request Validation**: Robust input validation with localized error messages
+- **Accessibility Features**:
+  - High Contrast Mode: Toggle for increased visibility
+  - Text Size Controls: Small, medium, and large text options for better readability
+  - Screen Reader Announcements: For key UI changes
 
 ## Tech Stack
 
@@ -131,6 +135,16 @@ The application supports the following languages:
 - Chinese (zh)
 
 To change the application language, you can set it in your user profile or use the language switcher in the UI.
+
+## Accessibility
+
+This application is built with accessibility in mind:
+
+- **High Contrast Mode**: Toggle in the UI to enable high contrast mode for better visibility
+- **Text Size Controls**: Choose between small, medium, and large text sizes
+- **Keyboard Shortcuts**: Most functions can be accessed via keyboard (Alt+H for high contrast toggle)
+- **Screen Reader Support**: ARIA labels and announcements for important UI changes
+- **Semantic HTML**: Properly structured for assistive technologies
 
 ## Contributing
 
