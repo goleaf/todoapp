@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TodoPriority;
+use App\Enums\TodoStatus;
 use App\Models\Todo;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 class TodoController extends Controller
 {
@@ -70,8 +73,11 @@ class TodoController extends Controller
         $parentTodos = Todo::where('user_id', Auth::id())
             ->whereNull('parent_id')
             ->get();
+        
+        $statuses = collect(TodoStatus::cases())->mapWithKeys(fn($case) => [$case->value => $case->label()]);
+        $priorities = collect(TodoPriority::cases())->mapWithKeys(fn($case) => [$case->value => $case->label()]);
 
-        return view('todos.create', compact('categories', 'parentTodos'));
+        return view('todos.create', compact('categories', 'parentTodos', 'statuses', 'priorities'));
     }
 
     /**
@@ -96,7 +102,7 @@ class TodoController extends Controller
         Todo::create($validated);
 
         return redirect()->route('todos.index')
-            ->with('success', 'Todo created successfully.');
+            ->with('success', __('messages.todo_created'));
     }
 
     /**
@@ -106,7 +112,7 @@ class TodoController extends Controller
     {
         // Check if the todo belongs to the authenticated user
         if (Auth::id() !== $todo->user_id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('messages.unauthorized'));
         }
 
         // Load relationships
@@ -122,7 +128,7 @@ class TodoController extends Controller
     {
         // Check if the todo belongs to the authenticated user
         if (Auth::id() !== $todo->user_id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('messages.unauthorized'));
         }
 
         $categories = Category::all();
@@ -130,8 +136,11 @@ class TodoController extends Controller
             ->whereNull('parent_id')
             ->where('id', '!=', $todo->id) // Exclude the current todo
             ->get();
+            
+        $statuses = collect(TodoStatus::cases())->mapWithKeys(fn($case) => [$case->value => $case->label()]);
+        $priorities = collect(TodoPriority::cases())->mapWithKeys(fn($case) => [$case->value => $case->label()]);
 
-        return view('todos.edit', compact('todo', 'categories', 'parentTodos'));
+        return view('todos.edit', compact('todo', 'categories', 'parentTodos', 'statuses', 'priorities'));
     }
 
     /**
@@ -141,7 +150,7 @@ class TodoController extends Controller
     {
         // Check if the todo belongs to the authenticated user
         if (Auth::id() !== $todo->user_id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('messages.unauthorized'));
         }
 
         $validated = $request->validate([
@@ -157,14 +166,14 @@ class TodoController extends Controller
         // Ensure a todo can't be its own parent
         if (isset($validated['parent_id']) && $validated['parent_id'] == $todo->id) {
             return redirect()->back()
-                ->withErrors(['parent_id' => 'A todo cannot be its own parent.'])
+                ->withErrors(['parent_id' => __('messages.todo_self_parent')])
                 ->withInput();
         }
 
         $todo->update($validated);
 
         return redirect()->route('todos.index')
-            ->with('success', 'Todo updated successfully.');
+            ->with('success', __('messages.todo_updated'));
     }
 
     /**
@@ -174,13 +183,13 @@ class TodoController extends Controller
     {
         // Check if the todo belongs to the authenticated user
         if (Auth::id() !== $todo->user_id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('messages.unauthorized'));
         }
 
         $todo->delete();
 
         return redirect()->route('todos.index')
-            ->with('success', 'Todo deleted successfully.');
+            ->with('success', __('messages.todo_deleted'));
     }
 
     /**
@@ -219,7 +228,7 @@ class TodoController extends Controller
         
         return response()->json([
             'success' => true,
-            'message' => __('Todo status updated successfully'),
+            'message' => __('messages.todo_status_updated'),
             'parentUpdated' => $parentUpdated,
             'parentId' => $parentId,
             'status' => $status,
