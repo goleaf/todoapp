@@ -7,13 +7,21 @@ use App\Http\Controllers\Api\TodoController;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 })->name('home');
 
 // Help page - accessible to all users
 Route::get('/help', function () {
     return view('help.index');
 })->name('help');
+
+// Accessibility page - accessible to all users
+Route::get('/accessibility', function () {
+    return view('accessibility.index');
+})->name('accessibility');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -28,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', [Settings\PasswordController::class, 'edit'])->name('settings.password.edit');
     Route::put('settings/password', [Settings\PasswordController::class, 'update'])->name('settings.password.update');
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
+    Route::get('settings/accessibility', [Settings\AccessibilityController::class, 'edit'])->name('settings.accessibility.edit');
+    Route::put('settings/accessibility', [Settings\AccessibilityController::class, 'update'])->name('settings.accessibility.update');
     
     // Admin Routes
     Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function () {
