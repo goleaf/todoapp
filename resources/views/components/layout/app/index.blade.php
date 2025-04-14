@@ -3,8 +3,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-bind:class="{'dark': darkMode }">
 <head>
     <x-layout.app.head :title="$title" />
-    <!-- Text Size CSS -->
-    <link href="{{ asset('css/text-size.css') }}" rel="stylesheet">
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
@@ -30,7 +28,7 @@
         ...keyboardShortcuts(),
         ...textSize()
     }" 
-    x-init="init()">
+    x-init="init(); initHighContrast()">
     <div class="min-h-screen flex flex-col">
         <x-layout.app.header />
         
@@ -69,5 +67,8 @@
     <x-ui.keyboard-shortcuts-help />
     
     @stack('scripts')
+    
+    <!-- High Contrast Mode JavaScript -->
+    <script src="{{ asset('js/highContrast.js') }}"></script>
 </body>
 </html> 

@@ -1,0 +1,98 @@
+/**
+ * High Contrast Theme
+ * 
+ * This CSS file provides high contrast styles for better accessibility.
+ * These styles are applied when the .high-contrast class is present on the body.
+ */
+
+body.high-contrast {
+    /* Base high contrast colors */
+    --hc-text: #ffffff;
+    --hc-background: #000000;
+    --hc-border: #ffffff;
+    --hc-focus: #ffff00;
+    --hc-button: #000000;
+    --hc-button-text: #ffffff;
+    --hc-link: #00ffff;
+    --hc-visited-link: #ff00ff;
+    --hc-error: #ff0000;
+    --hc-success: #00ff00;
+}
+
+/* Basic elements */
+body.high-contrast {
+    color: var(--hc-text);
+    background-color: var(--hc-background);
+}
+
+body.high-contrast a {
+    color: var(--hc-link);
+    text-decoration: underline;
+}
+
+body.high-contrast a:visited {
+    color: var(--hc-visited-link);
+}
+
+body.high-contrast a:hover,
+body.high-contrast a:focus {
+    outline: 2px solid var(--hc-focus);
+    text-decoration: none;
+}
+
+/* Form elements */
+body.high-contrast button,
+body.high-contrast .btn,
+body.high-contrast input[type="button"],
+body.high-contrast input[type="submit"] {
+    background-color: var(--hc-button);
+    color: var(--hc-button-text);
+    border: 2px solid var(--hc-border);
+}
+
+body.high-contrast input,
+body.high-contrast textarea,
+body.high-contrast select {
+    color: var(--hc-text);
+    background-color: var(--hc-background);
+    border: 2px solid var(--hc-border);
+}
+
+body.high-contrast input:focus,
+body.high-contrast textarea:focus,
+body.high-contrast select:focus,
+body.high-contrast button:focus,
+body.high-contrast .btn:focus {
+    outline: 3px solid var(--hc-focus);
+    outline-offset: 2px;
+}
+
+/* Todo items */
+body.high-contrast .todo-item {
+    border: 2px solid var(--hc-border);
+    margin-bottom: 8px;
+    padding: 10px;
+}
+
+body.high-contrast .todo-item.completed {
+    border-left: 8px solid var(--hc-success);
+}
+
+/* Icons and visual indicators */
+body.high-contrast .icon {
+    color: var(--hc-text);
+}
+
+body.high-contrast .error-message {
+    color: var(--hc-error);
+    border: 2px solid var(--hc-error);
+    background-color: var(--hc-background);
+    padding: 5px;
+}
+
+body.high-contrast .success-message {
+    color: var(--hc-success);
+    border: 2px solid var(--hc-success);
+    background-color: var(--hc-background);
+    padding: 5px;
+} 

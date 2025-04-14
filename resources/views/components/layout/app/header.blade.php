@@ -56,6 +56,9 @@
                             </a>
                         </div>
                         
+                        <!-- Accessibility Menu -->
+                        <x-ui.accessibility-menu />
+                        
                         <!-- Dark Mode Toggle -->
                         <x-ui.dark-mode-toggle />
                         

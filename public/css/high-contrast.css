@@ -1,0 +1,507 @@
+/**
+ * High Contrast Mode Styles
+ * 
+ * These styles provide enhanced visual accessibility with higher contrast 
+ * between foreground and background elements, thicker borders, and 
+ * more distinct interactive elements.
+ */
+
+/* Base high contrast styles - applied when .high-contrast class is on the html element */
+html.high-contrast {
+    /* Override variables for high contrast */
+    --primary-color: #0000FF;
+    --primary-hover: #0000CC;
+    --danger-color: #FF0000;
+    --danger-hover: #CC0000;
+    --success-color: #008000;
+    --success-hover: #006000;
+    --warning-color: #FF8000;
+    --warning-hover: #CC6000;
+    --text-color: #000000;
+    --background-color: #FFFFFF;
+    --border-color: #000000;
+    --focus-outline: 3px solid #0000FF;
+}
+
+/* Base text and background contrast */
+.high-contrast body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Enhanced contrast for links */
+.high-contrast a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.high-contrast a:hover,
+.high-contrast a:focus {
+    color: var(--primary-hover);
+    text-decoration: underline double;
+}
+
+/* Enhanced contrast for buttons */
+.high-contrast button,
+.high-contrast .btn,
+.high-contrast [type="button"],
+.high-contrast [type="submit"] {
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-weight: bold;
+    outline: 1px solid transparent;
+}
+
+.high-contrast button:hover,
+.high-contrast .btn:hover,
+.high-contrast [type="button"]:hover,
+.high-contrast [type="submit"]:hover {
+    color: var(--background-color);
+    background-color: var(--text-color);
+}
+
+/* Special buttons */
+.high-contrast .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border-color: var(--text-color);
+}
+
+.high-contrast .btn-danger {
+    background-color: var(--danger-color);
+    color: var(--background-color);
+    border-color: var(--text-color);
+}
+
+.high-contrast .btn-success {
+    background-color: var(--success-color);
+    color: var(--background-color);
+    border-color: var(--text-color);
+}
+
+.high-contrast .btn-warning {
+    background-color: var(--warning-color);
+    color: var(--background-color);
+    border-color: var(--text-color);
+}
+
+/* Form elements with higher contrast */
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.high-contrast input:focus,
+.high-contrast select:focus,
+.high-contrast textarea:focus,
+.high-contrast button:focus,
+.high-contrast a:focus {
+    outline: var(--focus-outline);
+    box-shadow: none;
+}
+
+/* Cards and containers */
+.high-contrast .card,
+.high-contrast .container,
+.high-contrast .box {
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
+}
+
+/* Enhanced contrast for alerts */
+.high-contrast .alert {
+    border: 2px solid var(--border-color);
+    font-weight: bold;
+}
+
+.high-contrast .alert-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.high-contrast .alert-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.high-contrast .alert-warning {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+.high-contrast .alert-info {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Tables with clear borders */
+.high-contrast table {
+    border-collapse: collapse;
+    border: 2px solid var(--border-color);
+}
+
+.high-contrast th,
+.high-contrast td {
+    border: 2px solid var(--border-color);
+    padding: 0.5rem;
+}
+
+.high-contrast th {
+    background-color: #DDDDDD;
+    color: black;
+    font-weight: bold;
+}
+
+/* Focus indicators */
+.high-contrast :focus {
+    outline: var(--focus-outline);
+}
+
+/* Navigation links */
+.high-contrast nav a,
+.high-contrast .nav-link {
+    border: 1px solid var(--border-color);
+    margin: 2px;
+    padding: 5px;
+}
+
+.high-contrast nav a.active,
+.high-contrast .nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+/* Checkboxes and radio buttons */
+.high-contrast input[type="checkbox"],
+.high-contrast input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+}
+
+/* Icons */
+.high-contrast svg,
+.high-contrast .icon {
+    stroke-width: 2px;
+    fill: currentColor;
+}
+
+/* Remove subtle shadows and make borders more visible */
+.high-contrast * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Highlight required fields */
+.high-contrast .required:after,
+.high-contrast [required] + label:after {
+    content: " *";
+    color: var(--danger-color);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Animation for high contrast toggle */
+.high-contrast-transition {
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+/* High Contrast Mode Styles */
+
+/* Transition class for smooth transitions */
+.transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* High contrast mode styles */
+body.high-contrast {
+    background-color: #000;
+    color: #fff;
+}
+
+body.high-contrast .container,
+body.high-contrast .card,
+body.high-contrast .modal-content,
+body.high-contrast .dropdown-menu {
+    background-color: #000;
+    color: #fff;
+    border-color: #fff;
+}
+
+body.high-contrast .card,
+body.high-contrast .btn,
+body.high-contrast .form-control,
+body.high-contrast .modal-content {
+    border: 2px solid #fff;
+}
+
+body.high-contrast .btn-primary {
+    background-color: #000;
+    color: #ff0;
+    border-color: #ff0;
+}
+
+body.high-contrast .btn-primary:hover,
+body.high-contrast .btn-primary:focus {
+    background-color: #ff0;
+    color: #000;
+}
+
+body.high-contrast .btn-secondary {
+    background-color: #000;
+    color: #0ff;
+    border-color: #0ff;
+}
+
+body.high-contrast .btn-secondary:hover,
+body.high-contrast .btn-secondary:focus {
+    background-color: #0ff;
+    color: #000;
+}
+
+body.high-contrast .btn-danger {
+    background-color: #000;
+    color: #f00;
+    border-color: #f00;
+}
+
+body.high-contrast .btn-danger:hover,
+body.high-contrast .btn-danger:focus {
+    background-color: #f00;
+    color: #000;
+}
+
+body.high-contrast a {
+    color: #ff0;
+    text-decoration: underline;
+}
+
+body.high-contrast a:hover,
+body.high-contrast a:focus {
+    color: #0ff;
+}
+
+body.high-contrast .nav-link.active {
+    background-color: #fff;
+    color: #000;
+}
+
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+body.high-contrast input:focus,
+body.high-contrast select:focus,
+body.high-contrast textarea:focus {
+    outline: 3px solid #ff0;
+    border-color: #ff0;
+}
+
+body.high-contrast ::placeholder {
+    color: #ccc;
+}
+
+body.high-contrast .todo-item.completed {
+    background-color: #222;
+}
+
+body.high-contrast .todo-item.completed .todo-text {
+    color: #ff0;
+}
+
+/* High contrast toggle button styles */
+.high-contrast-toggle-container {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.high-contrast-toggle {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 2px solid #555;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.high-contrast-toggle:hover,
+.high-contrast-toggle:focus {
+    border-color: #000;
+    outline: 2px solid #000;
+}
+
+body.high-contrast .high-contrast-toggle {
+    border-color: #fff;
+}
+
+body.high-contrast .high-contrast-toggle:hover,
+body.high-contrast .high-contrast-toggle:focus {
+    outline: 2px solid #ff0;
+    border-color: #ff0;
+}
+
+.high-contrast-toggle .toggle-icon {
+    margin-right: 0.5rem;
+}
+
+.high-contrast-toggle .status-text {
+    margin-left: 0.5rem;
+    font-weight: bold;
+}
+
+.keyboard-shortcut {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+body.high-contrast .keyboard-shortcut {
+    color: #ccc;
+}
+
+/* Screen reader announcement area */
+.sr-announcement {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* High Contrast Mode Styles
+-------------------------------------------------- */
+
+/* Base high contrast mode */
+.high-contrast-mode {
+  /* Enhanced colors for better contrast */
+  --text-color: #ffffff;
+  --bg-color: #000000;
+  --primary-color: #ffff00;
+  --secondary-color: #00ffff;
+  --accent-color: #ff00ff;
+  --border-color: #ffffff;
+  --focus-color: #ffff00;
+  --error-color: #ff6666;
+  --success-color: #66ff66;
+  
+  /* Override base colors */
+  color: var(--text-color) !important;
+  background-color: var(--bg-color) !important;
+}
+
+/* Links */
+.high-contrast-mode a {
+  color: var(--secondary-color) !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast-mode a:hover,
+.high-contrast-mode a:focus {
+  color: var(--primary-color) !important;
+  text-decoration: underline !important;
+  outline: 2px solid var(--focus-color) !important;
+}
+
+/* Buttons */
+.high-contrast-mode button,
+.high-contrast-mode .btn {
+  color: var(--bg-color) !important;
+  background-color: var(--primary-color) !important;
+  border: 2px solid var(--border-color) !important;
+  font-weight: bold !important;
+}
+
+.high-contrast-mode button:hover,
+.high-contrast-mode .btn:hover,
+.high-contrast-mode button:focus,
+.high-contrast-mode .btn:focus {
+  color: var(--bg-color) !important;
+  background-color: var(--secondary-color) !important;
+  outline: 2px solid var(--focus-color) !important;
+}
+
+/* Form elements */
+.high-contrast-mode input,
+.high-contrast-mode textarea,
+.high-contrast-mode select {
+  color: var(--text-color) !important;
+  background-color: var(--bg-color) !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.high-contrast-mode input:focus,
+.high-contrast-mode textarea:focus,
+.high-contrast-mode select:focus {
+  outline: 3px solid var(--focus-color) !important;
+}
+
+/* Todo items */
+.high-contrast-mode .todo-item {
+  border: 2px solid var(--border-color) !important;
+  margin-bottom: 10px !important;
+}
+
+/* Completed todo items */
+.high-contrast-mode .todo-item.completed {
+  background-color: rgba(102, 255, 102, 0.2) !important;
+  border-color: var(--success-color) !important;
+}
+
+/* High contrast toggle button styles */
+.high-contrast-toggle {
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.high-contrast-toggle .icon {
+  margin-right: 8px;
+}
+
+.high-contrast-toggle[aria-pressed="true"] .status-text {
+  color: #ffff00;
+  font-weight: bold;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus styles for keyboard navigation */
+.high-contrast-mode *:focus {
+  outline: 3px solid var(--focus-color) !important;
+  outline-offset: 2px !important;
+}
+
+/* Transitions for smoother experience */
+.high-contrast-mode,
+.high-contrast-mode * {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s !important;
+} 
