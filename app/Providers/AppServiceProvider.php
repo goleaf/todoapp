@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\View\Composers\LanguageComposer;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,13 @@ class AppServiceProvider extends ServiceProvider
         // Use the data.pagination component for pagination
         Paginator::defaultView('components.data.pagination.tailwind');
         Paginator::defaultSimpleView('components.data.pagination.simple-tailwind');
+
+        // Register view composers
+        View::composer([
+            'components.ui.language-switcher', 
+            'components.layout.language-switcher',
+            'settings.language'
+        ], LanguageComposer::class);
 
         // Add Blade directive for translation
         Blade::directive('t', function ($expression) {
