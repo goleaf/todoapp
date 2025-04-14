@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multilingual support for 8 languages (en, es, ru, lt, fr, de, it, ja, zh)
   - Added translations for messages, categories, todos and auth
   - Implemented localized validation error messages
+  - Created dedicated help page translations for accessibility features
 - Accessibility improvements
   - Added text size control styles (`text-size-small`, `text-size-medium`, `text-size-large`)
   - Implemented high contrast mode toggle with keyboard shortcut support (Alt+H)
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Guide for enabling high contrast mode
     - Information about keyboard navigation
     - Details on screen reader compatibility
+    - Available in multiple languages (English, Spanish, Russian, French)
 
 ### Changed
 - Refactored accessibility components for better performance and maintainability
