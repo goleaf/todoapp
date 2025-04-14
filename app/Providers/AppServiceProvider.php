@@ -51,10 +51,10 @@ class AppServiceProvider extends ServiceProvider
             // Check if there are parameters (replace any parameters)
             if (count($segments) > 1) {
                 $params = trim($segments[1]);
-                return "<?php echo __(${key}, ${params}); ?>";
+                return "<?php echo __({$key}, {$params}); ?>";
             }
             
-            return "<?php echo __(${key}); ?>";
+            return "<?php echo __({$key}); ?>";
         });
     }
 }
