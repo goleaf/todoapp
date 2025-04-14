@@ -17,7 +17,7 @@
                                 type="button" 
                                 class="flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400" 
                                 x-on:click="$store.sidebar.toggle()"
-                                aria-label="{{ __('Toggle sidebar') }}"
+                                aria-label="{{ __('common.toggle_sidebar') }}"
                             >
                                 <x-ui.icon icon="phosphor-list" aria-hidden="true" width="20" height="20" />
                             </button>
@@ -30,12 +30,12 @@
                         <!-- Main Navigation -->
                         <nav class="hidden md:ml-6 md:flex md:space-x-4">
                             <x-layout.navbar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
-                                {{ __('Dashboard') }}
+                                {{ __('common.dashboard') }}
                             </x-layout.navbar.item>
                             
                             @if(Route::has('todos.index'))
                             <x-layout.navbar.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
-                                {{ __('Todos') }}
+                                {{ __('common.todos') }}
                             </x-layout.navbar.item>
                             @endif
                             
@@ -48,16 +48,24 @@
                         <div class="hidden md:flex md:items-center md:space-x-3">
                             <a href="https://github.com/imacrayon/blade-starter-kit" target="_blank" 
                                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                                {{ __('Repository') }}
+                                {{ __('common.repository') }}
                             </a>
                             <a href="https://laravel.com/docs/starter-kits" target="_blank" 
                                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                                {{ __('Documentation') }}
+                                {{ __('common.documentation') }}
                             </a>
                         </div>
                         
                         <!-- Accessibility Menu -->
                         <x-ui.accessibility-menu />
+                        
+                        <!-- Language Switcher -->
+                        <x-ui.language-switcher />
+                        
+                        <!-- Theme Switcher -->
+                        <div class="relative" x-data="{ open: false }">
+                            <x-ui.theme-switcher />
+                        </div>
                         
                         <!-- Dark Mode Toggle -->
                         <x-ui.dark-mode-toggle />
@@ -75,7 +83,7 @@
                                     aria-expanded="false"
                                     aria-haspopup="true"
                                 >
-                                    <span class="sr-only">Open user menu</span>
+                                    <span class="sr-only">{{ __('common.user_menu_open') }}</span>
                                     <div class="h-8 w-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center uppercase font-medium">
                                         {{ auth()->user()->initials() }}
                                     </div>
@@ -102,12 +110,12 @@
                                 </div>
                                 <x-ui.dropdown.divider />
                                 <x-ui.dropdown.item href="{{ route('settings.profile.edit') }}" icon="phosphor-gear-fine">
-                                    {{ __('Settings') }}
+                                    {{ __('common.settings') }}
                                 </x-ui.dropdown.item>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <x-ui.dropdown.item href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" icon="phosphor-sign-out">
-                                        {{ __('Log Out') }}
+                                        {{ __('common.logout') }}
                                     </x-ui.dropdown.item>
                                 </form>
                             </div>

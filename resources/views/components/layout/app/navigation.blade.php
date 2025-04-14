@@ -13,15 +13,15 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-layout.navbar.item :href="route('home')" :current="request()->routeIs('home')">
-                        {{ __('Dashboard') }}
+                        {{ __('navigation.dashboard') }}
                     </x-layout.navbar.item>
                     @if(Route::has('todos.index'))
                     <x-layout.navbar.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
-                        {{ __('Todos') }}
+                        {{ __('navigation.todos') }}
                     </x-layout.navbar.item>
                     @endif
                     <x-layout.navbar.item :href="route('help')" :current="request()->routeIs('help')">
-                        {{ __('Help') }}
+                        {{ __('navigation.help') }}
                     </x-layout.navbar.item>
                     {{-- Add other main navigation links here --}}
                 </div>
@@ -40,22 +40,22 @@
                 <div class="hidden md:flex md:items-center md:space-x-3 ml-4">
                     <a href="https://github.com/imacrayon/blade-starter-kit" target="_blank" 
                        class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                        {{ __('Repository') }}
+                        {{ __('navigation.repository') }}
                     </a>
                     <a href="https://laravel.com/docs/starter-kits" target="_blank" 
                        class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                        {{ __('Documentation') }}
+                        {{ __('navigation.documentation') }}
                     </a>
                 </div>
                 
                 @guest
                     <x-layout.navbar.item :href="route('login')" :current="request()->routeIs('login')">
-                        {{ __('Log in') }}
+                        {{ __('navigation.log_in') }}
                     </x-layout.navbar.item>
 
                     @if (Route::has('register'))
                         <x-layout.navbar.item :href="route('register')" :current="request()->routeIs('register')" class="ml-4">
-                            {{ __('Register') }}
+                            {{ __('navigation.register') }}
                         </x-layout.navbar.item>
                     @endif
                  @else
@@ -76,7 +76,7 @@
                         {{-- Menu slot --}}
                         <x-slot name="menu">
                              <x-ui.popover.item :href="route('settings.profile.edit')">
-                                {{ __('Profile') }}
+                                {{ __('navigation.profile') }}
                             </x-ui.popover.item>
 
                             <!-- Authentication -->
@@ -86,7 +86,7 @@
                                 <x-ui.popover.item href="#"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('navigation.log_out') }}
                                 </x-ui.popover.item>
                             </form>
                         </x-slot>
@@ -108,15 +108,15 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-layout.navlist.item :href="route('home')" :current="request()->routeIs('home')">
-                {{ __('Dashboard') }}
+                {{ __('navigation.dashboard') }}
             </x-layout.navlist.item>
             @if(Route::has('todos.index'))
             <x-layout.navlist.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
-                {{ __('Todos') }}
+                {{ __('navigation.todos') }}
             </x-layout.navlist.item>
             @endif
             <x-layout.navlist.item :href="route('help')" :current="request()->routeIs('help')">
-                {{ __('Help') }}
+                {{ __('navigation.help') }}
             </x-layout.navlist.item>
             {{-- Add other main responsive navigation links here --}}
         </div>
@@ -126,12 +126,12 @@
             @guest
                 <div class="px-4">
                      <x-layout.navlist.item :href="route('login')" :current="request()->routeIs('login')">
-                        {{ __('Log in') }}
+                        {{ __('navigation.log_in') }}
                     </x-layout.navlist.item>
 
                     @if (Route::has('register'))
                         <x-layout.navlist.item :href="route('register')" :current="request()->routeIs('register')" class="mt-1">
-                            {{ __('Register') }}
+                            {{ __('navigation.register') }}
                         </x-layout.navlist.item>
                     @endif
                 </div>
@@ -143,7 +143,7 @@
 
                 <div class="mt-3 space-y-1">
                     <x-layout.navlist.item :href="route('settings.profile.edit')">
-                        {{ __('Profile') }}
+                        {{ __('navigation.profile') }}
                     </x-layout.navlist.item>
 
                     <!-- Authentication -->
@@ -153,7 +153,7 @@
                         <x-layout.navlist.item href="#"
                                 onclick="event.preventDefault();
                                             this.closest('form').submit();">
-                            {{ __('Log Out') }}
+                            {{ __('navigation.log_out') }}
                         </x-layout.navlist.item>
                     </form>
                 </div>
@@ -162,17 +162,17 @@
             <!-- Documentation and Repository Links for mobile -->
             <div class="mt-3 space-y-1 px-4">
                 <x-layout.navlist.item href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
-                    {{ __('Repository') }}
+                    {{ __('navigation.repository') }}
                 </x-layout.navlist.item>
                 <x-layout.navlist.item href="https://laravel.com/docs/starter-kits" target="_blank">
-                    {{ __('Documentation') }}
+                    {{ __('navigation.documentation') }}
                 </x-layout.navlist.item>
             </div>
             
             <!-- Text Size Settings for mobile -->
             <div x-data="textSize()" class="mt-3 space-y-1 px-4 border-t border-gray-200 dark:border-gray-700 pt-3">
                 <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                    {{ __('Text Size') }}
+                    {{ __('navigation.text_size') }}
                 </div>
                 <div class="flex space-x-2">
                     <button 
@@ -181,7 +181,7 @@
                         x-on:click="setTextSize('small')"
                         x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'small' }"
                     >
-                        <span class="text-sm">{{ __('Small') }}</span>
+                        <span class="text-sm">{{ __('navigation.small') }}</span>
                     </button>
                     
                     <button 
@@ -190,7 +190,7 @@
                         x-on:click="setTextSize('medium')"
                         x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'medium' || !localStorage.getItem('textSize') }"
                     >
-                        <span class="text-base">{{ __('Medium') }}</span>
+                        <span class="text-base">{{ __('navigation.medium') }}</span>
                     </button>
                     
                     <button 
@@ -199,7 +199,7 @@
                         x-on:click="setTextSize('large')"
                         x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'large' }"
                     >
-                        <span class="text-lg">{{ __('Large') }}</span>
+                        <span class="text-lg">{{ __('navigation.large') }}</span>
                     </button>
                 </div>
             </div>

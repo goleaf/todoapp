@@ -8,9 +8,9 @@
     </a>
 
     <x-layout.navlist>
-        <x-layout.navlist.group :heading="__('Platform')" class="mb-2">
+        <x-layout.navlist.group :heading="__('navigation.platform')" class="mb-2">
             <x-layout.navlist.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('common.dashboard') }}
             </x-layout.navlist.item>
         </x-layout.navlist.group>
     </x-layout.navlist>
