@@ -1,0 +1,197 @@
+/**
+ * Theme Color System
+ * 
+ * This file defines color themes for the application.
+ * Each theme has a set of CSS variables that are used throughout the app.
+ */
+
+/* Base CSS variables - used as fallbacks */
+:root {
+    /* Primary colors */
+    --color-primary-50: 238, 242, 255;  /* indigo-50 */
+    --color-primary-100: 224, 231, 255; /* indigo-100 */
+    --color-primary-200: 199, 210, 254; /* indigo-200 */
+    --color-primary-300: 165, 180, 252; /* indigo-300 */
+    --color-primary-400: 129, 140, 248; /* indigo-400 */
+    --color-primary-500: 99, 102, 241;  /* indigo-500 */
+    --color-primary-600: 79, 70, 229;   /* indigo-600 */
+    --color-primary-700: 67, 56, 202;   /* indigo-700 */
+    --color-primary-800: 55, 48, 163;   /* indigo-800 */
+    --color-primary-900: 49, 46, 129;   /* indigo-900 */
+    
+    /* Accent colors */
+    --color-accent-50: 236, 254, 255;   /* cyan-50 */
+    --color-accent-100: 207, 250, 254;  /* cyan-100 */
+    --color-accent-200: 165, 243, 252;  /* cyan-200 */
+    --color-accent-300: 103, 232, 249;  /* cyan-300 */
+    --color-accent-400: 34, 211, 238;   /* cyan-400 */
+    --color-accent-500: 6, 182, 212;    /* cyan-500 */
+    --color-accent-600: 8, 145, 178;    /* cyan-600 */
+    --color-accent-700: 14, 116, 144;   /* cyan-700 */
+    --color-accent-800: 21, 94, 117;    /* cyan-800 */
+    --color-accent-900: 22, 78, 99;     /* cyan-900 */
+    
+    /* Success colors */
+    --color-success-50: 240, 253, 244;  /* green-50 */
+    --color-success-500: 34, 197, 94;   /* green-500 */
+    --color-success-600: 22, 163, 74;   /* green-600 */
+    
+    /* Warning colors */
+    --color-warning-50: 255, 251, 235;  /* amber-50 */
+    --color-warning-500: 245, 158, 11;  /* amber-500 */
+    --color-warning-600: 217, 119, 6;   /* amber-600 */
+    
+    /* Danger colors */
+    --color-danger-50: 254, 242, 242;   /* red-50 */
+    --color-danger-500: 239, 68, 68;    /* red-500 */
+    --color-danger-600: 220, 38, 38;    /* red-600 */
+}
+
+/* Default Indigo Theme (same as root) */
+.theme-default {
+    /* Primary colors are already set in :root */
+}
+
+/* Blue Theme */
+.theme-blue {
+    /* Primary colors */
+    --color-primary-50: 239, 246, 255;  /* blue-50 */
+    --color-primary-100: 219, 234, 254; /* blue-100 */
+    --color-primary-200: 191, 219, 254; /* blue-200 */
+    --color-primary-300: 147, 197, 253; /* blue-300 */
+    --color-primary-400: 96, 165, 250;  /* blue-400 */
+    --color-primary-500: 59, 130, 246;  /* blue-500 */
+    --color-primary-600: 37, 99, 235;   /* blue-600 */
+    --color-primary-700: 29, 78, 216;   /* blue-700 */
+    --color-primary-800: 30, 64, 175;   /* blue-800 */
+    --color-primary-900: 30, 58, 138;   /* blue-900 */
+    
+    /* Accent colors */
+    --color-accent-50: 240, 253, 250;   /* teal-50 */
+    --color-accent-100: 204, 251, 241;  /* teal-100 */
+    --color-accent-200: 153, 246, 228;  /* teal-200 */
+    --color-accent-300: 94, 234, 212;   /* teal-300 */
+    --color-accent-400: 45, 212, 191;   /* teal-400 */
+    --color-accent-500: 20, 184, 166;   /* teal-500 */
+    --color-accent-600: 13, 148, 136;   /* teal-600 */
+    --color-accent-700: 15, 118, 110;   /* teal-700 */
+    --color-accent-800: 17, 94, 89;     /* teal-800 */
+    --color-accent-900: 19, 78, 74;     /* teal-900 */
+}
+
+/* Green Theme */
+.theme-green {
+    /* Primary colors */
+    --color-primary-50: 240, 253, 244;  /* green-50 */
+    --color-primary-100: 220, 252, 231; /* green-100 */
+    --color-primary-200: 187, 247, 208; /* green-200 */
+    --color-primary-300: 134, 239, 172; /* green-300 */
+    --color-primary-400: 74, 222, 128;  /* green-400 */
+    --color-primary-500: 34, 197, 94;   /* green-500 */
+    --color-primary-600: 22, 163, 74;   /* green-600 */
+    --color-primary-700: 21, 128, 61;   /* green-700 */
+    --color-primary-800: 22, 101, 52;   /* green-800 */
+    --color-primary-900: 20, 83, 45;    /* green-900 */
+    
+    /* Accent colors */
+    --color-accent-50: 236, 253, 245;   /* emerald-50 */
+    --color-accent-100: 209, 250, 229;  /* emerald-100 */
+    --color-accent-200: 167, 243, 208;  /* emerald-200 */
+    --color-accent-300: 110, 231, 183;  /* emerald-300 */
+    --color-accent-400: 52, 211, 153;   /* emerald-400 */
+    --color-accent-500: 16, 185, 129;   /* emerald-500 */
+    --color-accent-600: 5, 150, 105;    /* emerald-600 */
+    --color-accent-700: 4, 120, 87;     /* emerald-700 */
+    --color-accent-800: 6, 95, 70;      /* emerald-800 */
+    --color-accent-900: 6, 78, 59;      /* emerald-900 */
+}
+
+/* Purple Theme */
+.theme-purple {
+    /* Primary colors */
+    --color-primary-50: 250, 245, 255;  /* purple-50 */
+    --color-primary-100: 243, 232, 255; /* purple-100 */
+    --color-primary-200: 233, 213, 255; /* purple-200 */
+    --color-primary-300: 216, 180, 254; /* purple-300 */
+    --color-primary-400: 192, 132, 252; /* purple-400 */
+    --color-primary-500: 168, 85, 247;  /* purple-500 */
+    --color-primary-600: 147, 51, 234;  /* purple-600 */
+    --color-primary-700: 126, 34, 206;  /* purple-700 */
+    --color-primary-800: 107, 33, 168;  /* purple-800 */
+    --color-primary-900: 88, 28, 135;   /* purple-900 */
+    
+    /* Accent colors */
+    --color-accent-50: 245, 243, 255;   /* violet-50 */
+    --color-accent-100: 237, 233, 254;  /* violet-100 */
+    --color-accent-200: 221, 214, 254;  /* violet-200 */
+    --color-accent-300: 196, 181, 253;  /* violet-300 */
+    --color-accent-400: 167, 139, 250;  /* violet-400 */
+    --color-accent-500: 139, 92, 246;   /* violet-500 */
+    --color-accent-600: 124, 58, 237;   /* violet-600 */
+    --color-accent-700: 109, 40, 217;   /* violet-700 */
+    --color-accent-800: 91, 33, 182;    /* violet-800 */
+    --color-accent-900: 76, 29, 149;    /* violet-900 */
+}
+
+/* Warm Theme */
+.theme-warm {
+    /* Primary colors */
+    --color-primary-50: 255, 251, 235;  /* amber-50 */
+    --color-primary-100: 254, 243, 199; /* amber-100 */
+    --color-primary-200: 253, 230, 138; /* amber-200 */
+    --color-primary-300: 252, 211, 77;  /* amber-300 */
+    --color-primary-400: 251, 191, 36;  /* amber-400 */
+    --color-primary-500: 245, 158, 11;  /* amber-500 */
+    --color-primary-600: 217, 119, 6;   /* amber-600 */
+    --color-primary-700: 180, 83, 9;    /* amber-700 */
+    --color-primary-800: 146, 64, 14;   /* amber-800 */
+    --color-primary-900: 120, 53, 15;   /* amber-900 */
+    
+    /* Accent colors */
+    --color-accent-50: 255, 247, 237;   /* orange-50 */
+    --color-accent-100: 255, 237, 213;  /* orange-100 */
+    --color-accent-200: 254, 215, 170;  /* orange-200 */
+    --color-accent-300: 253, 186, 116;  /* orange-300 */
+    --color-accent-400: 251, 146, 60;   /* orange-400 */
+    --color-accent-500: 249, 115, 22;   /* orange-500 */
+    --color-accent-600: 234, 88, 12;    /* orange-600 */
+    --color-accent-700: 194, 65, 12;    /* orange-700 */
+    --color-accent-800: 154, 52, 18;    /* orange-800 */
+    --color-accent-900: 124, 45, 18;    /* orange-900 */
+}
+
+/* Theme-based element styling */
+.btn-primary {
+    background-color: rgb(var(--color-primary-600));
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: rgb(var(--color-primary-700));
+}
+
+.text-primary {
+    color: rgb(var(--color-primary-600));
+}
+
+.bg-primary {
+    background-color: rgb(var(--color-primary-600));
+}
+
+.border-primary {
+    border-color: rgb(var(--color-primary-600));
+}
+
+.ring-primary {
+    --tw-ring-color: rgb(var(--color-primary-600));
+}
+
+.text-accent {
+    color: rgb(var(--color-accent-600));
+}
+
+.bg-accent {
+    background-color: rgb(var(--color-accent-600));
+}
+
+/* Add more theme-based styles as needed */ 
