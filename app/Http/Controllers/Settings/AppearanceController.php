@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class AppearanceController extends Controller
 {
@@ -13,8 +12,8 @@ class AppearanceController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit(): View
+    public function edit()
     {
-        return view('settings.appearance');
+        return view('settings.appearance.index');
     }
 }
