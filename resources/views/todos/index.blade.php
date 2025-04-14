@@ -1,152 +1,154 @@
-<x-layout.app>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Todos') }}
-            </h2>
-            <div class="flex items-center gap-2">
-                <x-ui.tooltip text="{{ __('Click here to create a new task') }}" position="bottom">
-                    <x-ui.button 
-                        href="{{ route('todos.create') }}" 
-                        variant="primary" 
-                        size="lg" 
-                        icon="heroicon-o-plus"
-                        id="create-todo-btn"
-                    >
-                        {{ __('Create Todo') }}
-                    </x-ui.button>
-                </x-ui.tooltip>
-                
-                <x-ui.tooltip text="{{ __('View keyboard shortcuts') }}" position="bottom">
-                    <x-ui.button 
-                        type="button"
-                        variant="secondary" 
-                        size="lg" 
-                        icon="heroicon-o-keyboard"
-                        @click="$dispatch('keyboard-shortcuts-help-open')"
-                    >
-                        {{ __('Shortcuts') }}
-                    </x-ui.button>
-                </x-ui.tooltip>
+@php
+use App\Helpers\TodoHelper;
+@endphp
+
+<x-layout.app :title="__('todo.todos')">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ __('todo.todos') }}</h1>
+            <div class="mt-3 md:mt-0">
+                <x-ui.button href="{{ route('todos.create') }}" variant="primary">
+                    <x-ui.icon icon="heroicon-s-plus" class="mr-1 w-4 h-4" />
+                    {{ __('todo.create') }}
+                </x-ui.button>
             </div>
         </div>
 
-        <!-- Search -->
-        <div class="mb-6">
-            <x-ui.tooltip text="{{ __('Type here to search for tasks') }}" position="top">
-                <x-ui.search 
-                    :placeholder="__('Search todos...')" 
-                    :route="route('todos.index')" 
-                    name="search" 
-                    class="max-w-full" 
-                    id="todo-search"
-                />
-            </x-ui.tooltip>
-        </div>
-
-        <!-- Filters -->
-        <x-ui.card class="mb-6" withBorder>
-            <x-slot name="header">
-                <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">{{ __('Filter Todos') }}</h3>
-            </x-slot>
-            
-            <form method="GET" action="{{ route('todos.index') }}" class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6" id="filter-form">
-                {{-- Category Filter --}}
-                <div class="sm:col-span-2">
-                    <x-ui.tooltip text="{{ __('Filter tasks by category') }}" position="top">
-                        <x-input.form.group
-                            :label="__('Category')"
-                            for="category_id"
-                        >
-                            <x-input.select id="category_id" name="category_id" class="block w-full">
-                                <option value="">{{ __('All Categories') }}</option>
-                                @foreach ($categories as $category)
+        <!-- Filter and Search Card -->
+        <x-ui.card class="mb-6">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('todo.filters') }}</h3>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-5 sm:px-6">
+                <form method="GET" action="{{ route('todos.index') }}" id="filter-form">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Search field -->
+                        <div>
+                            <x-input.label for="todo-search" :value="__('todo.search')" />
+                            <x-input.input 
+                                type="text"
+                                name="search"
+                                id="todo-search"
+                                placeholder="{{ __('todo.search_placeholder') }}"
+                                :value="request('search')"
+                                class="mt-1 block w-full"
+                            />
+                        </div>
+                        
+                        <!-- Category Filter -->
+                        <div>
+                            <x-input.label for="category_id" :value="__('todo.category')" />
+                            <x-input.select
+                                id="category_id"
+                                name="category_id"
+                                class="mt-1 block w-full"
+                            >
+                                <option value="">{{ __('todo.all_categories') }}</option>
+                                @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
                             </x-input.select>
-                        </x-input.form.group>
-                    </x-ui.tooltip>
-                </div>
-
-                {{-- Status Filter --}}
-                <div class="sm:col-span-2">
-                    <x-ui.tooltip text="{{ __('Filter tasks by completion status') }}" position="top">
-                        <x-input.form.group
-                            :label="__('Status')"
-                            for="status"
-                        >
-                            <x-input.select id="status" name="status" class="block w-full">
-                                <option value="">{{ __('All Statuses') }}</option>
-                                @foreach ($statuses as $key => $status)
-                                    <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>
-                                        {{ $status }}
-                                    </option>
-                                @endforeach
+                        </div>
+                        
+                        <!-- Status Filter -->
+                        <div>
+                            <x-input.label for="status" :value="__('todo.status')" />
+                            <x-input.select
+                                id="status"
+                                name="status"
+                                class="mt-1 block w-full"
+                            >
+                                <option value="">{{ __('todo.all_statuses') }}</option>
+                                <option value="not_started" {{ request('status') == 'not_started' ? 'selected' : '' }}>{{ __('todo.status_not_started') }}</option>
+                                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>{{ __('todo.status_in_progress') }}</option>
+                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>{{ __('todo.status_completed') }}</option>
+                                <option value="on_hold" {{ request('status') == 'on_hold' ? 'selected' : '' }}>{{ __('todo.status_on_hold') }}</option>
+                                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>{{ __('todo.status_cancelled') }}</option>
                             </x-input.select>
-                        </x-input.form.group>
-                    </x-ui.tooltip>
-                </div>
-                
-                {{-- Sort By --}}
-                <div class="sm:col-span-2">
-                    <x-ui.tooltip text="{{ __('Choose how to order your tasks') }}" position="top">
-                        <x-input.form.group
-                            :label="__('Sort By')"
-                            for="sort"
-                        >
-                            <x-input.select id="sort" name="sort" class="block w-full">
-                                <option value="latest" {{ request('sort', 'latest') === 'latest' ? 'selected' : '' }}>{{ __('Newest First') }}</option>
-                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('Oldest First') }}</option>
-                                <option value="due_asc" {{ request('sort') === 'due_asc' ? 'selected' : '' }}>{{ __('Due Date (Oldest First)') }}</option>
-                                <option value="due_desc" {{ request('sort') === 'due_desc' ? 'selected' : '' }}>{{ __('Due Date (Newest First)') }}</option>
+                        </div>
+                        
+                        <!-- Priority Filter -->
+                        <div>
+                            <x-input.label for="priority" :value="__('todo.priority')" />
+                            <x-input.select
+                                id="priority"
+                                name="priority"
+                                class="mt-1 block w-full"
+                            >
+                                <option value="">{{ __('todo.all_priorities') }}</option>
+                                <option value="low" {{ request('priority') == 'low' ? 'selected' : '' }}>{{ __('todo.priority_low') }}</option>
+                                <option value="medium" {{ request('priority') == 'medium' ? 'selected' : '' }}>{{ __('todo.priority_medium') }}</option>
+                                <option value="high" {{ request('priority') == 'high' ? 'selected' : '' }}>{{ __('todo.priority_high') }}</option>
+                                <option value="urgent" {{ request('priority') == 'urgent' ? 'selected' : '' }}>{{ __('todo.priority_urgent') }}</option>
                             </x-input.select>
-                        </x-input.form.group>
-                    </x-ui.tooltip>
-                </div>
-                
-                {{-- Action Buttons --}}
-                <div class="sm:col-span-6 flex items-center justify-start gap-x-3 pt-2">
-                    <x-ui.tooltip text="{{ __('Apply filters') }}" position="top">
-                        <x-ui.button 
-                            type="submit" 
-                            variant="primary"
-                            size="lg"
-                            icon="heroicon-o-funnel"
-                            id="apply-filters-btn"
-                        >
-                            {{ __('Filter') }}
+                        </div>
+                        
+                        <!-- Due Date Filter -->
+                        <div>
+                            <x-input.label for="due_date" :value="__('todo.due_date')" />
+                            <x-input.select
+                                id="due_date"
+                                name="due_date"
+                                class="mt-1 block w-full"
+                            >
+                                <option value="">{{ __('todo.all_due_dates') }}</option>
+                                <option value="overdue" {{ request('due_date') == 'overdue' ? 'selected' : '' }}>{{ __('todo.overdue') }}</option>
+                                <option value="today" {{ request('due_date') == 'today' ? 'selected' : '' }}>{{ __('todo.due_today') }}</option>
+                                <option value="this_week" {{ request('due_date') == 'this_week' ? 'selected' : '' }}>{{ __('todo.due_this_week') }}</option>
+                                <option value="next_week" {{ request('due_date') == 'next_week' ? 'selected' : '' }}>{{ __('todo.due_next_week') }}</option>
+                                <option value="this_month" {{ request('due_date') == 'this_month' ? 'selected' : '' }}>{{ __('todo.due_this_month') }}</option>
+                                <option value="no_due_date" {{ request('due_date') == 'no_due_date' ? 'selected' : '' }}>{{ __('todo.no_due_date') }}</option>
+                            </x-input.select>
+                        </div>
+                        
+                        <!-- Sort Order -->
+                        <div>
+                            <x-input.label for="sort" :value="__('todo.sort_by')" />
+                            <x-input.select
+                                id="sort"
+                                name="sort"
+                                class="mt-1 block w-full"
+                            >
+                                <option value="created_at-desc" {{ request('sort') == 'created_at-desc' ? 'selected' : '' }}>{{ __('todo.newest_first') }}</option>
+                                <option value="created_at-asc" {{ request('sort') == 'created_at-asc' ? 'selected' : '' }}>{{ __('todo.oldest_first') }}</option>
+                                <option value="due_date-asc" {{ request('sort') == 'due_date-asc' ? 'selected' : '' }}>{{ __('todo.due_date_asc') }}</option>
+                                <option value="due_date-desc" {{ request('sort') == 'due_date-desc' ? 'selected' : '' }}>{{ __('todo.due_date_desc') }}</option>
+                                <option value="title-asc" {{ request('sort') == 'title-asc' ? 'selected' : '' }}>{{ __('todo.title_a_z') }}</option>
+                                <option value="title-desc" {{ request('sort') == 'title-desc' ? 'selected' : '' }}>{{ __('todo.title_z_a') }}</option>
+                                <option value="priority-desc" {{ request('sort') == 'priority-desc' ? 'selected' : '' }}>{{ __('todo.priority_high_low') }}</option>
+                                <option value="priority-asc" {{ request('sort') == 'priority-asc' ? 'selected' : '' }}>{{ __('todo.priority_low_high') }}</option>
+                            </x-input.select>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-end">
+                        <x-ui.button type="button" variant="secondary" href="{{ route('todos.index') }}" class="mr-2">
+                            {{ __('todo.reset_filters') }}
                         </x-ui.button>
-                    </x-ui.tooltip>
-                    <x-ui.tooltip text="{{ __('Clear all filters') }}" position="top">
-                        <x-ui.button 
-                            href="{{ route('todos.index') }}" 
-                            size="lg"
-                            variant="secondary"
-                            id="reset-filters-btn"
-                        >
-                            {{ __('Reset') }}
+                        <x-ui.button type="submit" variant="primary" id="apply-filters-btn">
+                            {{ __('todo.apply_filters') }}
                         </x-ui.button>
-                    </x-ui.tooltip>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </x-ui.card>
 
-        <!-- Todo List -->
-        <x-ui.card withBorder>
-            @if($todos->count() > 0)
+        <!-- Todo List Card -->
+        <x-ui.card>
+            @if (count($todos) > 0)
                 <x-data.table>
                     <x-slot name="header">
                         <tr>
-                            <x-data.table.heading>{{ __('Title') }}</x-data.table.heading>
-                            <x-data.table.heading>{{ __('Category') }}</x-data.table.heading>
-                            <x-data.table.heading>{{ __('Due Date') }}</x-data.table.heading>
-                            <x-data.table.heading>{{ __('Priority') }}</x-data.table.heading>
-                            <x-data.table.heading>{{ __('Status') }}</x-data.table.heading>
-                            <x-data.table.heading>{{ __('Subtasks') }}</x-data.table.heading>
-                            <x-data.table.heading class="relative">
-                                <span class="sr-only">{{ __('Actions') }}</span>
+                            <x-data.table.heading>{{ __('todo.title') }}</x-data.table.heading>
+                            <x-data.table.heading>{{ __('todo.category') }}</x-data.table.heading>
+                            <x-data.table.heading>{{ __('todo.due_date') }}</x-data.table.heading>
+                            <x-data.table.heading>{{ __('todo.priority') }}</x-data.table.heading>
+                            <x-data.table.heading>{{ __('todo.status') }}</x-data.table.heading>
+                            <x-data.table.heading>{{ __('todo.subtasks') }}</x-data.table.heading>
+                            <x-data.table.heading>
+                                <span class="sr-only">{{ __('todo.actions') }}</span>
                             </x-data.table.heading>
                         </tr>
                     </x-slot>
@@ -154,55 +156,32 @@
                     @foreach($todos as $todo)
                         <x-data.table.row>
                             <x-data.table.cell type="primary">{{ $todo->title }}</x-data.table.cell>
-                            <x-data.table.cell>{{ $todo->category?->name ?? __('None') }}</x-data.table.cell>
-                            <x-data.table.cell>{{ $todo->due_date ? $todo->due_date->translatedFormat('Y-m-d') : __('No due date') }}</x-data.table.cell>
+                            <x-data.table.cell>{{ $todo->category?->name ?? __('todo.category_none') }}</x-data.table.cell>
+                            <x-data.table.cell>{{ $todo->due_date ? $todo->due_date->translatedFormat('Y-m-d') : __('todo.no_due_date') }}</x-data.table.cell>
                             <x-data.table.cell>
                                 @php
-                                    $priorityColors = [
-                                        'low' => 'blue',
-                                        'medium' => 'yellow',
-                                        'high' => 'orange',
-                                        'urgent' => 'red',
-                                    ];
+                                    $priorityColors = TodoHelper::getPriorityColors();
                                 @endphp
                                 <x-ui.badge :color="$priorityColors[$todo->priority->value]">
-                                    {{ $todo->priority->name }}
+                                    {{ $todo->priority->label() }}
                                 </x-ui.badge>
                             </x-data.table.cell>
                             <x-data.table.cell>
-                                @php
-                                    $statusColors = [
-                                        'not_started' => 'gray',
-                                        'in_progress' => 'blue',
-                                        'completed' => 'green',
-                                        'on_hold' => 'yellow',
-                                        'cancelled' => 'red',
-                                    ];
-                                @endphp
                                 <x-ui.todo-status-change :todo="$todo" />
                             </x-data.table.cell>
                             <x-data.table.cell>
                                 @php
-                                    $subtaskCount = $todo->children->count();
-                                    $completedCount = $todo->children->where('status.value', 'completed')->count();
-                                    $badgeColor = 'gray';
-                                    
-                                    if ($subtaskCount > 0) {
-                                        if ($completedCount === $subtaskCount) {
-                                            $badgeColor = 'green';
-                                        } elseif ($completedCount > 0) {
-                                            $badgeColor = 'yellow';
-                                        }
-                                    }
+                                    $subtaskCounts = TodoHelper::getSubtaskCounts($todo);
+                                    $badgeColor = TodoHelper::getSubtaskBadgeColor($todo);
                                 @endphp
                                 <x-ui.badge :color="$badgeColor">
-                                    {{ $completedCount }} / {{ $subtaskCount }}
+                                    {{ $subtaskCounts['completed'] }} / {{ $subtaskCounts['total'] }}
                                 </x-ui.badge>
                             </x-data.table.cell>
                             <x-data.table.cell class="text-right">
                                 <x-ui.popover>
                                     <x-slot name="trigger">
-                                        <x-ui.tooltip text="{{ __('Task options') }}" position="left">
+                                        <x-ui.tooltip text="{{ __('todo.task_options_tooltip') }}" position="left">
                                             <x-ui.button variant="ghost" size="sm" icon="heroicon-o-ellipsis-horizontal" />
                                         </x-ui.tooltip>
                                     </x-slot>
@@ -211,14 +190,14 @@
                                             :href="route('todos.show', $todo)"
                                             before="heroicon-o-eye"
                                         >
-                                            {{ __('View') }}
+                                            {{ __('todo.view_action') }}
                                         </x-ui.popover.item>
                                         
                                         <x-ui.popover.item
                                             :href="route('todos.edit', $todo)"
                                             before="heroicon-o-pencil-square"
                                         >
-                                            {{ __('Edit') }}
+                                            {{ __('todo.edit') }}
                                         </x-ui.popover.item>
 
                                         <x-ui.popover.item type="divider" />
@@ -229,7 +208,7 @@
                                             before="heroicon-o-trash"
                                             x-on:click="$dispatch('modal:open', 'confirm-delete-todo-{{ $todo->id }}')"
                                         >
-                                            {{ __('Delete') }}
+                                            {{ __('todo.delete') }}
                                         </x-ui.popover.item>
                                     </x-slot>
                                 </x-ui.popover>
@@ -239,37 +218,41 @@
                         <!-- Delete confirmation modal -->
                         <x-ui.modal.confirmation 
                             id="confirm-delete-todo-{{ $todo->id }}"
-                            title="{{ __('Delete Todo') }}"
-                            message="{{ __('Are you sure you want to delete this todo? This action cannot be undone.') }}"
-                            confirm="{{ __('Delete') }}"
+                            title="{{ __('todo.delete') }}"
+                            message="{{ __('todo.delete_confirm_message') }}"
+                            confirm="{{ __('todo.delete') }}"
                             :form="[
                                 'action' => route('todos.destroy', $todo),
                                 'method' => 'DELETE'
                             ]"
                         />
                     @endforeach
+                    
                 </x-data.table>
-                
-                {{-- Pagination --}}
-                <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-4 sm:px-6">
-                    <x-data.pagination :paginator="$todos" />
+
+                <div class="mt-6">
+                    {{ $todos->appends(request()->query())->links() }}
                 </div>
             @else
-                {{-- Empty State --}}
-                <x-ui.empty-state
-                    title="{{ __('No todos') }}"
-                    description="{{ __('Get started by creating a new todo.') }}"
-                    icon="heroicon-o-clipboard-document-list"
-                >
-                    <x-ui.button 
-                        href="{{ route('todos.create') }}" 
-                        variant="primary" 
-                        size="lg" 
-                        icon="heroicon-o-plus"
-                    >
-                        {{ __('Create Todo') }}
-                    </x-ui.button>
-                </x-ui.empty-state>
+                <div class="py-10 text-center">
+                    @if(request()->hasAny(['search', 'category_id', 'status']))
+                        <x-ui.empty-state 
+                            icon="heroicon-o-magnifying-glass" 
+                            title="{{ __('todo.empty_title_filtered') }}"
+                            description="{{ __('todo.empty_description_filtered') }}"
+                        />
+                    @else
+                        <x-ui.empty-state 
+                            icon="heroicon-o-clipboard-document-list" 
+                            title="{{ __('todo.empty_title_no_todos') }}" 
+                            description="{{ __('todo.empty_description_create_first') }}" 
+                        >
+                            <x-slot name="actions">
+                                <x-ui.button href="{{ route('todos.create') }}" variant="primary">{{ __('todo.create') }}</x-ui.button>
+                            </x-slot>
+                        </x-ui.empty-state>
+                    @endif
+                </div>
             @endif
         </x-ui.card>
     </div>
@@ -348,32 +331,14 @@
                         document.getElementById('priority').value = 'high';
                         document.getElementById('apply-filters-btn').click();
                         break;
-                    
-                    // Quick filters - status
-                    case 'c':
-                        document.getElementById('status').value = 'completed';
+                    case '4':
+                        document.getElementById('priority').value = 'urgent';
                         document.getElementById('apply-filters-btn').click();
-                        break;
-                    case 'p':
-                        document.getElementById('status').value = 'pending';
-                        document.getElementById('apply-filters-btn').click();
-                        break;
-                    
-                    // Toggle dark mode
-                    case 'd':
-                        const darkModeToggleBtn = document.querySelector('[x-on\\:click="darkMode.toggle()"]');
-                        if (darkModeToggleBtn) darkModeToggleBtn.click();
-                        break;
-                    
-                    // Reset filters
-                    case 'Escape':
-                        document.getElementById('reset-filters-btn').click();
                         break;
                 }
             };
             
-            window.handleKeyboardShortcuts = handleKeyboardShortcuts;
-            window.addEventListener('keydown', handleKeyboardShortcuts);
+            document.addEventListener('keydown', handleKeyboardShortcuts);
         });
     </script>
 </x-slot> 

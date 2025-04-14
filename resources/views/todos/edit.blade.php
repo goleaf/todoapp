@@ -2,7 +2,7 @@
     <x-slot name="header">
          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
              <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Edit Todo') }}: {{ $todo->title }}
+                {{ __('todo.edit') }}: {{ $todo->title }}
             </h2>
             <div class="flex items-center gap-x-3">
                 <x-ui.button 
@@ -10,14 +10,14 @@
                     variant="secondary" 
                     icon="heroicon-s-eye"
                 >
-                    {{ __('View Details') }}
+                    {{ __('todo.view_details_button') }}
                 </x-ui.button>
                 <x-ui.button 
                     href="{{ route('todos.index') }}" 
                     variant="secondary" 
                     icon="heroicon-s-arrow-left"
                 >
-                    {{ __('Back to Todos') }}
+                    {{ __('todo.back_to_list') }}
                 </x-ui.button>
             </div>
         </div>
@@ -25,8 +25,8 @@
 
      <x-ui.card withBorder>
         <x-slot name="header">
-            <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('Todo Details') }}</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('Update the details for this task.') }}</p>
+            <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('todo.details_heading') }}</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('todo.update_details_subheading') }}</p>
         </x-slot>
         
         <!-- Completion animation overlay -->
@@ -55,8 +55,8 @@
                     <div class="flex justify-center mb-4">
                         <x-ui.icon icon="heroicon-o-check-circle" class="w-24 h-24 text-green-500 animate-bounce" />
                     </div>
-                    <h3 class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">{{ __('Task Completed!') }}</h3>
-                    <p class="text-lg text-gray-600 dark:text-gray-300">{{ __('Great job finishing this task!') }}</p>
+                    <h3 class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">{{ __('todo.completion_heading') }}</h3>
+                    <p class="text-lg text-gray-600 dark:text-gray-300">{{ __('todo.completion_text') }}</p>
                 </div>
             </div>
             
@@ -67,7 +67,7 @@
                     <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         {{-- Title --}}
                         <div class="sm:col-span-4">
-                            <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                            <x-input.form.group :label="__('todo.title')" for="title" :error="$errors->first('title')">
                                 <x-input.input 
                                     type="text" 
                                     name="title" 
@@ -83,10 +83,10 @@
                         {{-- Description --}}
                         <div class="col-span-full">
                             <x-input.form.group 
-                                :label="__('Description')" 
+                                :label="__('todo.description')" 
                                 for="description" 
                                 :error="$errors->first('description')" 
-                                :helpText="__('Write a few sentences about the task.')"
+                                :helpText="__('todo.description_help')"
                             >
                                 <x-input.textarea
                                     id="description"
@@ -99,9 +99,9 @@
 
                         {{-- Category --}}
                         <div class="sm:col-span-3">
-                            <x-input.form.group :label="__('Category')" for="category_id" :error="$errors->first('category_id')">
+                            <x-input.form.group :label="__('todo.category')" for="category_id" :error="$errors->first('category_id')">
                                 <x-input.select id="category_id" name="category_id" :invalid="$errors->has('category_id')">
-                                    <option value="">{{ __('Select a category') }}</option>
+                                    <option value="">{{ __('todo.select_category') }}</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" {{ old('category_id', $todo->category_id) == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
@@ -113,9 +113,9 @@
 
                         {{-- Parent Todo --}}
                         <div class="sm:col-span-3">
-                            <x-input.form.group :label="__('Parent Todo')" for="parent_id" :error="$errors->first('parent_id')">
+                            <x-input.form.group :label="__('todo.parent_todo')" for="parent_id" :error="$errors->first('parent_id')">
                                 <x-input.select id="parent_id" name="parent_id" :invalid="$errors->has('parent_id')">
-                                    <option value="">{{ __('None (Top Level Todo)') }}</option>
+                                    <option value="">{{ __('todo.parent_none') }}</option>
                                     @foreach ($parentTodos as $parentTodo)
                                         @if($parentTodo->id !== $todo->id)
                                             <option value="{{ $parentTodo->id }}" {{ old('parent_id', $todo->parent_id) == $parentTodo->id ? 'selected' : '' }}>
@@ -129,7 +129,7 @@
 
                         {{-- Due Date --}}
                         <div class="sm:col-span-2">
-                            <x-input.form.group :label="__('Due Date')" for="due_date" :error="$errors->first('due_date')">
+                            <x-input.form.group :label="__('todo.due_date')" for="due_date" :error="$errors->first('due_date')">
                                 <x-input.input 
                                     type="date" 
                                     name="due_date" 
@@ -142,9 +142,9 @@
 
                         {{-- Priority --}}
                         <div class="sm:col-span-2">
-                            <x-input.form.group :label="__('Priority')" for="priority" :error="$errors->first('priority')">
+                            <x-input.form.group :label="__('todo.priority')" for="priority" :error="$errors->first('priority')">
                                 <x-input.select id="priority" name="priority" required :invalid="$errors->has('priority')">
-                                    <option value="">{{ __('Select priority') }}</option>
+                                    <option value="">{{ __('todo.select_priority') }}</option>
                                     @foreach ($priorities as $key => $priority)
                                         <option value="{{ $key }}" {{ old('priority', $todo->priority->value) == $key ? 'selected' : '' }}>
                                             {{ $priority }}
@@ -156,12 +156,12 @@
 
                         {{-- Status --}}
                         <div class="sm:col-span-2">
-                            <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
-                                <x-ui.tooltip text="{{ __('Change the status to Completed when you finish this task') }}" position="top">
+                            <x-input.form.group :label="__('todo.status')" for="status" :error="$errors->first('status')">
+                                <x-ui.tooltip text="{{ __('todo.status_tooltip') }}" position="top">
                                     <x-input.select id="status" name="status" :invalid="$errors->has('status')" 
                                         x-model="currentStatus"
                                         x-on:change="if (currentStatus === 'completed' && '{{ $todo->status->value }}' !== 'completed') { showCompletionAnimation = true }">
-                                        <option value="">{{ __('Select status') }}</option>
+                                        <option value="">{{ __('todo.select_status') }}</option>
                                         @foreach ($statuses as $key => $status)
                                             <option value="{{ $key }}" {{ old('status', $todo->status->value) == $key ? 'selected' : '' }}>
                                                 {{ $status }}
@@ -176,7 +176,7 @@
 
                 <div class="mt-6 flex items-center justify-end gap-x-6">
                     <x-ui.button href="{{ route('todos.show', $todo) }}" variant="secondary">
-                        {{ __('Cancel') }}
+                        {{ __('todo.cancel_button') }}
                     </x-ui.button>
                     <x-ui.button 
                         type="submit" 
@@ -184,7 +184,7 @@
                         size="lg"
                         icon="heroicon-o-check"
                     >
-                        {{ __('Save Changes') }}
+                        {{ __('todo.save_button') }}
                     </x-ui.button>
                 </div>
             </form>

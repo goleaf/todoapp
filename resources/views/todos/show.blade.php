@@ -2,7 +2,7 @@
     <x-slot name="header">
          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
              <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight truncate" title="{{ $todo->title }}">
-                {{ __('Todo Details') }}: <span class="italic">{{ Str::limit($todo->title, 50) }}</span>
+                {{ __('todo.details_heading') }}: <span class="italic">{{ Str::limit($todo->title, 50) }}</span>
             </h2>
             <div class="flex items-center gap-x-3">
                 <x-ui.button 
@@ -11,7 +11,7 @@
                     size="sm" 
                     icon="heroicon-o-pencil-square"
                 >
-                    {{ __('Edit') }}
+                    {{ __('todo.edit') }}
                 </x-ui.button>
                 <x-ui.button 
                     href="{{ url()->previous(route('todos.index')) }}" 
@@ -19,7 +19,7 @@
                     size="sm" 
                     icon="heroicon-o-arrow-left"
                 >
-                    {{ __('Back') }}
+                    {{ __('todo.back_button') }}
                 </x-ui.button>
             </div>
         </div>
@@ -33,7 +33,7 @@
         
         <dl class="divide-y divide-gray-200 dark:divide-gray-700">
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Status') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.status') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
                      <span @class([
                         'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
@@ -48,7 +48,7 @@
                 </dd>
             </div>
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Priority') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.priority') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
                     <span @class([
                         'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
@@ -63,32 +63,32 @@
                 </dd>
             </div>
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Category') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.category') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                    {{ $todo->category?->name ?? __('None') }}
+                    {{ $todo->category?->name ?? __('todo.category_none') }}
                 </dd>
             </div>
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Due Date') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.due_date') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                    {{ $todo->due_date ? $todo->due_date->translatedFormat('Y-m-d') : __('No due date') }}
+                    {{ $todo->due_date ? $todo->due_date->translatedFormat('Y-m-d') : __('todo.no_due_date') }}
                 </dd>
             </div>
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Created') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.created_at') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0" title="{{ $todo->created_at->translatedFormat('Y-m-d H:i:s') }}">
                     {{ $todo->created_at->diffForHumans() }}
                 </dd>
             </div>
              <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Last Updated') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.updated_at') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0" title="{{ $todo->updated_at->translatedFormat('Y-m-d H:i:s') }}">
                      {{ $todo->updated_at->diffForHumans() }}
                 </dd>
             </div>
             @if($todo->description)
             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Description') }}</dt>
+                <dt class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('todo.description') }}</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
                     <p class="whitespace-pre-line">{{ $todo->description }}</p>
                 </dd>
@@ -100,7 +100,7 @@
         @if($todo->parent)
         <x-slot name="footer">
             <div class="px-4 py-5 sm:px-6 border-t border-gray-200 dark:border-gray-700">
-                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 mb-4">{{ __('Parent Todo') }}</h3>
+                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 mb-4">{{ __('todo.parent_todo') }}</h3>
                 <div class="rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 p-4">
                     <div class="flex items-center justify-between">
                         <div>
@@ -133,7 +133,7 @@
                             variant="secondary" 
                             size="sm"
                         >
-                            {{ __('View Parent') }}
+                            {{ __('todo.view_parent_button') }}
                         </x-ui.button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     size="sm" 
                     icon="heroicon-o-plus"
                 >
-                    {{ __('Add Subtask') }}
+                    {{ __('todo.add_subtask') }}
                 </x-ui.button>
             </div>
         </x-slot>
@@ -191,7 +191,7 @@
                                 {{ $subtask->priority->label() }}
                             </span>
                             @if($subtask->due_date)
-                                <span class="hidden sm:inline text-xs text-gray-500 dark:text-gray-400">{{ __('Due') }}: {{ $subtask->due_date->translatedFormat('Y-m-d') }}</span>
+                                <span class="hidden sm:inline text-xs text-gray-500 dark:text-gray-400">{{ __('todo.due_label') }}: {{ $subtask->due_date->translatedFormat('Y-m-d') }}</span>
                             @endif
                             <x-ui.button 
                                 href="{{ route('todos.show', $subtask) }}" 
@@ -199,7 +199,7 @@
                                 size="xs" 
                                 class="hidden sm:block"
                             >
-                                {{ __('View') }}<span class="sr-only">, {{ $subtask->title }}</span>
+                                {{ __('todo.view_action') }}<span class="sr-only">, {{ $subtask->title }}</span>
                             </x-ui.button>
                             <x-ui.button 
                                 href="{{ route('todos.edit', $subtask) }}" 
@@ -207,7 +207,7 @@
                                 size="xs" 
                                 class="hidden sm:block"
                             >
-                                {{ __('Edit') }}<span class="sr-only">, {{ $subtask->title }}</span>
+                                {{ __('todo.edit') }}<span class="sr-only">, {{ $subtask->title }}</span>
                             </x-ui.button>
                         </div>
                     </li>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700 dark:text-blue-300">
-                            {{ __('No subtasks created yet.') }}
+                            {{ __('todo.no_subtasks_yet') }}
                         </p>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                     icon="heroicon-o-trash"
                     x-on:click="$dispatch('modal:open', 'confirm-delete-todo')"
                 >
-                    {{ __('Delete Todo') }}
+                    {{ __('todo.delete') }}
                 </x-ui.button>
                 <x-ui.button 
                     href="{{ route('todos.edit', $todo) }}" 
@@ -245,7 +245,7 @@
                     size="sm" 
                     icon="heroicon-o-pencil-square"
                 >
-                    {{ __('Edit Todo') }}
+                    {{ __('todo.edit') }}
                 </x-ui.button>
             </div>
         </x-slot>
@@ -254,9 +254,10 @@
     <!-- Delete confirmation modal -->
     <x-ui.modal.confirmation 
         id="confirm-delete-todo"
-        title="{{ __('Delete Todo') }}"
-        message="{{ __('Are you sure you want to delete this todo and all its subtasks? This action cannot be undone.') }}"
-        confirm="{{ __('Delete') }}"
+        title="{{ __('todo.delete') }}"
+        message="{{ __('todo.delete_confirm_message') }}"
+        confirm="{{ __('todo.delete') }}"
+        cancel="{{ __('todo.cancel_button') }}"
         :form="[
             'action' => route('todos.destroy', $todo),
             'method' => 'DELETE'
