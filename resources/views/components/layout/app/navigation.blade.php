@@ -20,12 +20,18 @@
                         {{ __('Todos') }}
                     </x-layout.navbar.item>
                     @endif
+                    <x-layout.navbar.item :href="route('help')" :current="request()->routeIs('help')">
+                        {{ __('Help') }}
+                    </x-layout.navbar.item>
                     {{-- Add other main navigation links here --}}
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                
+                <!-- Text Size Toggle -->
+                <x-ui.text-size-toggle />
                 
                 <!-- Dark Mode Toggle -->
                 <x-ui.dark-mode-toggle />
@@ -109,6 +115,9 @@
                 {{ __('Todos') }}
             </x-layout.navlist.item>
             @endif
+            <x-layout.navlist.item :href="route('help')" :current="request()->routeIs('help')">
+                {{ __('Help') }}
+            </x-layout.navlist.item>
             {{-- Add other main responsive navigation links here --}}
         </div>
 
@@ -158,6 +167,41 @@
                 <x-layout.navlist.item href="https://laravel.com/docs/starter-kits" target="_blank">
                     {{ __('Documentation') }}
                 </x-layout.navlist.item>
+            </div>
+            
+            <!-- Text Size Settings for mobile -->
+            <div x-data="textSize()" class="mt-3 space-y-1 px-4 border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    {{ __('Text Size') }}
+                </div>
+                <div class="flex space-x-2">
+                    <button 
+                        type="button"
+                        class="px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                        x-on:click="setTextSize('small')"
+                        x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'small' }"
+                    >
+                        <span class="text-sm">{{ __('Small') }}</span>
+                    </button>
+                    
+                    <button 
+                        type="button"
+                        class="px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                        x-on:click="setTextSize('medium')"
+                        x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'medium' || !localStorage.getItem('textSize') }"
+                    >
+                        <span class="text-base">{{ __('Medium') }}</span>
+                    </button>
+                    
+                    <button 
+                        type="button"
+                        class="px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                        x-on:click="setTextSize('large')"
+                        x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'large' }"
+                    >
+                        <span class="text-lg">{{ __('Large') }}</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

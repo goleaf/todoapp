@@ -3,6 +3,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-bind:class="{'dark': darkMode }">
 <head>
     <x-layout.app.head :title="$title" />
+    <!-- Text Size CSS -->
+    <link href="{{ asset('css/text-size.css') }}" rel="stylesheet">
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
@@ -23,7 +25,12 @@
         });
     </script>
 </head>
-<body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-900" x-data="keyboardShortcuts()" x-init="init()">
+<body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-900" 
+    x-data="{
+        ...keyboardShortcuts(),
+        ...textSize()
+    }" 
+    x-init="init()">
     <div class="min-h-screen flex flex-col">
         <x-layout.app.header />
         
