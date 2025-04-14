@@ -1,0 +1,71 @@
+<div class="language-switcher">
+    <div class="relative" x-data="{ open: false }">
+        <button 
+            @click="open = !open" 
+            @keydown.escape="open = false"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+            <span class="text-sm font-medium">
+                @php
+                    $currentLangName = __('common.language_name');
+                    $flagMap = [
+                        'en' => '🇬🇧', 
+                        'ru' => '🇷🇺', 
+                        'es' => '🇪🇸', 
+                        'fr' => '🇫🇷', 
+                        'de' => '🇩🇪',
+                        'it' => '🇮🇹',
+                        'ja' => '🇯🇵',
+                        'zh' => '🇨🇳',
+                        'lt' => '🇱🇹'
+                    ];
+                    $currentFlag = $flagMap[app()->getLocale()] ?? '🌐';
+                @endphp
+                <span class="flex items-center">
+                    <span class="text-xs mr-2">{{ $currentFlag }}</span>
+                    {{ $currentLangName }}
+                </span>
+            </span>
+            <x-ui.icon icon="heroicon-m-chevron-down" class="h-4 w-4" />
+        </button>
+        
+        <div 
+            x-show="open" 
+            @click.away="open = false"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="transform opacity-0 scale-95"
+            x-transition:enter-end="transform opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="transform opacity-100 scale-100"
+            x-transition:leave-end="transform opacity-0 scale-95"
+            class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="language-menu-button"
+            tabindex="-1"
+            style="display: none;"
+        >
+            <div class="py-1" role="none">
+                @php
+                    $languages = App\Models\Language::getAvailableLanguages();
+                @endphp
+                
+                @foreach($languages as $localeCode => $language)
+                    @php
+                        $langName = $language['name'];
+                        $flag = $flagMap[$localeCode] ?? '🌐';
+                    @endphp
+                    <a 
+                        href="{{ route('language.switch', $localeCode) }}" 
+                        class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 {{ app()->getLocale() == $localeCode ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                        role="menuitem"
+                        tabindex="-1"
+                    >
+                        <span class="text-xs mr-2">{{ $flag }}</span>
+                        {{ $langName }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div> 
