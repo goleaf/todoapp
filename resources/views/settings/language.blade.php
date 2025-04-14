@@ -21,27 +21,17 @@
                                     
                                     <div class="mt-4 space-y-4">
                                         @php
-                                            $flagMap = [
-                                                'en' => '🇬🇧', 
-                                                'ru' => '🇷🇺', 
-                                                'es' => '🇪🇸', 
-                                                'fr' => '🇫🇷', 
-                                                'de' => '🇩🇪',
-                                                'it' => '🇮🇹',
-                                                'ja' => '🇯🇵',
-                                                'zh' => '🇨🇳',
-                                                'lt' => '🇱🇹'
-                                            ];
+                                            $flagMap = \App\Helpers\LanguageHelper::getFlagMap();
                                         @endphp
                                         
                                         @foreach($locales as $code => $lang)
                                             <div class="relative flex items-start py-2 px-3 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                                 <div class="min-w-0 flex-1 text-sm">
-                                                    <label for="language-{{ $code }}" class="font-medium text-gray-700 dark:text-gray-300 select-none flex items-center">
+                                                    <x-input.label for="language-{{ $code }}" class="font-medium text-gray-700 dark:text-gray-300 select-none flex items-center">
                                                         <span class="text-xl mr-2">{{ $flagMap[$code] ?? '🌐' }}</span>
                                                         <span>{{ $lang['native'] }}</span>
                                                         <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">({{ $lang['english'] }})</span>
-                                                    </label>
+                                                    </x-input.label>
                                                 </div>
                                                 <div class="ml-3 flex items-center h-5">
                                                     <x-input.radio 

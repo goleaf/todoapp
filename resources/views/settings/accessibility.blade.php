@@ -3,21 +3,21 @@
         <div class="mt-8 max-w-3xl mx-auto">
             <div class="mb-6">
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                    {{ __('Accessibility Settings') }}
+                    {{ __('accessibility.title') }}
                 </h1>
                 <p class="text-gray-600 dark:text-gray-400">
-                    {{ __('Customize the app to meet your accessibility needs') }}
+                    {{ __('accessibility.description') }}
                 </p>
             </div>
 
             <x-ui.card>
-                <h2 class="text-xl font-semibold mb-6">{{ __('Display Preferences') }}</h2>
+                <h2 class="text-xl font-semibold mb-6">{{ __('accessibility.display_preferences') }}</h2>
 
                 <!-- Text Size -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-medium mb-3">{{ __('Text Size') }}</h3>
+                    <h3 class="text-lg font-medium mb-3">{{ __('accessibility.text_size_title') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        {{ __('Choose your preferred text size for better readability.') }}
+                        {{ __('accessibility.text_size_description') }}
                     </p>
                     
                     <div class="flex flex-wrap -mx-2" x-data="{ currentSize: localStorage.getItem('textSize') || 'medium' }">
@@ -29,11 +29,11 @@
                                 class="w-full p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="font-medium">{{ __('Small') }}</span>
+                                    <span class="font-medium">{{ __('accessibility.small') }}</span>
                                     <div class="text-size-small py-1 px-2 bg-gray-100 dark:bg-gray-600 rounded text-xs">Aa</div>
                                 </div>
                                 <p class="text-size-small text-left text-gray-600 dark:text-gray-400">
-                                    {{ __('Compact text for more content on screen.') }}
+                                    {{ __('accessibility.small_description') }}
                                 </p>
                             </button>
                         </div>
@@ -45,11 +45,11 @@
                                 class="w-full p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="font-medium">{{ __('Medium') }}</span>
+                                    <span class="font-medium">{{ __('accessibility.medium') }}</span>
                                     <div class="text-size-medium py-1 px-2 bg-gray-100 dark:bg-gray-600 rounded text-xs">Aa</div>
                                 </div>
                                 <p class="text-size-medium text-left text-gray-600 dark:text-gray-400">
-                                    {{ __('Standard text size (default).') }}
+                                    {{ __('accessibility.medium_description') }}
                                 </p>
                             </button>
                         </div>
@@ -61,11 +61,11 @@
                                 class="w-full p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="font-medium">{{ __('Large') }}</span>
+                                    <span class="font-medium">{{ __('accessibility.large') }}</span>
                                     <div class="text-size-large py-1 px-2 bg-gray-100 dark:bg-gray-600 rounded text-xs">Aa</div>
                                 </div>
                                 <p class="text-size-large text-left text-gray-600 dark:text-gray-400">
-                                    {{ __('Larger text for improved readability.') }}
+                                    {{ __('accessibility.large_description') }}
                                 </p>
                             </button>
                         </div>
@@ -74,9 +74,9 @@
                 
                 <!-- High Contrast Mode -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-medium mb-3">{{ __('High Contrast Mode') }}</h3>
+                    <h3 class="text-lg font-medium mb-3">{{ __('accessibility.contrast_title') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        {{ __('Toggle high contrast for better visibility.') }}
+                        {{ __('accessibility.contrast_description') }}
                     </p>
                     <div class="flex items-center" x-data="{ highContrast: localStorage.getItem('highContrastMode') === 'true' }">
                         <button
@@ -87,7 +87,7 @@
                             role="switch"
                             :aria-checked="highContrast"
                         >
-                            <span class="sr-only">{{ __('Toggle high contrast mode') }}</span>
+                            <span class="sr-only">{{ __('accessibility.toggle_contrast') }}</span>
                             <span
                                 :class="{ 'translate-x-5': highContrast, 'translate-x-0': !highContrast }"
                                 class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
@@ -107,19 +107,19 @@
                             </span>
                         </button>
                         <span class="ml-3" :class="{ 'font-medium': highContrast }">
-                            {{ __('High contrast mode is') }} <span x-text="highContrast ? '{{ __('enabled') }}' : '{{ __('disabled') }}'"></span>
+                            {{ __('accessibility.contrast_status') }} <span x-text="highContrast ? '{{ __('accessibility.enabled') }}' : '{{ __('accessibility.disabled') }}'"></span>
                         </span>
                     </div>
                     <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        {{ __('Keyboard shortcut:') }} <kbd class="px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700">Alt+H</kbd>
+                        {{ __('accessibility.keyboard_shortcut') }} <kbd class="px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700">Alt+H</kbd>
                     </p>
                 </div>
                 
                 <!-- Focus Indicators -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-medium mb-3">{{ __('Enhanced Focus Indicators') }}</h3>
+                    <h3 class="text-lg font-medium mb-3">{{ __('accessibility.enhanced_focus') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        {{ __('Makes focus outlines more visible when navigating with a keyboard.') }}
+                        {{ __('accessibility.enhanced_focus_description') }}
                     </p>
                     <div class="flex items-center" x-data="{ enhancedFocus: localStorage.getItem('enhancedFocus') === 'true' }">
                         <button
@@ -130,23 +130,23 @@
                             role="switch"
                             :aria-checked="enhancedFocus"
                         >
-                            <span class="sr-only">{{ __('Toggle enhanced focus indicators') }}</span>
+                            <span class="sr-only">{{ __('accessibility.toggle_focus') }}</span>
                             <span
                                 :class="{ 'translate-x-5': enhancedFocus, 'translate-x-0': !enhancedFocus }"
                                 class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
                             ></span>
                         </button>
                         <span class="ml-3" :class="{ 'font-medium': enhancedFocus }">
-                            {{ __('Enhanced focus indicators are') }} <span x-text="enhancedFocus ? '{{ __('enabled') }}' : '{{ __('disabled') }}'"></span>
+                            {{ __('accessibility.focus_status') }} <span x-text="enhancedFocus ? '{{ __('accessibility.enabled') }}' : '{{ __('accessibility.disabled') }}'"></span>
                         </span>
                     </div>
                 </div>
 
                 <!-- Reduce Motion -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-medium mb-3">{{ __('Reduce Motion') }}</h3>
+                    <h3 class="text-lg font-medium mb-3">{{ __('accessibility.reduced_motion') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        {{ __('Minimize animations and transitions for users sensitive to motion.') }}
+                        {{ __('accessibility.reduced_motion_description') }}
                     </p>
                     <div class="flex items-center" x-data="{ reduceMotion: localStorage.getItem('reduceMotion') === 'true' }">
                         <button
@@ -157,14 +157,14 @@
                             role="switch"
                             :aria-checked="reduceMotion"
                         >
-                            <span class="sr-only">{{ __('Toggle reduced motion') }}</span>
+                            <span class="sr-only">{{ __('accessibility.toggle_motion') }}</span>
                             <span
                                 :class="{ 'translate-x-5': reduceMotion, 'translate-x-0': !reduceMotion }"
                                 class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
                             ></span>
                         </button>
                         <span class="ml-3" :class="{ 'font-medium': reduceMotion }">
-                            {{ __('Reduced motion is') }} <span x-text="reduceMotion ? '{{ __('enabled') }}' : '{{ __('disabled') }}'"></span>
+                            {{ __('accessibility.motion_status') }} <span x-text="reduceMotion ? '{{ __('accessibility.enabled') }}' : '{{ __('accessibility.disabled') }}'"></span>
                         </span>
                     </div>
                 </div>
@@ -173,9 +173,9 @@
                 
                 <!-- Reset Settings -->
                 <div>
-                    <h3 class="text-lg font-medium mb-3">{{ __('Reset Accessibility Settings') }}</h3>
+                    <h3 class="text-lg font-medium mb-3">{{ __('accessibility.reset_title') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        {{ __('Return all accessibility settings to their default values.') }}
+                        {{ __('accessibility.reset_description') }}
                     </p>
                     <x-ui.button 
                         variant="danger" 
@@ -194,25 +194,22 @@
                             setTimeout(() => { $el.nextElementSibling.classList.add('hidden'); }, 3000);
                         "
                     >
-                        {{ __('Reset to Defaults') }}
+                        {{ __('accessibility.reset_button') }}
                     </x-ui.button>
                     
                     <div class="hidden mt-3 p-3 bg-green-50 dark:bg-green-900/30 rounded-lg text-green-800 dark:text-green-200">
-                        <div class="flex">
-                            <x-ui.icon icon="heroicon-o-check-circle" class="h-5 w-5 mr-2" />
-                            <span>{{ __('Settings have been reset to their default values') }}</span>
-                        </div>
+                        {{ __('accessibility.reset_success') }}
                     </div>
                 </div>
             </x-ui.card>
             
-            <div class="mt-8 text-center">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">
-                    {{ __('Want to learn more about our accessibility features?') }}
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 dark:text-gray-400">
+                    {{ __('accessibility.learn_more') }} 
+                    <a href="{{ route('help') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">
+                        {{ __('accessibility.view_guide') }}
+                    </a>
                 </p>
-                <x-ui.button variant="secondary" href="{{ route('accessibility') }}">
-                    {{ __('View Accessibility Guide') }}
-                </x-ui.button>
             </div>
         </div>
     </x-ui.container>
