@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented high contrast mode toggle with keyboard shortcut support (Alt+H)
   - Added screen reader announcements for UI state changes
   - Enhanced component namespacing to improve maintenance and organization
+  - Updated Help page with comprehensive accessibility documentation
+    - Instructions for using text size controls
+    - Guide for enabling high contrast mode
+    - Information about keyboard navigation
+    - Details on screen reader compatibility
 
 ### Changed
 - Refactored accessibility components for better performance and maintainability
