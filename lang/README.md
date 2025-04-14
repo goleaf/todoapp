@@ -1,33 +1,112 @@
-# Translation System
+# Translation Management
 
-This directory contains the translation files for the application. Each language has its own directory with PHP files containing translation strings.
+This application supports multiple languages through Laravel's localization system. The translation files are stored in the `lang` directory, organized by language code.
+
+## Supported Languages
+
+- English (en) - Base language
+- French (fr)
+- Spanish (es)
+- German (de)
+- Italian (it)
+- Russian (ru)
+- Japanese (ja)
+- Chinese (zh)
+- Lithuanian (lt)
 
 ## Directory Structure
 
+Each language directory contains multiple PHP files, each responsible for a specific section of the application:
+
 ```
 lang/
-├── en/           # English translations (base language)
-├── fr/           # French translations
-├── es/           # Spanish translations
-├── de/           # German translations
-├── ...           # Other languages
+├── en/
+│   ├── accessibility.php
+│   ├── auth.php
+│   ├── common.php
+│   ├── messages.php
+│   ├── todo.php
+│   └── ...
+├── fr/
+│   ├── auth.php
+│   ├── common.php
+│   └── ...
+└── ...
 ```
 
-## Adding a New Language
+## Translation Commands
 
-1. Create a new folder with the language code (e.g., `it` for Italian)
-2. At minimum, create a `common.php` file with the language name:
+The application provides several commands to help manage translations:
 
-```php
-<?php
+### 1. Find Untranslated Strings
 
-return [
-    // Language Name (Self-referential)
-    'language_name' => 'Italiano',
-];
+Identifies untranslated strings across all language files.
+
+```bash
+php artisan translations:find-untranslated [--language=all]
 ```
 
-3. Copy other PHP files from the `en` directory and translate the values
+Options:
+- `--language`: Specify a language code to check (default: all)
+
+### 2. Create Missing Translations
+
+Creates missing translation files and adds untranslated keys.
+
+```bash
+php artisan translations:create-missing [--language=all] [--mark-untranslated]
+```
+
+Options:
+- `--language`: Specify a language code to update (default: all)
+- `--mark-untranslated`: Mark untranslated strings with "UNTRANSLATED:" prefix
+
+### 3. Translate Untranslated Strings
+
+Automatically translates strings marked as untranslated using Google Translate API.
+
+```bash
+php artisan translations:translate --api-key=YOUR_API_KEY [--language=all] [--delay=1] [--max-strings=100]
+```
+
+Options:
+- `--api-key`: Your Google Translate API key (required)
+- `--language`: Specify a language code to translate (default: all)
+- `--delay`: Delay between API requests in seconds (default: 1)
+- `--max-strings`: Maximum number of strings to translate per language (default: 100)
+
+### 4. Generate Translation Report
+
+Generates a report on translation completeness for all languages.
+
+```bash
+php artisan translations:report [--output=path/to/report.json]
+```
+
+Options:
+- `--output`: Path to save the report as JSON
+
+## Translation Process
+
+1. First, run the find untranslated strings command to see what's missing:
+   ```bash
+   php artisan translations:find-untranslated
+   ```
+
+2. Create missing translation files and mark untranslated strings:
+   ```bash
+   php artisan translations:create-missing --mark-untranslated
+   ```
+
+3. (Optional) Automatically translate untranslated strings:
+   ```bash
+   php artisan translations:translate --api-key=YOUR_API_KEY
+   ```
+
+4. Generate a report to check translation progress:
+   ```bash
+   php artisan translations:report --output=translation-report.json
+   ```
 
 ## Translation Usage
 
@@ -56,29 +135,24 @@ echo __('messages.greeting', ['name' => 'John']);
 // Output: Hello, John!
 ```
 
-### Language Files
+## Adding a New Language
 
-Each translation file should return an array of key-value pairs. The structure should be the same across all languages. Values in the array are what get translated, keys should remain the same.
+To add a new language:
 
-Example (`en/welcome.php`):
-```php
-<?php
+1. Run the create missing translations command with the new language code:
+   ```bash
+   php artisan translations:create-missing --language=pl
+   ```
 
-return [
-    'title' => 'Welcome to our application',
-    'description' => 'This is a sample application',
-];
-```
+2. This will create all required translation files with untranslated strings.
 
-Corresponding French translation (`fr/welcome.php`):
-```php
-<?php
+3. You can then translate these strings manually or using the translate command.
 
-return [
-    'title' => 'Bienvenue dans notre application',
-    'description' => "C'est une application d'exemple",
-];
-```
+## Translation Guidelines
+
+1. Don't translate placeholder variables like `:attribute` or `{variable}`
+2. Maintain the same HTML formatting in translated strings
+3. Pay attention to pluralization rules for different languages
 
 ## Admin Translation Management
 
@@ -96,3 +170,7 @@ Users can change their language preference in two ways:
 
 1. Use the language dropdown in the navigation bar
 2. Go to Settings → Language to set their preferred language 
+
+## Verification
+
+After translating, verify that all strings appear correctly in the application by switching to each language in the settings. 
