@@ -184,14 +184,21 @@ class CreateMissingTranslations extends Command
             return [];
         }
         
-        $files = Finder::create()->files()->in($langPath)->name('*.php');
+        // Skip blade compiler dependency by directly getting PHP files
+        $files = File::files($langPath);
         
         foreach ($files as $file) {
-            $filename = $file->getFilenameWithoutExtension();
-            $content = include $file->getRealPath();
-            
-            if (is_array($content)) {
-                $translations[$filename] = $content;
+            if ($file->getExtension() === 'php') {
+                $filename = $file->getFilenameWithoutExtension();
+                try {
+                    $content = include $file->getRealPath();
+                    
+                    if (is_array($content)) {
+                        $translations[$filename] = $content;
+                    }
+                } catch (\Exception $e) {
+                    $this->error("Error loading file {$file->getRealPath()}: " . $e->getMessage());
+                }
             }
         }
         
