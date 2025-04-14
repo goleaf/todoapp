@@ -31,6 +31,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Information about keyboard navigation
     - Details on screen reader compatibility
     - Available in multiple languages (English, Spanish, Russian, French)
+  - Enhanced focus indicators for keyboard users (Alt+F)
+  - Reduced motion mode for users with vestibular disorders (Alt+M)
+  - Global floating accessibility toggle with quick access to all features
+  - Cross-tab synchronization of accessibility preferences
+  - OS-level preference detection via media queries
 
 ### Changed
 - Refactored accessibility components for better performance and maintainability
@@ -40,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added comprehensive JSDoc comments for better code documentation
   - Optimized animations and transitions for better performance
   - Improved cross-tab synchronization for user preferences
+  - Created event-driven architecture for accessibility features communication
 
 ## [2.0.0]
 
