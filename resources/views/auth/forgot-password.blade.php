@@ -9,7 +9,7 @@
         <!-- Email Address -->
         <x-input.input
             type="email"
-            :label="__('Email address')"
+            :label="__('auth.email')"
             name="email"
             required
             autofocus
@@ -19,8 +19,8 @@
     </x-input.form>
 
     <div class="text-center text-sm text-gray-600 dark:text-gray-400">
-        Or, return to
-        <x-ui.link :href="route('login')">log in</x-ui.link>
+        {{ __('auth.or_return_to') }}
+        <x-ui.link :href="route('login')">{{ __('auth.log_in') }}</x-ui.link>
     </div>
 </div>
 </x-layout.auth>
