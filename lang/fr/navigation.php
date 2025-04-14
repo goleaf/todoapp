@@ -1,1 +1,26 @@
- 
+<?php
+
+return [
+  'dashboard' => 'UNTRANSLATED: Dashboard',
+  'todos' => 'UNTRANSLATED: Todos',
+  'help' => 'UNTRANSLATED: Help',
+  'settings' => 'UNTRANSLATED: Settings',
+  'admin' => 'UNTRANSLATED: Admin',
+  'platform' => 'UNTRANSLATED: Platform',
+  'profile' => 'UNTRANSLATED: Profile',
+  'log_in' => 'UNTRANSLATED: Log in',
+  'log_out' => 'UNTRANSLATED: Log Out',
+  'register' => 'UNTRANSLATED: Register',
+  'repository' => 'UNTRANSLATED: Repository',
+  'documentation' => 'UNTRANSLATED: Documentation',
+  'text_size' => 'UNTRANSLATED: Text Size',
+  'small' => 'UNTRANSLATED: Small',
+  'medium' => 'UNTRANSLATED: Medium',
+  'large' => 'UNTRANSLATED: Large',
+  'toggle_high_contrast' => 'UNTRANSLATED: Toggle high contrast mode',
+  'toggle_sidebar' => 'UNTRANSLATED: Toggle sidebar',
+  'accessibility_options' => 'UNTRANSLATED: Accessibility options',
+  'open_accessibility_menu' => 'UNTRANSLATED: Open accessibility menu',
+  'language' => 'UNTRANSLATED: Language',
+  'language_settings' => 'UNTRANSLATED: Language Settings',
+];

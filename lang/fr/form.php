@@ -1,0 +1,27 @@
+<?php
+
+return [
+  'user' => 'UNTRANSLATED: User',
+  'title' => 'UNTRANSLATED: Title',
+  'description' => 'UNTRANSLATED: Description',
+  'status' => 'UNTRANSLATED: Status',
+  'priority' => 'UNTRANSLATED: Priority',
+  'due_date' => 'UNTRANSLATED: Due Date',
+  'category' => 'UNTRANSLATED: Category',
+  'submit' => 'UNTRANSLATED: Submit',
+  'save' => 'UNTRANSLATED: Save',
+  'cancel' => 'UNTRANSLATED: Cancel',
+  'delete' => 'UNTRANSLATED: Delete',
+  'edit' => 'UNTRANSLATED: Edit',
+  'update' => 'UNTRANSLATED: Update',
+  'create' => 'UNTRANSLATED: Create',
+  'search' => 'UNTRANSLATED: Search',
+  'reset' => 'UNTRANSLATED: Reset',
+  'filter' => 'UNTRANSLATED: Filter',
+  'apply' => 'UNTRANSLATED: Apply',
+  'clear' => 'UNTRANSLATED: Clear',
+  'required' => 'UNTRANSLATED: This field is required',
+  'optional' => 'UNTRANSLATED: Optional',
+  'invalid' => 'UNTRANSLATED: Invalid input',
+  'select_option' => 'UNTRANSLATED: Select an option',
+];
