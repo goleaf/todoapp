@@ -9,7 +9,7 @@
                     href="{{ route('todos.edit', $todo) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit') }}
                 </x-ui.button>
@@ -17,7 +17,7 @@
                     href="{{ url()->previous(route('todos.index')) }}" 
                     variant="secondary" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('arrow-left')"
+                    icon="heroicon-o-arrow-left"
                 >
                     {{ __('Back') }}
                 </x-ui.button>
@@ -151,7 +151,7 @@
                     href="{{ route('todos.create') }}?parent_id={{ $todo->id }}" 
                     variant="primary" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('plus')"
+                    icon="heroicon-o-plus"
                 >
                     {{ __('Add Subtask') }}
                 </x-ui.button>
@@ -217,7 +217,7 @@
             <div class="rounded-md bg-blue-50 dark:bg-blue-900/50 p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                        <x-ui.icon.heroicon-o-information-circle class="h-5 w-5 text-blue-400" />
+                        <x-ui.icon icon="heroicon-o-information-circle" class="h-5 w-5 text-blue-400" />
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700 dark:text-blue-300">
@@ -230,27 +230,36 @@
         
         <x-slot name="footer">
             <div class="flex items-center justify-between">
-                <form action="{{ route('todos.destroy', $todo) }}" method="POST" onsubmit="return confirm('{{ __('Are you sure you want to delete this todo and all its subtasks?') }}')">
-                    @csrf
-                    @method('DELETE')
-                    <x-ui.button 
-                        type="submit" 
-                        variant="danger" 
-                        size="sm" 
-                        :icon="app('heroicon')->outline('trash')"
-                    >
-                        {{ __('Delete Todo') }}
-                    </x-ui.button>
-                </form>
+                <x-ui.button 
+                    type="button" 
+                    variant="danger" 
+                    size="sm" 
+                    icon="heroicon-o-trash"
+                    x-on:click="$dispatch('modal:open', 'confirm-delete-todo')"
+                >
+                    {{ __('Delete Todo') }}
+                </x-ui.button>
                 <x-ui.button 
                     href="{{ route('todos.edit', $todo) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit Todo') }}
                 </x-ui.button>
             </div>
         </x-slot>
     </x-ui.card>
+
+    <!-- Delete confirmation modal -->
+    <x-ui.modal.confirmation 
+        id="confirm-delete-todo"
+        title="{{ __('Delete Todo') }}"
+        message="{{ __('Are you sure you want to delete this todo and all its subtasks? This action cannot be undone.') }}"
+        confirm="{{ __('Delete') }}"
+        :form="[
+            'action' => route('todos.destroy', $todo),
+            'method' => 'DELETE'
+        ]"
+    />
 </x-layout.app> 

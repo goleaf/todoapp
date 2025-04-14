@@ -7,7 +7,7 @@
             <x-ui.button 
                 href="{{ route('todos.index') }}" 
                 variant="secondary" 
-                :icon="app('heroicon')->solid('arrow-left')"
+                icon="heroicon-s-arrow-left"
             >
                 {{ __('Back to Todos') }}
             </x-ui.button>
@@ -137,7 +137,7 @@
                 <x-ui.button 
                     type="submit" 
                     variant="primary" 
-                    :icon="app('heroicon')->outline('check')"
+                    icon="heroicon-o-check"
                 >
                     {{ __('Create Todo') }}
                 </x-ui.button>

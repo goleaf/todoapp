@@ -69,4 +69,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Todo::class);
     }
+
+    /**
+     * Check if the user has a specific role
+     */
+    public function hasRole(string $role): bool
+    {
+        if ($role === 'admin') {
+            return (bool) $this->is_admin;
+        }
+        
+        return false;
+    }
 }

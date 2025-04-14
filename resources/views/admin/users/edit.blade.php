@@ -7,7 +7,7 @@
             <x-ui.button 
                 href="{{ route('admin.users.index') }}" 
                 variant="secondary" 
-                :icon="app('heroicon')->solid('arrow-left')"
+                icon="heroicon-s-arrow-left"
             >
                 {{ __('Back to Users') }}
             </x-ui.button>
@@ -17,7 +17,7 @@
     <x-ui.card withBorder>
         <x-slot name="header">
             <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('User Information') }}</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('Update the user's account details.') }}</p>
+            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('Update the user account details.') }}</p>
         </x-slot>
         
         <form method="POST" action="{{ route('admin.users.update', $user) }}">
@@ -60,7 +60,7 @@
                             :label="__('New Password')" 
                             for="password" 
                             :error="$errors->first('password')"
-                            :helpText="__('Leave blank to keep the current password.')"
+                            helpText="Leave blank to keep the current password."
                         >
                             <x-input.input 
                                 type="password" 
@@ -96,7 +96,7 @@
                 <x-ui.button 
                     type="submit" 
                     variant="primary" 
-                    :icon="app('heroicon')->outline('arrow-path')"
+                    icon="heroicon-o-arrow-path"
                 >
                     {{ __('Update User') }}
                 </x-ui.button>

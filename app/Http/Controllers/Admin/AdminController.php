@@ -13,7 +13,7 @@ class AdminController extends Controller
 {
     public function listUsers()
     {
-        $users = User::all();
+        $users = User::paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -31,13 +31,17 @@ class AdminController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        return redirect()->route('admin.users.index')->with('success', Lang::get('messages.user_created'));
+            return redirect()->route('admin.users.index')->with('success', trans('admin.user_created'));
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => trans('admin.user_create_failed') . ' ' . $e->getMessage()]);
+        }
     }
 
     public function editUser(User $user)
@@ -53,26 +57,38 @@ class AdminController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
+        try {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
+            $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', Lang::get('messages.user_updated'));
+            return redirect()->route('admin.users.index')->with('success', trans('admin.user_updated'));
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => trans('admin.user_update_failed') . ' ' . $e->getMessage()]);
+        }
     }
 
     public function deleteUser(User $user)
     {
-        $user->delete();
-
-        return redirect()->route('admin.users.index')->with('success', Lang::get('messages.user_deleted'));
+        // Prevent administrators from deleting their own account
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.users.index')->with('error', trans('admin.cannot_delete_self'));
+        }
+        
+        try {
+            $user->delete();
+            return redirect()->route('admin.users.index')->with('success', trans('admin.user_deleted'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.users.index')->with('error', trans('admin.user_delete_failed') . ' ' . $e->getMessage());
+        }
     }
 
     public function listTodos()
     {
-        $todos = Todo::all();
+        $todos = Todo::paginate(10);
 
         return view('admin.todos.index', compact('todos'));
     }
@@ -93,9 +109,19 @@ class AdminController extends Controller
             'completed' => 'nullable|boolean',
         ]);
 
-        Todo::create($request->all());
+        try {
+            Todo::create($request->all());
+            return redirect()->route('admin.todos.index')->with('success', trans('admin.todo_created'));
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => trans('admin.todo_create_failed') . ' ' . $e->getMessage()]);
+        }
+    }
 
-        return redirect()->route('admin.todos.index')->with('success', Lang::get('messages.todo_created'));
+    public function showTodo(Todo $todo)
+    {
+        $users = User::all();
+
+        return view('admin.todos.show', compact('todo', 'users'));
     }
 
     public function editTodo(Todo $todo)
@@ -114,15 +140,21 @@ class AdminController extends Controller
             'completed' => 'nullable|boolean',
         ]);
 
-        $todo->update($request->all());
-
-        return redirect()->route('admin.todos.index')->with('success', Lang::get('messages.todo_updated'));
+        try {
+            $todo->update($request->all());
+            return redirect()->route('admin.todos.index')->with('success', trans('admin.todo_updated'));
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => trans('admin.todo_update_failed') . ' ' . $e->getMessage()]);
+        }
     }
 
     public function deleteTodo(Todo $todo)
     {
-        $todo->delete();
-
-        return redirect()->route('admin.todos.index')->with('success', Lang::get('messages.todo_deleted'));
+        try {
+            $todo->delete();
+            return redirect()->route('admin.todos.index')->with('success', trans('admin.todo_deleted'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.todos.index')->with('error', trans('admin.todo_delete_failed') . ' ' . $e->getMessage());
+        }
     }
 }

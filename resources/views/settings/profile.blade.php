@@ -1,5 +1,5 @@
 <x-layout.app :title="__('Profile | Settings')">
-<section class="w-full">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
@@ -68,5 +68,5 @@
             </x-ui.modal>
         </section>
     </x-settings.layout>
-</section>
+</div>
 </x-layout.app>

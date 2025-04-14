@@ -54,16 +54,29 @@ class TodoRequest extends FormRequest
         if ($this->isMethod('post')) {
             // Required on creation
             $rules['title'] = 'required|string|max:255';
-            $rules['priority'] = ['required', new Enum(TodoPriority::class)];
+            $rules['priority'] = ['nullable', new Enum(TodoPriority::class)];
         } else {
             // Sometimes required on update (allow partial updates)
             $rules['title'] = 'sometimes|required|string|max:255';
-            $rules['priority'] = ['sometimes', 'required', new Enum(TodoPriority::class)];
+            $rules['priority'] = ['sometimes', 'nullable', new Enum(TodoPriority::class)];
         }
 
         return $rules;
     }
     
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->isMethod('post')) {
+            $this->merge([
+                'priority' => $this->priority ?? TodoPriority::Medium->value,
+                'status' => $this->status ?? TodoStatus::Pending->value,
+            ]);
+        }
+    }
+
     /**
      * Get custom messages for validator errors.
      * 

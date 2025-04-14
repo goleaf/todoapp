@@ -52,15 +52,19 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
+        try {
+            $user = $request->user();
 
-        Auth::logout();
+            Auth::logout();
 
-        $user->delete();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        return to_route('home');
+            return to_route('home')->with('status', 'account-deleted');
+        } catch (\Exception $e) {
+            return back()->withErrors(['account' => 'Failed to delete account. Please try again later.']);
+        }
     }
 }

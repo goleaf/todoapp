@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Rules\StrongPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -28,6 +29,7 @@ class RegisterRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
+                new StrongPassword(),
                 Password::min(8)
                     ->mixedCase()
                     ->letters()

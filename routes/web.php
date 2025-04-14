@@ -10,6 +10,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Help page - accessible to all users
+Route::get('/help', function () {
+    return view('help.index');
+})->name('help');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -38,10 +43,35 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/todos', [AdminController::class, 'listTodos'])->name('todos.index');
         Route::get('/todos/create', [AdminController::class, 'createTodo'])->name('todos.create');
         Route::post('/todos', [AdminController::class, 'storeTodo'])->name('todos.store');
-        Route::get('/todos/{todo}', [AdminController::class, 'editTodo'])->name('todos.show');
+        Route::get('/todos/{todo}', [AdminController::class, 'showTodo'])->name('todos.show');
         Route::get('/todos/{todo}/edit', [AdminController::class, 'editTodo'])->name('todos.edit');
         Route::put('/todos/{todo}', [AdminController::class, 'updateTodo'])->name('todos.update');
         Route::delete('/todos/{todo}', [AdminController::class, 'deleteTodo'])->name('todos.destroy');
+    });
+});
+
+// Re-add API routes for testing
+Route::prefix('api')->group(function () {
+    Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']);
+    Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+    
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
+        Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+        
+        // Todo API routes
+        Route::apiResource('/todos', TodoController::class)->names([
+            'index' => 'api.todos.index',
+            'store' => 'api.todos.store',
+            'show' => 'api.todos.show',
+            'update' => 'api.todos.update',
+            'destroy' => 'api.todos.destroy',
+        ]);
+        
+        // Category API routes
+        Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
     });
 });
 

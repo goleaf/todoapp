@@ -9,7 +9,7 @@
                     href="{{ route('admin.users.edit', $user) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit') }}
                 </x-ui.button>
@@ -17,7 +17,7 @@
                     href="{{ route('admin.users.index') }}" 
                     variant="secondary" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('arrow-left')"
+                    icon="heroicon-o-arrow-left"
                 >
                     {{ __('Back to Users') }}
                 </x-ui.button>
@@ -46,12 +46,12 @@
                 <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
                     @if($user->email_verified_at)
                         <span class="inline-flex items-center rounded-md bg-green-50 dark:bg-green-400/10 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-600/20 dark:ring-green-400/20" title="{{ $user->email_verified_at->translatedFormat('Y-m-d H:i:s') }}">
-                            <x-ui.icon.heroicon-s-check-circle class="w-4 h-4 mr-1 -ml-0.5" />
+                            <x-ui.icon icon="heroicon-s-check-circle" class="w-4 h-4 mr-1 -ml-0.5" />
                             {{ __('Verified') }}
                         </span>
                     @else
                         <span class="inline-flex items-center rounded-md bg-yellow-50 dark:bg-yellow-400/10 px-2 py-1 text-xs font-medium text-yellow-800 dark:text-yellow-500 ring-1 ring-inset ring-yellow-600/20 dark:ring-yellow-400/20">
-                            <x-ui.icon.heroicon-s-exclamation-circle class="w-4 h-4 mr-1 -ml-0.5" />
+                            <x-ui.icon icon="heroicon-s-exclamation-circle" class="w-4 h-4 mr-1 -ml-0.5" />
                             {{ __('Not Verified') }}
                         </span>
                     @endif
@@ -127,7 +127,7 @@
             <div class="rounded-md bg-blue-50 dark:bg-blue-900/50 p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                        <x-ui.icon.heroicon-o-information-circle class="h-5 w-5 text-blue-400" />
+                        <x-ui.icon icon="heroicon-o-information-circle" class="h-5 w-5 text-blue-400" />
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700 dark:text-blue-300">
@@ -147,7 +147,7 @@
                         type="submit" 
                         variant="danger" 
                         size="sm" 
-                        :icon="app('heroicon')->outline('trash')" 
+                        icon="heroicon-o-trash" 
                         :disabled="$user->id === auth()->id()"
                     >
                         {{ __('Delete User') }}
@@ -160,7 +160,7 @@
                     href="{{ route('admin.users.edit', $user) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit User') }}
                 </x-ui.button>

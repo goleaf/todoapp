@@ -1,5 +1,5 @@
 <x-layout.app :title="__('Password | Settings')">
-<section class="w-full">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
@@ -37,5 +37,5 @@
             </div>
         </x-input.form>
     </x-settings.layout>
-</section>
+</div>
 </x-layout.app>

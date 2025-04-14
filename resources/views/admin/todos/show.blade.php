@@ -9,7 +9,7 @@
                     href="{{ route('admin.todos.edit', $todo) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit') }}
                 </x-ui.button>
@@ -17,7 +17,7 @@
                     href="{{ route('admin.todos.index') }}" 
                     variant="secondary" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('arrow-left')"
+                    icon="heroicon-o-arrow-left"
                 >
                     {{ __('Back to Todos') }}
                 </x-ui.button>
@@ -127,7 +127,7 @@
                     href="{{ route('admin.todos.create') }}?parent_id={{ $todo->id }}" 
                     variant="primary" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('plus')"
+                    icon="heroicon-o-plus"
                 >
                     {{ __('Add Subtask') }}
                 </x-ui.button> --}}
@@ -193,7 +193,7 @@
             <div class="rounded-md bg-blue-50 dark:bg-blue-900/50 p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                         <x-ui.icon.heroicon-o-information-circle class="h-5 w-5 text-blue-400" />
+                         <x-ui.icon icon="heroicon-o-information-circle" class="h-5 w-5 text-blue-400" />
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700 dark:text-blue-300">
@@ -213,7 +213,7 @@
                         type="submit" 
                         variant="danger" 
                         size="sm" 
-                        :icon="app('heroicon')->outline('trash')"
+                        icon="heroicon-o-trash"
                     >
                         {{ __('Delete Todo') }}
                     </x-ui.button>
@@ -222,7 +222,7 @@
                     href="{{ route('admin.todos.edit', $todo) }}" 
                     variant="warning" 
                     size="sm" 
-                    :icon="app('heroicon')->outline('pencil-square')"
+                    icon="heroicon-o-pencil-square"
                 >
                     {{ __('Edit Todo') }}
                 </x-ui.button>

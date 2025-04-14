@@ -6,7 +6,7 @@
             </h2>
              {{-- Optional: Add Create User button if needed --}}
             {{-- <a href="{{ route('admin.users.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                 {{-- <x-ui.icon.heroicon-s-plus class="w-5 h-5 mr-1.5 -ml-0.5" /> --}}
+                 {{-- <x-ui.icon icon="heroicon-s-plus" class="w-5 h-5 mr-1.5 -ml-0.5" /> --}}
                 {{ __('Add New User') }}
             </a> --}}
         </div>
@@ -80,13 +80,13 @@
         @else
             {{-- Empty State --}}
              <div class="text-center px-4 py-12 sm:p-16">
-                 {{-- <x-ui.icon.heroicon-o-users class="mx-auto h-12 w-12 text-gray-400" /> --}}
+                 {{-- <x-ui.icon icon="heroicon-o-users" class="mx-auto h-12 w-12 text-gray-400" /> --}}
                 <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('No users found') }}</h3>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('There are currently no users in the system.') }}</p>
                  {{-- Optional: Add Create User button if needed --}}
                 {{-- <div class="mt-6">
                     <a href="{{ route('admin.users.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                         {{-- <x-ui.icon.heroicon-s-plus class="w-5 h-5 mr-1.5 -ml-0.5" /> --}}
+                         {{-- <x-ui.icon icon="heroicon-s-plus" class="w-5 h-5 mr-1.5 -ml-0.5" /> --}}
                         {{ __('Add New User') }}
                     </a>
                 </div> --}}

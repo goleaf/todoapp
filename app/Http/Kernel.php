@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'api.rate.limit' => \App\Http\Middleware\ApiRateLimiter::class,
+        'login.throttle' => \App\Http\Middleware\LoginRateLimiter::class,
     ];
 
     /**

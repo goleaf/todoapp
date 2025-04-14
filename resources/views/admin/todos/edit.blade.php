@@ -7,7 +7,7 @@
             <x-ui.button 
                 href="{{ route('admin.todos.index') }}" 
                 variant="secondary" 
-                :icon="app('heroicon')->solid('arrow-left')"
+                icon="heroicon-s-arrow-left"
             >
                 {{ __('Back to Todos') }}
             </x-ui.button>
@@ -60,7 +60,7 @@
                             :label="__('Description')" 
                             for="description" 
                             :error="$errors->first('description')" 
-                            :helpText="__('Write a few sentences about the task.')"
+                            helpText="Write a few sentences about the task."
                         >
                             <x-input.textarea 
                                 id="description" 
@@ -76,11 +76,12 @@
                         <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
                             <x-input.select id="status" name="status" :invalid="$errors->has('status')">
                                 <option value="">{{ __('Select status') }}</option>
-                                @foreach ($statuses as $key => $status)
-                                    <option value="{{ $key }}" {{ old('status', $todo->status->value) == $key ? 'selected' : '' }}>
-                                        {{ $status }}
-                                    </option>
-                                @endforeach
+                                <option value="pending" {{ old('status', $todo->status?->value) == 'pending' ? 'selected' : '' }}>
+                                    {{ __('Pending') }}
+                                </option>
+                                <option value="completed" {{ old('status', $todo->status?->value) == 'completed' ? 'selected' : '' }}>
+                                    {{ __('Completed') }}
+                                </option>
                             </x-input.select>
                         </x-input.form.group>
                     </div>
@@ -97,7 +98,7 @@
                 <x-ui.button 
                     type="submit" 
                     variant="primary" 
-                    :icon="app('heroicon')->outline('arrow-path')"
+                    icon="heroicon-o-arrow-path"
                 >
                     {{ __('Update Todo') }}
                 </x-ui.button>

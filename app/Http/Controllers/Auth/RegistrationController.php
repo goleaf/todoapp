@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Rules\StrongPassword;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,15 +25,25 @@ class RegistrationController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required', 
+                'confirmed', 
+                new StrongPassword(),
+                Rules\Password::defaults()
+            ],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        try {
+            event(new Registered(($user = User::create($validated))));
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return redirect('/dashboard');
+            return redirect('/dashboard')->with('status', 'registration-successful');
+        } catch (\Exception $e) {
+            return back()->withInput($request->except('password', 'password_confirmation'))
+                ->withErrors(['registration' => 'Registration failed. Please try again.']);
+        }
     }
 }

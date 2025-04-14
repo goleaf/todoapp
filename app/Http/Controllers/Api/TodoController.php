@@ -76,7 +76,12 @@ class TodoController extends Controller
     {
         // Ensure parent_id belongs to the user if provided
         if ($request->filled('parent_id') && !$request->user()->todos()->where('id', $request->parent_id)->exists()) {
-             return response()->json(['message' => __('messages.invalid_parent')], 422);
+             return response()->json([
+                'message' => __('messages.invalid_parent'),
+                'errors' => [
+                    'parent_id' => [__('messages.invalid_parent')]
+                ]
+            ], 422);
         }
 
         $todo = $request->user()->todos()->create($request->validated());
@@ -94,7 +99,10 @@ class TodoController extends Controller
     public function show(Request $request, Todo $todo)
     {
         if ($request->user()->id !== $todo->user_id) {
-            return response()->json(['message' => __('messages.unauthorized')], 403);
+            return response()->json([
+                'message' => __('messages.unauthorized'),
+                'errors' => ['authorization' => [__('messages.unauthorized')]]
+            ], 403);
         }
 
         $todo->load(['category', 'parent', 'subtasks']); // Eager load all related data
@@ -108,16 +116,29 @@ class TodoController extends Controller
     public function update(TodoRequest $request, Todo $todo)
     {
         if ($request->user()->id !== $todo->user_id) {
-            return response()->json(['message' => __('messages.unauthorized')], 403);
+            return response()->json([
+                'message' => __('messages.unauthorized'),
+                'errors' => ['authorization' => [__('messages.unauthorized')]]
+            ], 403);
         }
 
         // Ensure parent_id belongs to the user if provided and is valid
         if ($request->filled('parent_id')) {
             if ($request->parent_id == $todo->id) { // Already checked by Rule::notIn in request, but double-check
-                 return response()->json(['message' => __('messages.todo_self_parent')], 422);
+                 return response()->json([
+                    'message' => __('messages.todo_self_parent'),
+                    'errors' => [
+                        'parent_id' => [__('messages.todo_self_parent')]
+                    ]
+                ], 422);
             }
             if (!$request->user()->todos()->where('id', $request->parent_id)->exists()) {
-                 return response()->json(['message' => __('messages.invalid_parent')], 422);
+                 return response()->json([
+                    'message' => __('messages.invalid_parent'),
+                    'errors' => [
+                        'parent_id' => [__('messages.invalid_parent')]
+                    ]
+                ], 422);
             }
         }
 
@@ -134,7 +155,10 @@ class TodoController extends Controller
     public function destroy(Request $request, Todo $todo)
     {
         if ($request->user()->id !== $todo->user_id) {
-            return response()->json(['message' => __('messages.unauthorized')], 403);
+            return response()->json([
+                'message' => __('messages.unauthorized'),
+                'errors' => ['authorization' => [__('messages.unauthorized')]]
+            ], 403);
         }
 
         // Note: Deleting a parent task will cascade delete subtasks due to DB constraint
