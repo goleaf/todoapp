@@ -27,121 +27,121 @@
         >
             <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button type="button" x-on:click="isOpen = false" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-offset-gray-800">
-                    <span class="sr-only">Close</span>
+                    <span class="sr-only">{{ __('shortcuts.modal_close') }}</span>
                     <x-ui.icon icon="heroicon-o-x-mark" class="h-6 w-6" aria-hidden="true" />
                 </button>
             </div>
             <div>
-                <h3 class="text-xl font-bold leading-6 text-gray-900 dark:text-white">{{ __('Keyboard Shortcuts') }}</h3>
-                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('Use these keyboard shortcuts to quickly perform common actions') }}</p>
+                <h3 class="text-xl font-bold leading-6 text-gray-900 dark:text-white">{{ __('shortcuts.modal_title') }}</h3>
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('shortcuts.modal_description') }}</p>
                 
                 <div class="mt-6">
                     <div class="space-y-4">
                         <!-- Navigation Shortcuts -->
                         <div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('Navigation') }}</h4>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('shortcuts.nav_heading') }}</h4>
                             <div class="grid grid-cols-2 gap-y-2 text-sm">
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">g</kbd>
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">h</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Go to Homepage') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.nav_homepage') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">g</kbd>
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">t</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Go to Todos') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.nav_todos') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">g</kbd>
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">?</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Go to Help Page') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.nav_help') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">?</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Show this help dialog') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.nav_show_help') }}</span>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Todo Actions Shortcuts -->
                         <div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('Todo Actions') }}</h4>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('shortcuts.todo_heading') }}</h4>
                             <div class="grid grid-cols-2 gap-y-2 text-sm">
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">n</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('New Todo') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_new') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">f</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Focus Search') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_focus_search') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">1</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Filter by Low Priority') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_filter_low') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">2</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Filter by Medium Priority') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_filter_medium') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">3</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Filter by High Priority') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_filter_high') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">c</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Filter by Completed') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_filter_completed') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">p</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Filter by Pending') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_filter_pending') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">Esc</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Close dialogs / Reset Filters') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.todo_close_reset') }}</span>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Text Size Shortcuts -->
                         <div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('Text Size') }}</h4>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('shortcuts.text_size_heading') }}</h4>
                             <div class="grid grid-cols-2 gap-y-2 text-sm">
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">1</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Small Text Size') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.text_size_small') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">2</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Medium Text Size') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.text_size_medium') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">3</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Large Text Size') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.text_size_large') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">t</kbd>
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">s</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Open Text Size Menu') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.text_size_open_menu') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">0</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Reset Text Size') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.text_size_reset') }}</span>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- General Shortcuts -->
                         <div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('General') }}</h4>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100 text-lg mb-2">{{ __('shortcuts.general_heading') }}</h4>
                             <div class="grid grid-cols-2 gap-y-2 text-sm">
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">d</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Toggle Dark Mode') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.general_dark_mode') }}</span>
                                 </div>
                                 <div class="col-span-1 flex items-center">
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">Ctrl</kbd>
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">s</kbd>
-                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Save (When Editing)') }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('shortcuts.general_save') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                 
                 <div class="mt-6 flex items-center justify-center">
                     <x-ui.button type="button" x-on:click="isOpen = false" variant="secondary" size="lg">
-                        {{ __('Close') }}
+                        {{ __('shortcuts.close_button') }}
                     </x-ui.button>
                 </div>
             </div>
