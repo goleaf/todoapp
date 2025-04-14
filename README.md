@@ -17,9 +17,13 @@ A modern todo management application built with Laravel and Tailwind CSS.
 - **Standardized API Responses**: Consistent JSON formatting using API Resources
 - **Form Request Validation**: Robust input validation with localized error messages
 - **Accessibility Features**:
-  - High Contrast Mode: Toggle for increased visibility
+  - High Contrast Mode: Toggle for increased visibility with keyboard shortcut (Alt+H)
   - Text Size Controls: Small, medium, and large text options for better readability
-  - Screen Reader Announcements: For key UI changes
+  - Enhanced Focus Indicators: Improved visibility for keyboard navigation
+  - Reduced Motion: Minimizes animations for users sensitive to motion (Alt+M)
+  - Screen Reader Announcements: ARIA live regions for key UI changes
+  - Keyboard Navigation: Complete keyboard access to all features
+  - Dedicated Settings Page: Comprehensive accessibility options at /settings/accessibility
 
 ## Tech Stack
 
@@ -138,13 +142,30 @@ To change the application language, you can set it in your user profile or use t
 
 ## Accessibility
 
-This application is built with accessibility in mind:
+This application prioritizes accessibility with a comprehensive approach:
 
-- **High Contrast Mode**: Toggle in the UI to enable high contrast mode for better visibility
-- **Text Size Controls**: Choose between small, medium, and large text sizes
-- **Keyboard Shortcuts**: Most functions can be accessed via keyboard (Alt+H for high contrast toggle)
-- **Screen Reader Support**: ARIA labels and announcements for important UI changes
-- **Semantic HTML**: Properly structured for assistive technologies
+### Features for Users
+- **High Contrast Mode**: Enhanced color contrasts for users with visual impairments, toggleable via UI or keyboard shortcut (Alt+H)
+- **Text Size Controls**: Three size options (small, medium, large) affecting all text elements proportionally
+- **Reduced Motion**: Limits animations and transitions for users with vestibular disorders (Alt+M)
+- **Enhanced Focus Indicators**: Prominent visual indicators when navigating via keyboard (Alt+F)
+- **Keyboard Navigation**: Complete keyboard access to all features with intuitive shortcuts
+- **Screen Reader Support**: Comprehensive ARIA attributes and live announcements
+
+### Technical Implementation
+- **Dedicated Settings Page**: Available at `/settings/accessibility` with all options in one place
+- **LocalStorage Persistence**: User preferences saved and applied across sessions
+- **Media Query Support**: Respects OS-level preferences like `prefers-reduced-motion`
+- **Cross-tab Synchronization**: Settings synchronized across browser tabs
+- **Progressive Enhancement**: Core functionality works without JavaScript
+- **Responsive Design**: Accessibility features fully functional on all devices and screen sizes
+
+### Standards Compliance
+- Follows WCAG 2.1 AA guidelines
+- Semantic HTML structure
+- Appropriate color contrast ratios
+- Properly labeled form controls
+- Meaningful alt text for images
 
 ## Contributing
 
