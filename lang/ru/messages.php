@@ -21,6 +21,14 @@ return [
     // Auth messages
     'login_success' => 'Вход выполнен успешно.',
     'register_success' => 'Регистрация выполнена успешно.',
-    'logout_success' => 'Выход выполнен успешно.',
+    'logout_success' => 'Вы успешно вышли из системы.',
     'invalid_credentials' => 'Неверный email или пароль.',
+    
+    'dashboard' => 'Панель управления',
+    'settings' => 'Настройки',
+    'profile' => 'Профиль',
+    
+    // Language names
+    'English' => 'Английский',
+    'Russian' => 'Русский',
 ]; 
