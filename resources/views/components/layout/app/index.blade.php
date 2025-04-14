@@ -28,7 +28,7 @@
         ...keyboardShortcuts(),
         ...textSize()
     }" 
-    x-init="init(); initHighContrast()">
+    x-init="init()">
     <div class="min-h-screen flex flex-col">
         <x-layout.app.header />
         
@@ -67,8 +67,5 @@
     <x-ui.keyboard-shortcuts-help />
     
     @stack('scripts')
-    
-    <!-- High Contrast Mode JavaScript -->
-    <script src="{{ asset('js/highContrast.js') }}"></script>
 </body>
 </html> 

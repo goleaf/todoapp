@@ -8,7 +8,7 @@
  * - Announcing changes to screen readers
  */
 
-function initHighContrast() {
+export function initHighContrast() {
     // Constants
     const HIGH_CONTRAST_CLASS = 'high-contrast-mode';
     const HIGH_CONTRAST_STORAGE_KEY = 'highContrastMode';

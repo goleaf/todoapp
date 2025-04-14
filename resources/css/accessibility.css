@@ -1,0 +1,13 @@
+/**
+ * Accessibility Styles
+ *
+ * This file imports all accessibility-related CSS styles
+ */
+
+/* Import high contrast styles */
+@import './accessibility/high-contrast.css';
+@import './accessibility/high-contrast-theme.css';
+@import './accessibility/high-contrast-transition.css';
+
+/* Import text size styles */
+@import './accessibility/text-size.css'; 

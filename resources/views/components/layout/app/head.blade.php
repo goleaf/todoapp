@@ -9,10 +9,6 @@
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-<!-- Accessibility CSS -->
-<link href="{{ asset('css/text-size.css') }}" rel="stylesheet">
-<link href="{{ asset('css/high-contrast.css') }}" rel="stylesheet">
-
 <!-- Scripts -->
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/accessibility.css', 'resources/js/accessibility.js'])
 @stack('styles') 
