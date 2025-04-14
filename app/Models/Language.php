@@ -38,19 +38,13 @@ class Language extends Model
                 continue;
             }
             
-            // Get the language name from the common.php file
-            $langName = $langCode;
-            $commonFile = $directory . '/common.php';
-            if (File::exists($commonFile)) {
-                $translations = include $commonFile;
-                if (is_array($translations) && isset($translations['language_name'])) {
-                    $langName = $translations['language_name'];
-                }
-            }
+            $nativeName = \Locale::getDisplayName($langCode, $langCode);
+            $englishName = \Locale::getDisplayName($langCode, 'en');
             
             $languages[$langCode] = [
                 'code' => $langCode,
-                'name' => $langName,
+                'native' => $nativeName,
+                'english' => $englishName,
             ];
         }
         
@@ -105,7 +99,7 @@ class Language extends Model
 
     /**
      * Save translation file content.
-     * Ensures translations are stored in a flat structure (file.value) without deep nesting.
+     * Ensures translations are stored in a flat structure without nesting.
      *
      * @param string $langCode
      * @param string $filename
@@ -121,48 +115,27 @@ class Language extends Model
             File::makeDirectory($directoryPath, 0755, true);
         }
         
-        // Flatten nested arrays to ensure we only have file.value format
-        $flatContent = self::flattenArray($content);
-        
-        $fileContent = "<?php\n\nreturn " . var_export($flatContent, true) . ";\n";
-        
-        // Clean up the exported array format
-        $fileContent = preg_replace('/array \(/', '[', $fileContent);
-        $fileContent = preg_replace('/\)(,?)$/', ']$1', $fileContent);
-        $fileContent = preg_replace('/\s+=>\s+/', ' => ', $fileContent);
-        
-        return (bool) File::put($filePath, $fileContent);
-    }
-
-    /**
-     * Flatten a nested array into a single level with dot notation keys.
-     * Only flattens one level to ensure we maintain file.value format without going deeper.
-     *
-     * @param array $array
-     * @param string $prefix
-     * @return array
-     */
-    protected static function flattenArray(array $array, string $prefix = ''): array
-    {
-        $result = [];
-        
-        foreach ($array as $key => $value) {
-            if (is_array($value) && !empty($value)) {
-                // We only flatten one level to maintain file.value format
-                foreach ($value as $subKey => $subValue) {
-                    if (is_array($subValue)) {
-                        // If there's another nested array, we convert it to JSON to avoid deep nesting
-                        $result[$key . '.' . $subKey] = json_encode($subValue);
-                    } else {
-                        $result[$key . '.' . $subKey] = $subValue;
-                    }
-                }
+        // Ensure we have a flat array
+        $flatContent = [];
+        foreach ($content as $key => $value) {
+            // If the value is an array, we don't want to flatten it further
+            // We'll convert it to JSON to maintain a flat structure
+            if (is_array($value)) {
+                $flatContent[$key] = json_encode($value);
             } else {
-                $result[$key] = $value;
+                $flatContent[$key] = $value;
             }
         }
         
-        return $result;
+        // Export the array in a cleaner format
+        $arrayExport = var_export($flatContent, true);
+        $arrayExport = preg_replace('/array \(/', '[', $arrayExport);
+        $arrayExport = preg_replace('/\)(,?)$/', ']$1', $arrayExport);
+        $arrayExport = preg_replace('/\s+=>\s+/', ' => ', $arrayExport);
+        
+        $fileContent = "<?php\n\nreturn {$arrayExport};\n";
+        
+        return (bool) File::put($filePath, $fileContent);
     }
 
     /**
@@ -181,16 +154,24 @@ class Language extends Model
         
         File::makeDirectory($langPath, 0755, true);
         
-        // Create a common.php file with at least the language name
-        $content = [
-            'language_name' => ucfirst($langCode), // Default name, should be replaced with proper name
-            'language_names' => [
-                'en' => 'English',
-                $langCode => ucfirst($langCode),
-            ],
-        ];
+        // Copy English files as templates
+        $enPath = base_path("lang/en");
+        if (File::exists($enPath)) {
+            foreach (File::files($enPath) as $file) {
+                if ($file->getExtension() === 'php') {
+                    File::copy($file->getRealPath(), "{$langPath}/{$file->getFilename()}");
+                }
+            }
+        } else {
+            // Create a common.php file with at least the language name
+            $content = [
+                'language_name' => \Locale::getDisplayName($langCode, $langCode),
+            ];
+            
+            self::saveFileContent($langCode, 'common', $content);
+        }
         
-        return self::saveFileContent($langCode, 'common', $content);
+        return true;
     }
 
     /**
@@ -213,5 +194,48 @@ class Language extends Model
         }
         
         return File::deleteDirectory($langPath);
+    }
+    
+    /**
+     * Import missing keys from one language to another.
+     *
+     * @param string $fromLangCode
+     * @param string $toLangCode
+     * @return int Number of imported keys
+     */
+    public static function importMissingKeys(string $fromLangCode, string $toLangCode): int
+    {
+        $fromPath = base_path("lang/{$fromLangCode}");
+        $toPath = base_path("lang/{$toLangCode}");
+        
+        if (!File::exists($fromPath) || !File::exists($toPath)) {
+            return 0;
+        }
+        
+        $importedCount = 0;
+        
+        foreach (File::files($fromPath) as $file) {
+            if ($file->getExtension() === 'php') {
+                $filename = $file->getFilenameWithoutExtension();
+                $fromContent = self::getFileContent($fromLangCode, $filename) ?? [];
+                $toContent = self::getFileContent($toLangCode, $filename) ?? [];
+                
+                $updated = false;
+                
+                foreach ($fromContent as $key => $value) {
+                    if (!isset($toContent[$key])) {
+                        $toContent[$key] = $value;
+                        $updated = true;
+                        $importedCount++;
+                    }
+                }
+                
+                if ($updated) {
+                    self::saveFileContent($toLangCode, $filename, $toContent);
+                }
+            }
+        }
+        
+        return $importedCount;
     }
 } 

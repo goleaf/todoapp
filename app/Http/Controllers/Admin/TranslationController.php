@@ -3,355 +3,371 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Arr;
 
 class TranslationController extends Controller
 {
-    protected string $langPath;
+    protected $langPath;
 
     public function __construct()
     {
+        $this->middleware('auth');
+        $this->middleware('admin');
         $this->langPath = base_path('lang');
     }
 
     /**
-     * List available locales.
+     * Display a listing of available languages.
      */
     public function index()
     {
-        $locales = $this->getLocales();
-        return view('admin.translations.index', compact('locales'));
+        $languages = $this->getAvailableLanguages();
+        return view('admin.translations.index', compact('languages'));
     }
 
     /**
-     * Show files and content for a specific locale.
+     * Get list of translation files for a specific language.
      */
-    public function show(string $locale)
+    public function language($locale)
     {
-        if (!$this->isValidLocale($locale)) {
-            return redirect()->route('admin.translations.index')->with('error', 'Invalid locale specified.');
-        }
+        $languages = $this->getAvailableLanguages();
+        $files = $this->getTranslationFiles($locale);
+        return view('admin.translations.language', compact('locale', 'files', 'languages'));
+    }
 
-        $files = Language::getLanguageFiles($locale);
-        $filesContent = [];
+    /**
+     * Show the form for editing translations of a specific file.
+     */
+    public function edit($locale, $file)
+    {
+        $languages = $this->getAvailableLanguages();
+        $fileContent = $this->getTranslationFileContent($locale, $file);
+        $referenceContent = $locale !== 'en' ? $this->getTranslationFileContent('en', $file) : [];
         
-        foreach ($files as $filename => $path) {
-            $content = Language::getFileContent($locale, $filename);
-            if ($content !== null) {
-                $filesContent[$filename] = var_export($content, true);
-            }
-        }
+        // No need to flatten as we're enforcing a flat structure already
+        $translations = $fileContent;
+        $referenceTranslations = $referenceContent;
 
-        return view('admin.translations.show', [
-            'locale' => $locale,
-            'files' => $filesContent,
+        return view('admin.translations.edit', compact('locale', 'file', 'translations', 'referenceTranslations', 'languages'));
+    }
+
+    /**
+     * Update the translations for a specific file.
+     */
+    public function update(Request $request, $locale, $file)
+    {
+        $translations = $request->input('translations');
+        
+        // Ensure the directory exists
+        if (!File::exists("{$this->langPath}/{$locale}")) {
+            File::makeDirectory("{$this->langPath}/{$locale}", 0755, true);
+        }
+        
+        // Save translations as PHP array - enforce flat structure
+        $content = "<?php\n\nreturn " . $this->varExport($translations, true) . ";\n";
+        File::put("{$this->langPath}/{$locale}/{$file}.php", $content);
+
+        return redirect()->route('admin.translations.edit', [$locale, $file])
+            ->with('success', __('messages.translations_updated'));
+    }
+
+    /**
+     * Show form to create a new language.
+     */
+    public function createLanguage()
+    {
+        return view('admin.translations.create_language');
+    }
+
+    /**
+     * Store a newly created language.
+     */
+    public function storeLanguage(Request $request)
+    {
+        $request->validate([
+            'locale' => 'required|string|size:2|unique:languages',
+            'name' => 'required|string|max:100',
         ]);
-    }
 
-    /**
-     * Update a specific translation file.
-     */
-    public function update(Request $request, string $locale, string $file)
-    {
-        if (!$this->isValidLocale($locale) || !preg_match('/^[a-zA-Z0-9_\-]+$/', $file)) {
-             return redirect()->route('admin.translations.show', $locale)->with('error', 'Invalid locale or file name.');
-        }
+        $locale = strtolower($request->input('locale'));
         
-        $filePath = $this->langPath . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . $file . '.php';
-
-        if (!File::exists($filePath)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'File not found.');
-        }
-
-        $contentString = $request->input('content');
-
-        // Basic validation: Attempt to parse the string back into PHP array
-        // WARNING: Using eval is highly insecure. A safer approach would involve
-        // parsing the string into an AST or using a secure config writer library.
-        // This is a simplified example and NOT recommended for production.
-        try {
-            // Attempt to evaluate the string as PHP code to get the array
-            $evaluatedContent = eval('?>' . $contentString);
-
-            if (!is_array($evaluatedContent)) {
-                 throw new \Exception('Content does not evaluate to an array.');
-            }
+        // Create directory for new language
+        if (!File::exists("{$this->langPath}/{$locale}")) {
+            File::makeDirectory("{$this->langPath}/{$locale}", 0755, true);
             
-            // Save the content
-            Language::saveFileContent($locale, $file, $evaluatedContent);
-            return redirect()->route('admin.translations.show', $locale)->with('success', "File '{$file}.php' updated successfully.");
-
-        } catch (\Throwable $e) {
-             return redirect()->back()->withInput()->with('error', 'Error processing content: ' . $e->getMessage());
+            // Copy English files as templates
+            foreach (File::files("{$this->langPath}/en") as $file) {
+                File::copy($file->getPathname(), "{$this->langPath}/{$locale}/" . $file->getFilename());
+            }
         }
+
+        return redirect()->route('admin.translations.language', $locale)
+            ->with('success', __('messages.language_created'));
     }
-    
+
     /**
-     * Store a new locale (create directory).
+     * Delete a language.
      */
-    public function store(Request $request)
+    public function destroyLanguage($locale)
     {
-        $validator = Validator::make($request->all(), [
-            'locale' => ['required', 'string', 'regex:/^[a-z]{2}(?:-[A-Z]{2})?$/', Rule::notIn($this->getLocales())],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('admin.translations.index')->withErrors($validator)->withInput();
+        if ($locale !== 'en') {
+            File::deleteDirectory("{$this->langPath}/{$locale}");
+            return redirect()->route('admin.translations.index')
+                ->with('success', __('messages.language_deleted'));
         }
-
-        $locale = $request->input('locale');
         
-        if (Language::createLanguage($locale)) {
-            return redirect()->route('admin.translations.index')->with('success', "Locale '{$locale}' created successfully.");
-        } else {
-            return redirect()->route('admin.translations.index')->with('error', "Failed to create locale '{$locale}'.");
-        }
+        return redirect()->route('admin.translations.index')
+            ->with('error', __('messages.cannot_delete_default_language'));
     }
 
     /**
-     * Destroy a locale (delete directory).
+     * Create a new translation file.
      */
-    public function destroy(string $locale)
+    public function createFile($locale)
     {
-        if (!$this->isValidLocale($locale) || $locale === 'en') { // Prevent deleting fallback locale
-            return redirect()->route('admin.translations.index')->with('error', 'Invalid or fallback locale cannot be deleted.');
-        }
-
-        if (Language::deleteLanguage($locale)) {
-            return redirect()->route('admin.translations.index')->with('success', "Locale '{$locale}' deleted successfully.");
-        } else {
-            return redirect()->route('admin.translations.index')->with('error', "Failed to delete locale '{$locale}'.");
-        }
+        return view('admin.translations.create_file', compact('locale'));
     }
-    
-     /**
-     * Store a new translation file within a locale.
+
+    /**
+     * Store a new translation file.
      */
-    public function storeFile(Request $request, string $locale)
+    public function storeFile(Request $request, $locale)
     {
-        if (!$this->isValidLocale($locale)) {
-            return redirect()->route('admin.translations.index')->with('error', 'Invalid locale specified.');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'filename' => ['required', 'string', 'regex:/^[a-zA-Z0-9_\-]+$/'],
+        $request->validate([
+            'filename' => 'required|string|max:100|regex:/^[a-zA-Z0-9_]+$/',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('admin.translations.show', $locale)->withErrors($validator)->withInput();
-        }
 
         $filename = $request->input('filename');
         
-        // Check if file already exists
-        if (File::exists($this->langPath . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . $filename . '.php')) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', "File '{$filename}.php' already exists.");
-        }
-        
-        // Create with empty translations array
-        if (Language::saveFileContent($locale, $filename, [])) {
-            return redirect()->route('admin.translations.show', $locale)->with('success', "File '{$filename}.php' created successfully.");
-        } else {
-            return redirect()->route('admin.translations.show', $locale)->with('error', "Failed to create file '{$filename}.php'.");
-        }
-    }
-    
-    /**
-     * Destroy a translation file within a locale.
-     */
-    public function destroyFile(string $locale, string $file)
-    {
-        if (!$this->isValidLocale($locale) || !preg_match('/^[a-zA-Z0-9_\-]+$/', $file)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Invalid locale or file name.');
-        }
+        // Create empty translation file
+        $content = "<?php\n\nreturn [];\n";
+        File::put("{$this->langPath}/{$locale}/{$filename}.php", $content);
 
-        $filePath = $this->langPath . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . $file . '.php';
+        return redirect()->route('admin.translations.edit', [$locale, $filename])
+            ->with('success', __('messages.translation_file_created'));
+    }
 
-        if (!File::exists($filePath)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', "File '{$file}.php' not found.");
-        }
+    /**
+     * Delete a translation file.
+     */
+    public function destroyFile($locale, $file)
+    {
+        File::delete("{$this->langPath}/{$locale}/{$file}.php");
+        return redirect()->route('admin.translations.language', $locale)
+            ->with('success', __('messages.translation_file_deleted'));
+    }
 
-        try {
-            File::delete($filePath);
-            return redirect()->route('admin.translations.show', $locale)->with('success', "File '{$file}.php' deleted successfully.");
-        } catch (\Exception $e) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Failed to delete file: ' . $e->getMessage());
-        }
-    }
-    
     /**
-     * Import translations from a base language.
+     * Get all available languages from the lang directory.
      */
-    public function import(Request $request, string $locale)
+    protected function getAvailableLanguages()
     {
-        if (!$this->isValidLocale($locale)) {
-            return redirect()->route('admin.translations.index')->with('error', 'Invalid locale specified.');
+        $languages = [];
+        $directories = File::directories($this->langPath);
+        
+        foreach ($directories as $directory) {
+            $locale = basename($directory);
+            $nativeName = \Locale::getDisplayName($locale, $locale);
+            $englishName = \Locale::getDisplayName($locale, 'en');
+            $languages[$locale] = [
+                'native' => $nativeName,
+                'english' => $englishName
+            ];
         }
         
-        $validator = Validator::make($request->all(), [
-            'source_locale' => ['required', 'string', 'regex:/^[a-z]{2}(?:-[A-Z]{2})?$/'],
-        ]);
-        
-        if ($validator->fails()) {
-            return redirect()->route('admin.translations.show', $locale)->withErrors($validator)->withInput();
-        }
-        
-        $sourceLocale = $request->input('source_locale');
-        
-        if (!$this->isValidLocale($sourceLocale)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Invalid source locale specified.');
-        }
-        
-        $this->copyLocaleFiles($sourceLocale, $locale);
-        
-        return redirect()->route('admin.translations.show', $locale)->with('success', "Translations imported from '{$sourceLocale}' successfully.");
+        return $languages;
     }
-    
+
     /**
-     * Get all valid locales.
-     *
-     * @return array
+     * Get all translation files for a given language.
      */
-    protected function getLocales(): array
+    protected function getTranslationFiles($locale)
     {
-        $languages = Language::getAvailableLanguages();
-        return array_keys($languages);
-    }
-    
-    /**
-     * Check if a locale is valid.
-     *
-     * @param string $locale
-     * @return bool
-     */
-    protected function isValidLocale(string $locale): bool
-    {
-        return preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $locale) && 
-               File::isDirectory($this->langPath . DIRECTORY_SEPARATOR . $locale);
-    }
-    
-    /**
-     * Copy translation files from one locale to another.
-     *
-     * @param string $sourceLocale
-     * @param string $targetLocale
-     * @return void
-     */
-    protected function copyLocaleFiles(string $sourceLocale, string $targetLocale): void
-    {
-        $sourcePath = $this->langPath . DIRECTORY_SEPARATOR . $sourceLocale;
-        $targetPath = $this->langPath . DIRECTORY_SEPARATOR . $targetLocale;
+        $files = [];
+        $path = "{$this->langPath}/{$locale}";
         
-        if (!File::isDirectory($sourcePath)) {
-            return;
-        }
-        
-        if (!File::isDirectory($targetPath)) {
-            File::makeDirectory($targetPath, 0755, true);
-        }
-        
-        $files = File::files($sourcePath);
-        
-        foreach ($files as $file) {
-            if ($file->getExtension() === 'php') {
-                $filename = $file->getFilenameWithoutExtension();
-                $content = include $file->getRealPath();
-                
-                if (is_array($content)) {
-                    // If the file already exists in the target locale, preserve existing translations
-                    $targetFile = $targetPath . DIRECTORY_SEPARATOR . $filename . '.php';
-                    $existingContent = [];
-                    
-                    if (File::exists($targetFile)) {
-                        $existingContent = include $targetFile;
-                        if (!is_array($existingContent)) {
-                            $existingContent = [];
-                        }
-                    }
-                    
-                    // Merge existing translations with source translations
-                    // Existing translations take precedence
-                    $merged = array_merge($content, $existingContent);
-                    
-                    // Mark untranslated items
-                    foreach ($merged as $key => $value) {
-                        if (!isset($existingContent[$key]) && isset($content[$key])) {
-                            $merged[$key] = is_string($content[$key]) ? 'UNTRANSLATED: ' . $content[$key] : $content[$key];
-                        }
-                    }
-                    
-                    Language::saveFileContent($targetLocale, $filename, $merged);
+        if (File::exists($path)) {
+            foreach (File::files($path) as $file) {
+                if ($file->getExtension() === 'php') {
+                    $files[] = $file->getFilenameWithoutExtension();
                 }
             }
         }
+        
+        return $files;
     }
-    
+
     /**
-     * Show edit form for a specific key.
+     * Get the contents of a translation file.
      */
-    public function editKey(string $locale, string $file, string $key)
+    protected function getTranslationFileContent($locale, $file)
     {
-        if (!$this->isValidLocale($locale) || !preg_match('/^[a-zA-Z0-9_\-]+$/', $file)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Invalid locale or file name.');
+        $path = "{$this->langPath}/{$locale}/{$file}.php";
+        
+        if (File::exists($path)) {
+            return include $path;
         }
         
-        $translations = Language::getFileContent($locale, $file);
-        if (!is_array($translations) || !isset($translations[$key])) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Translation key not found.');
-        }
-        
-        // Get English version for reference (if available)
-        $englishValue = null;
-        if ($locale !== 'en') {
-            $englishTranslations = Language::getFileContent('en', $file);
-            $englishValue = $englishTranslations[$key] ?? null;
-        }
-        
-        return view('admin.translations.edit-key', [
-            'locale' => $locale,
-            'file' => $file,
-            'key' => $key,
-            'value' => $translations[$key],
-            'englishValue' => $englishValue,
-        ]);
+        return [];
     }
-    
+
     /**
-     * Update a specific translation key.
+     * Custom var_export with proper formatting.
      */
-    public function updateKey(Request $request, string $locale, string $file, string $key)
+    protected function varExport($expression, $return = false)
     {
-        if (!$this->isValidLocale($locale) || !preg_match('/^[a-zA-Z0-9_\-]+$/', $file)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Invalid locale or file name.');
+        $export = var_export($expression, true);
+        $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
+        $array = preg_split("/\r\n|\n|\r/", $export);
+        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], $array);
+        $export = implode(PHP_EOL, array_filter(["["] + $array));
+        
+        if ($return) {
+            return $export;
         }
         
-        $validator = Validator::make($request->all(), [
-            'value' => 'required|string',
-        ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        echo $export;
+    }
+
+    /**
+     * Import new keys from the English file to the target language file.
+     */
+    public function import(Request $request, $locale)
+    {
+        if ($locale === 'en') {
+            return redirect()->route('admin.translations.language', $locale)
+                ->with('error', __('messages.cannot_import_to_source_language'));
         }
         
-        $translations = Language::getFileContent($locale, $file);
-        if (!is_array($translations)) {
-            return redirect()->route('admin.translations.show', $locale)->with('error', 'Translation file not found.');
+        $enFiles = $this->getTranslationFiles('en');
+        
+        foreach ($enFiles as $file) {
+            $enContent = $this->getTranslationFileContent('en', $file);
+            $targetContent = $this->getTranslationFileContent($locale, $file);
+            
+            // Add all keys from English that don't exist in target language
+            $updated = false;
+            
+            foreach ($enContent as $key => $value) {
+                if (!isset($targetContent[$key])) {
+                    $targetContent[$key] = $value;
+                    $updated = true;
+                }
+            }
+            
+            if ($updated) {
+                // Ensure the directory exists
+                if (!File::exists("{$this->langPath}/{$locale}")) {
+                    File::makeDirectory("{$this->langPath}/{$locale}", 0755, true);
+                }
+                
+                // Save translations as PHP array
+                $content = "<?php\n\nreturn " . $this->varExport($targetContent, true) . ";\n";
+                File::put("{$this->langPath}/{$locale}/{$file}.php", $content);
+            }
         }
         
-        // Update the key
-        $translations[$key] = $request->input('value');
+        return redirect()->route('admin.translations.language', $locale)
+            ->with('success', __('messages.translations_imported'));
+    }
+
+    /**
+     * Scan blade files for translation keys.
+     */
+    public function scan()
+    {
+        $viewsPath = resource_path('views');
+        $existingKeys = [];
         
-        if (Language::saveFileContent($locale, $file, $translations)) {
-            return redirect()->route('admin.translations.show', $locale)->with('success', "Translation updated successfully.");
-        } else {
-            return redirect()->back()->with('error', "Failed to update translation.");
+        // Get all existing translation keys
+        $enFiles = $this->getTranslationFiles('en');
+        foreach ($enFiles as $file) {
+            $content = $this->getTranslationFileContent('en', $file);
+            foreach ($content as $key => $value) {
+                $existingKeys["{$file}.{$key}"] = $value;
+            }
+        }
+        
+        // Scan for translation calls
+        $newKeys = [];
+        $this->scanDirectory($viewsPath, $newKeys);
+        
+        // Add new keys to corresponding files
+        $updated = false;
+        
+        foreach ($newKeys as $fullKey => $defaultValue) {
+            if (!isset($existingKeys[$fullKey])) {
+                [$file, $key] = explode('.', $fullKey, 2);
+                $fileContent = $this->getTranslationFileContent('en', $file);
+                $fileContent[$key] = $defaultValue;
+                
+                // Save translations as PHP array
+                $content = "<?php\n\nreturn " . $this->varExport($fileContent, true) . ";\n";
+                File::put("{$this->langPath}/en/{$file}.php", $content);
+                
+                $updated = true;
+            }
+        }
+        
+        if ($updated) {
+            return redirect()->route('admin.translations.index')
+                ->with('success', __('messages.translation_keys_scanned'));
+        }
+        
+        return redirect()->route('admin.translations.index')
+            ->with('info', __('messages.no_new_translation_keys'));
+    }
+
+    /**
+     * Recursively scan directory for translation calls.
+     */
+    protected function scanDirectory($path, &$keys)
+    {
+        $files = File::files($path);
+        
+        foreach ($files as $file) {
+            if ($file->getExtension() === 'php' || $file->getExtension() === 'blade.php') {
+                $content = File::get($file->getPathname());
+                
+                // Match __('file.key') and trans('file.key') patterns
+                preg_match_all("/__\(['\"]([^'\"]+)['\"]/", $content, $matches);
+                foreach ($matches[1] as $key) {
+                    if (strpos($key, '.') !== false) {
+                        $keys[$key] = $key;
+                    }
+                }
+                
+                preg_match_all("/trans\(['\"]([^'\"]+)['\"]/", $content, $matches);
+                foreach ($matches[1] as $key) {
+                    if (strpos($key, '.') !== false) {
+                        $keys[$key] = $key;
+                    }
+                }
+                
+                // Match @lang('file.key') pattern
+                preg_match_all("/@lang\(['\"]([^'\"]+)['\"]/", $content, $matches);
+                foreach ($matches[1] as $key) {
+                    if (strpos($key, '.') !== false) {
+                        $keys[$key] = $key;
+                    }
+                }
+                
+                // Match {{ __('file.key') }} pattern
+                preg_match_all("/\{\{\s*__\(['\"]([^'\"]+)['\"]/", $content, $matches);
+                foreach ($matches[1] as $key) {
+                    if (strpos($key, '.') !== false) {
+                        $keys[$key] = $key;
+                    }
+                }
+            }
+        }
+        
+        $directories = File::directories($path);
+        foreach ($directories as $directory) {
+            $this->scanDirectory($directory, $keys);
         }
     }
 } 

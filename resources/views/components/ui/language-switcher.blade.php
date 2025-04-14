@@ -4,10 +4,12 @@
             @click="open = !open" 
             @keydown.escape="open = false"
             class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="{{ __('messages.select_language') }}"
         >
             <span class="text-sm font-medium">
                 @php
-                    $currentLangName = __('common.language_name');
+                    $currentLocale = app()->getLocale();
+                    $currentLangName = \Locale::getDisplayName($currentLocale, $currentLocale);
                     $flagMap = [
                         'en' => '🇬🇧', 
                         'ru' => '🇷🇺', 
@@ -19,7 +21,7 @@
                         'zh' => '🇨🇳',
                         'lt' => '🇱🇹'
                     ];
-                    $currentFlag = $flagMap[app()->getLocale()] ?? '🌐';
+                    $currentFlag = $flagMap[$currentLocale] ?? '🌐';
                 @endphp
                 <span class="flex items-center">
                     <span class="text-xs mr-2">{{ $currentFlag }}</span>
@@ -47,12 +49,18 @@
         >
             <div class="py-1" role="none">
                 @php
-                    $languages = App\Models\Language::getAvailableLanguages();
+                    $availableLocales = [];
+                    $directories = \Illuminate\Support\Facades\File::directories(resource_path('lang'));
+                    
+                    foreach ($directories as $directory) {
+                        $locale = basename($directory);
+                        $availableLocales[] = $locale;
+                    }
                 @endphp
                 
-                @foreach($languages as $localeCode => $language)
+                @foreach($availableLocales as $localeCode)
                     @php
-                        $langName = $language['name'];
+                        $nativeName = \Locale::getDisplayName($localeCode, $localeCode);
                         $flag = $flagMap[$localeCode] ?? '🌐';
                     @endphp
                     <a 
@@ -62,7 +70,7 @@
                         tabindex="-1"
                     >
                         <span class="text-xs mr-2">{{ $flag }}</span>
-                        {{ $langName }}
+                        {{ $nativeName }}
                     </a>
                 @endforeach
             </div>

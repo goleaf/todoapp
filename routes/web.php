@@ -18,6 +18,9 @@ Route::get('/help', function () {
     return view('help.index');
 })->name('help');
 
+// Language Switcher
+Route::get('language/{locale}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('language.switch');
+
 // Accessibility page - accessible to all users
 Route::get('/accessibility', function () {
     return view('accessibility.index');
@@ -38,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
     Route::get('settings/accessibility', [Settings\AccessibilityController::class, 'edit'])->name('settings.accessibility.edit');
     Route::put('settings/accessibility', [Settings\AccessibilityController::class, 'update'])->name('settings.accessibility.update');
+    Route::get('settings/language', [Settings\LanguageController::class, 'edit'])->name('settings.language.edit');
+    Route::put('settings/language', [Settings\LanguageController::class, 'update'])->name('settings.language.update');
     
     // Admin Routes
     Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function () {
@@ -57,6 +62,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/todos/{todo}/edit', [AdminController::class, 'editTodo'])->name('todos.edit');
         Route::put('/todos/{todo}', [AdminController::class, 'updateTodo'])->name('todos.update');
         Route::delete('/todos/{todo}', [AdminController::class, 'deleteTodo'])->name('todos.destroy');
+        
+        // Translation Management
+        Route::get('/translations', [\App\Http\Controllers\Admin\TranslationController::class, 'index'])->name('translations.index');
+        Route::get('/translations/{locale}', [\App\Http\Controllers\Admin\TranslationController::class, 'show'])->name('translations.show');
+        Route::put('/translations/{locale}/{file}', [\App\Http\Controllers\Admin\TranslationController::class, 'update'])->name('translations.update'); // Update file content
+        Route::post('/translations', [\App\Http\Controllers\Admin\TranslationController::class, 'store'])->name('translations.store'); // Add new locale
+        Route::delete('/translations/{locale}', [\App\Http\Controllers\Admin\TranslationController::class, 'destroy'])->name('translations.destroy'); // Delete locale
+        Route::post('/translations/{locale}/file', [\App\Http\Controllers\Admin\TranslationController::class, 'storeFile'])->name('translations.file.store'); // Add new file to locale
+        Route::delete('/translations/{locale}/{file}', [\App\Http\Controllers\Admin\TranslationController::class, 'destroyFile'])->name('translations.file.destroy'); // Delete file from locale
+        Route::post('/translations/{locale}/import', [\App\Http\Controllers\Admin\TranslationController::class, 'import'])->name('translations.import'); // Import translations from base language
+        Route::get('/translations/{locale}/{file}/{key}/edit', [\App\Http\Controllers\Admin\TranslationController::class, 'editKey'])->name('translations.key.edit'); // Edit a specific key
+        Route::put('/translations/{locale}/{file}/{key}', [\App\Http\Controllers\Admin\TranslationController::class, 'updateKey'])->name('translations.key.update'); // Update a specific key
     });
 
     // Todo routes
@@ -70,6 +87,28 @@ Route::middleware(['auth'])->group(function () {
     
     // AJAX route for updating todo status
     Route::patch('/todos/{todo}/status', [TodoController::class, 'updateStatus'])->name('todos.update-status');
+});
+
+/**
+ * Admin Translation Management Routes
+ */
+Route::middleware(['auth', 'admin'])->prefix('admin/translations')->name('admin.translations.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\TranslationController::class, 'index'])->name('index');
+    Route::get('/create-language', [App\Http\Controllers\Admin\TranslationController::class, 'createLanguage'])->name('create-language');
+    Route::post('/create-language', [App\Http\Controllers\Admin\TranslationController::class, 'storeLanguage'])->name('store-language');
+    Route::delete('/languages/{locale}', [App\Http\Controllers\Admin\TranslationController::class, 'destroyLanguage'])->name('destroy-language');
+    
+    Route::get('/languages/{locale}', [App\Http\Controllers\Admin\TranslationController::class, 'language'])->name('language');
+    Route::get('/languages/{locale}/create-file', [App\Http\Controllers\Admin\TranslationController::class, 'createFile'])->name('create-file');
+    Route::post('/languages/{locale}/create-file', [App\Http\Controllers\Admin\TranslationController::class, 'storeFile'])->name('store-file');
+    Route::delete('/languages/{locale}/files/{file}', [App\Http\Controllers\Admin\TranslationController::class, 'destroyFile'])->name('destroy-file');
+    
+    Route::get('/languages/{locale}/files/{file}', [App\Http\Controllers\Admin\TranslationController::class, 'edit'])->name('edit');
+    Route::put('/languages/{locale}/files/{file}', [App\Http\Controllers\Admin\TranslationController::class, 'update'])->name('update');
+    
+    // New routes for scanning and importing
+    Route::post('/scan', [App\Http\Controllers\Admin\TranslationController::class, 'scan'])->name('scan');
+    Route::post('/languages/{locale}/import', [App\Http\Controllers\Admin\TranslationController::class, 'import'])->name('import');
 });
 
 // Re-add API routes for testing
