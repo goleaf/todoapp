@@ -1,114 +1,152 @@
-/* Text Size Styles */
-html {
-    /* Add smooth transitions for font-size changes */
-    transition: font-size 0.3s ease;
+/**
+ * Text Size Accessibility Styles
+ * 
+ * This stylesheet provides text size adjustments for accessibility purposes:
+ * - Small (0.875rem): For users who prefer dense content
+ * - Medium (1rem): Default browser size
+ * - Large (1.25rem): For users who need larger text
+ */
+
+/* CSS Variables for easier maintenance */
+:root {
+    --text-size-small: 0.875rem;
+    --text-size-medium: 1rem;
+    --text-size-large: 1.25rem;
+    
+    --heading1-small: 1.75rem;
+    --heading1-medium: 2rem;
+    --heading1-large: 2.5rem;
+    
+    --heading2-small: 1.5rem;
+    --heading2-medium: 1.75rem;
+    --heading2-large: 2rem;
+    
+    --heading3-small: 1.25rem;
+    --heading3-medium: 1.5rem;
+    --heading3-large: 1.75rem;
+    
+    --transition-speed: 0.3s;
 }
 
-html * {
-    /* Apply transition to all elements */
-    transition: font-size 0.3s ease;
+/* Base transitions - only apply to font-size for better performance */
+html {
+    transition: font-size var(--transition-speed) ease;
 }
 
 /* Text size highlight animation */
 @keyframes text-size-highlight {
-    0% {
-        background-color: rgba(79, 70, 229, 0);
-    }
-    30% {
-        background-color: rgba(79, 70, 229, 0.1);
-    }
-    100% {
-        background-color: rgba(79, 70, 229, 0);
-    }
+    0% { background-color: rgba(79, 70, 229, 0); }
+    30% { background-color: rgba(79, 70, 229, 0.1); }
+    100% { background-color: rgba(79, 70, 229, 0); }
 }
 
 .text-size-highlight {
     animation: text-size-highlight 1.5s ease-in-out;
 }
 
+/* Core text size classes */
 .text-size-small {
-    font-size: 0.875rem; /* 14px */
+    font-size: var(--text-size-small);
 }
 
 .text-size-medium {
-    font-size: 1rem; /* 16px - default */
+    font-size: var(--text-size-medium);
 }
 
 .text-size-large {
-    font-size: 1.25rem; /* 20px */
+    font-size: var(--text-size-large);
 }
 
-/* Apply text sizes to common elements */
+/* 
+ * HTML class-based selectors for global application
+ * Using more specific selectors to avoid conflicts
+ */
+
+/* Common text elements */
 html.text-size-small p, 
 html.text-size-small li, 
 html.text-size-small label,
 html.text-size-small input,
-html.text-size-small button,
-html.text-size-small .btn {
-    font-size: 0.875rem;
+html.text-size-small button {
+    font-size: var(--text-size-small);
 }
 
 html.text-size-large p, 
 html.text-size-large li, 
 html.text-size-large label,
 html.text-size-large input,
-html.text-size-large button,
-html.text-size-large .btn {
-    font-size: 1.25rem;
+html.text-size-large button {
+    font-size: var(--text-size-large);
 }
 
-/* Adjust heading sizes proportionally */
-html.text-size-small h1 { font-size: 1.75rem; }
-html.text-size-small h2 { font-size: 1.5rem; }
-html.text-size-small h3 { font-size: 1.25rem; }
+/* Heading adjustments */
+html.text-size-small h1 { font-size: var(--heading1-small); }
+html.text-size-small h2 { font-size: var(--heading2-small); }
+html.text-size-small h3 { font-size: var(--heading3-small); }
 
-html.text-size-large h1 { font-size: 2.5rem; }
-html.text-size-large h2 { font-size: 2rem; }
-html.text-size-large h3 { font-size: 1.75rem; }
+html.text-size-medium h1 { font-size: var(--heading1-medium); }
+html.text-size-medium h2 { font-size: var(--heading2-medium); }
+html.text-size-medium h3 { font-size: var(--heading3-medium); }
 
-/* Adjust navigation and form elements */
-html.text-size-small .nav-link { font-size: 0.875rem; }
-html.text-size-large .nav-link { font-size: 1.25rem; }
+html.text-size-large h1 { font-size: var(--heading1-large); }
+html.text-size-large h2 { font-size: var(--heading2-large); }
+html.text-size-large h3 { font-size: var(--heading3-large); }
 
-/* Adjust icon sizes */
+/* Navigation and UI elements */
+html.text-size-small .nav-link { font-size: var(--text-size-small); }
+html.text-size-large .nav-link { font-size: var(--text-size-large); }
+
+/* Icon adjustments */
 html.text-size-small .fa, 
-html.text-size-small .fas { font-size: 0.875rem; }
+html.text-size-small .fas,
+html.text-size-small svg.h-5 { 
+    font-size: var(--text-size-small);
+    transform: scale(0.9);
+}
 
 html.text-size-large .fa, 
-html.text-size-large .fas { font-size: 1.25rem; }
+html.text-size-large .fas,
+html.text-size-large svg.h-5 { 
+    font-size: var(--text-size-large);
+    transform: scale(1.1);
+}
 
 /* Print-specific styles */
 @media print {
-    /* Ensure text sizes are maintained when printing */
-    html.text-size-small {
-        font-size: 10pt;
+    /* Print variables */
+    :root {
+        --print-small: 10pt;
+        --print-medium: 12pt;
+        --print-large: 14pt;
+        
+        --print-heading1-small: 16pt;
+        --print-heading1-large: 20pt;
+        
+        --print-heading2-small: 14pt;
+        --print-heading2-large: 18pt;
+        
+        --print-heading3-small: 12pt;
+        --print-heading3-large: 16pt;
     }
+
+    /* Base print sizes */
+    html.text-size-small { font-size: var(--print-small); }
+    html.text-size-medium { font-size: var(--print-medium); }
+    html.text-size-large { font-size: var(--print-large); }
     
-    html.text-size-medium {
-        font-size: 12pt;
-    }
-    
-    html.text-size-large {
-        font-size: 14pt;
-    }
-    
-    /* Adjust specific element sizes for print */
+    /* Text elements in print */
     html.text-size-small p, 
-    html.text-size-small li { 
-        font-size: 10pt;
-    }
+    html.text-size-small li { font-size: var(--print-small); }
     
     html.text-size-large p, 
-    html.text-size-large li { 
-        font-size: 14pt;
-    }
+    html.text-size-large li { font-size: var(--print-large); }
     
     /* Headings in print */
-    html.text-size-small h1 { font-size: 16pt; }
-    html.text-size-small h2 { font-size: 14pt; }
-    html.text-size-small h3 { font-size: 12pt; }
+    html.text-size-small h1 { font-size: var(--print-heading1-small); }
+    html.text-size-small h2 { font-size: var(--print-heading2-small); }
+    html.text-size-small h3 { font-size: var(--print-heading3-small); }
     
-    html.text-size-large h1 { font-size: 20pt; }
-    html.text-size-large h2 { font-size: 18pt; }
-    html.text-size-large h3 { font-size: 16pt; }
+    html.text-size-large h1 { font-size: var(--print-heading1-large); }
+    html.text-size-large h2 { font-size: var(--print-heading2-large); }
+    html.text-size-large h3 { font-size: var(--print-heading3-large); }
 } 

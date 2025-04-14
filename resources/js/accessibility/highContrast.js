@@ -1,141 +1,250 @@
 /**
  * High Contrast Mode Functionality
  * 
- * This script handles high contrast mode functionality, including:
- * - Toggling high contrast mode on/off
- * - Persisting user preferences with localStorage
- * - Keyboard shortcut support (Alt+H)
- * - Announcing changes to screen readers
+ * This module provides accessibility features for users who need high contrast:
+ * - Toggle high contrast mode on/off via button or keyboard (Alt+H)
+ * - Persist user preferences with localStorage
+ * - Announce changes to screen readers
+ * - Support for multiple toggle buttons across the application
  */
 
+// Constants
+const HIGH_CONTRAST_CLASS = 'high-contrast-mode';
+const HIGH_CONTRAST_STORAGE_KEY = 'highContrastMode';
+const KEYBOARD_SHORTCUT = { key: 'h', altKey: true };
+
+/**
+ * Initialize high contrast functionality
+ * @returns {Object} - Public methods for controlling high contrast
+ */
 export function initHighContrast() {
-    // Constants
-    const HIGH_CONTRAST_CLASS = 'high-contrast-mode';
-    const HIGH_CONTRAST_STORAGE_KEY = 'highContrastMode';
+    // Private variables
+    let _htmlElement;
+    let _toggleButtons = [];
+    let _srAnnouncements = [];
     
-    // Get DOM elements
-    const htmlElement = document.documentElement;
-    const toggleButton = document.getElementById('high-contrast-toggle');
-    const menuToggleButton = document.getElementById('high-contrast-toggle-menu');
-    const allToggleButtons = [toggleButton, menuToggleButton].filter(Boolean);
-    const srAnnouncements = document.querySelectorAll('.sr-announcement');
-    
-    // Initialize high contrast state from localStorage
-    const isHighContrastEnabled = localStorage.getItem(HIGH_CONTRAST_STORAGE_KEY) === 'true';
-    
-    // Apply initial state
-    if (isHighContrastEnabled) {
-        enableHighContrast();
-    } else {
-        disableHighContrast();
-    }
-    
-    // Add event listeners to all toggle buttons
-    allToggleButtons.forEach(button => {
-        if (button) {
-            button.addEventListener('click', toggleHighContrast);
+    /**
+     * Initialize the module
+     * @private
+     */
+    const _init = () => {
+        try {
+            // Cache DOM elements
+            _htmlElement = document.documentElement;
+            _toggleButtons = [
+                document.getElementById('high-contrast-toggle'),
+                document.getElementById('high-contrast-toggle-menu')
+            ].filter(Boolean);
+            _srAnnouncements = Array.from(document.querySelectorAll('.sr-announcement'));
+            
+            // Initialize state from localStorage
+            const isEnabled = localStorage.getItem(HIGH_CONTRAST_STORAGE_KEY) === 'true';
+            isEnabled ? enableHighContrast() : disableHighContrast();
+            
+            // Add event listeners
+            _attachEventListeners();
+            
+            // Handle page visibility changes (for better cross-tab sync)
+            document.addEventListener('visibilitychange', _handleVisibilityChange);
+            
+            // Log success
+            console.debug('High contrast module initialized');
+        } catch (error) {
+            console.error('Failed to initialize high contrast mode:', error);
         }
-    });
+    };
     
-    // Add keyboard shortcut event listener (Alt+H)
-    document.addEventListener('keydown', function(event) {
-        if (event.altKey && event.key === 'h') {
+    /**
+     * Attach event listeners
+     * @private
+     */
+    const _attachEventListeners = () => {
+        // Button click events
+        _toggleButtons.forEach(button => {
+            button?.addEventListener('click', toggleHighContrast);
+        });
+        
+        // Keyboard shortcut
+        document.addEventListener('keydown', _handleKeyDown);
+        
+        // Storage event (for cross-tab sync)
+        window.addEventListener('storage', _handleStorageChange);
+    };
+    
+    /**
+     * Handle keyboard shortcuts
+     * @private
+     * @param {KeyboardEvent} event - The keyboard event
+     */
+    const _handleKeyDown = (event) => {
+        if (event.altKey && event.key === KEYBOARD_SHORTCUT.key) {
             toggleHighContrast();
             event.preventDefault();
         }
-    });
+    };
+    
+    /**
+     * Handle storage changes for cross-tab sync
+     * @private
+     * @param {StorageEvent} event - The storage event
+     */
+    const _handleStorageChange = (event) => {
+        if (event.key === HIGH_CONTRAST_STORAGE_KEY) {
+            const isEnabled = event.newValue === 'true';
+            isEnabled ? enableHighContrast(false) : disableHighContrast(false);
+        }
+    };
+    
+    /**
+     * Handle visibility changes for cross-tab sync
+     * @private
+     */
+    const _handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+            // Sync with localStorage when tab becomes visible
+            const isEnabled = localStorage.getItem(HIGH_CONTRAST_STORAGE_KEY) === 'true';
+            const currentlyEnabled = _htmlElement.classList.contains(HIGH_CONTRAST_CLASS);
+            
+            if (isEnabled !== currentlyEnabled) {
+                isEnabled ? enableHighContrast(false) : disableHighContrast(false);
+            }
+        }
+    };
     
     /**
      * Toggle high contrast mode
+     * @public
      */
     function toggleHighContrast() {
-        const isEnabled = htmlElement.classList.contains(HIGH_CONTRAST_CLASS);
-        
-        if (isEnabled) {
-            disableHighContrast();
-        } else {
-            enableHighContrast();
+        try {
+            const isEnabled = _htmlElement.classList.contains(HIGH_CONTRAST_CLASS);
+            isEnabled ? disableHighContrast() : enableHighContrast();
+        } catch (error) {
+            console.error('Error toggling high contrast mode:', error);
         }
     }
     
     /**
      * Enable high contrast mode
+     * @public
+     * @param {boolean} [announce=true] - Whether to announce the change to screen readers
      */
-    function enableHighContrast() {
-        // Add class to HTML element
-        htmlElement.classList.add(HIGH_CONTRAST_CLASS);
-        
-        // Update toggle button states
-        allToggleButtons.forEach(button => {
-            if (button) {
-                button.setAttribute('aria-pressed', 'true');
-                
-                // Update status text if it exists
-                const statusText = button.querySelector('.status-text');
-                if (statusText) {
-                    statusText.textContent = 'On';
-                }
-                
-                // Update toggle indicator if exists (for menu toggle)
-                if (button.id === 'high-contrast-toggle-menu') {
-                    button.classList.add('bg-primary-600');
-                    const indicator = button.querySelector('.high-contrast-toggle-indicator');
-                    if (indicator) {
-                        indicator.classList.add('translate-x-5');
-                    }
-                }
+    function enableHighContrast(announce = true) {
+        try {
+            // Apply class to HTML element
+            _htmlElement.classList.add(HIGH_CONTRAST_CLASS);
+            
+            // Update toggle button states
+            _updateButtonStates(true);
+            
+            // Save preference
+            localStorage.setItem(HIGH_CONTRAST_STORAGE_KEY, 'true');
+            
+            // Announce to screen readers if requested
+            if (announce) {
+                announceToScreenReader('High contrast mode enabled');
             }
-        });
-        
-        // Save preference
-        localStorage.setItem(HIGH_CONTRAST_STORAGE_KEY, 'true');
-        
-        // Announce to screen readers
-        announceToScreenReader('High contrast mode enabled');
+            
+            // Dispatch event for other components
+            window.dispatchEvent(new CustomEvent('high-contrast-change', { 
+                detail: { enabled: true } 
+            }));
+        } catch (error) {
+            console.error('Error enabling high contrast mode:', error);
+        }
     }
     
     /**
      * Disable high contrast mode
+     * @public
+     * @param {boolean} [announce=true] - Whether to announce the change to screen readers
      */
-    function disableHighContrast() {
-        // Remove class from HTML element
-        htmlElement.classList.remove(HIGH_CONTRAST_CLASS);
-        
-        // Update toggle button states
-        allToggleButtons.forEach(button => {
-            if (button) {
-                button.setAttribute('aria-pressed', 'false');
-                
-                // Update status text if it exists
-                const statusText = button.querySelector('.status-text');
-                if (statusText) {
-                    statusText.textContent = 'Off';
-                }
-                
-                // Update toggle indicator if exists (for menu toggle)
-                if (button.id === 'high-contrast-toggle-menu') {
-                    button.classList.remove('bg-primary-600');
-                    const indicator = button.querySelector('.high-contrast-toggle-indicator');
-                    if (indicator) {
-                        indicator.classList.remove('translate-x-5');
-                    }
-                }
+    function disableHighContrast(announce = true) {
+        try {
+            // Remove class from HTML element
+            _htmlElement.classList.remove(HIGH_CONTRAST_CLASS);
+            
+            // Update toggle button states
+            _updateButtonStates(false);
+            
+            // Save preference
+            localStorage.setItem(HIGH_CONTRAST_STORAGE_KEY, 'false');
+            
+            // Announce to screen readers if requested
+            if (announce) {
+                announceToScreenReader('High contrast mode disabled');
             }
-        });
-        
-        // Save preference
-        localStorage.setItem(HIGH_CONTRAST_STORAGE_KEY, 'false');
-        
-        // Announce to screen readers
-        announceToScreenReader('High contrast mode disabled');
+            
+            // Dispatch event for other components
+            window.dispatchEvent(new CustomEvent('high-contrast-change', { 
+                detail: { enabled: false } 
+            }));
+        } catch (error) {
+            console.error('Error disabling high contrast mode:', error);
+        }
     }
     
     /**
+     * Update all toggle button states
+     * @private
+     * @param {boolean} enabled - Whether high contrast is enabled
+     */
+    const _updateButtonStates = (enabled) => {
+        _toggleButtons.forEach(button => {
+            if (!button) return;
+            
+            // Update ARIA state
+            button.setAttribute('aria-pressed', enabled.toString());
+            
+            // Update status text if it exists
+            const statusText = button.querySelector('.status-text');
+            if (statusText) {
+                statusText.textContent = enabled ? 'On' : 'Off';
+            }
+            
+            // Update toggle indicator for menu toggle
+            if (button.id === 'high-contrast-toggle-menu') {
+                button.classList.toggle('bg-primary-600', enabled);
+                
+                const indicator = button.querySelector('.high-contrast-toggle-indicator');
+                if (indicator) {
+                    indicator.classList.toggle('translate-x-5', enabled);
+                }
+            }
+        });
+    };
+    
+    /**
      * Announce message to screen readers
+     * @public
+     * @param {string} message - The message to announce
      */
     function announceToScreenReader(message) {
-        srAnnouncements.forEach(element => {
-            element.textContent = message;
+        _srAnnouncements.forEach(element => {
+            if (element) {
+                element.textContent = message;
+            }
         });
     }
+    
+    /**
+     * Get current state
+     * @public
+     * @returns {boolean} Whether high contrast is currently enabled
+     */
+    function isEnabled() {
+        return _htmlElement.classList.contains(HIGH_CONTRAST_CLASS);
+    }
+    
+    // Initialize the module
+    _init();
+    
+    // Return public API
+    return {
+        toggle: toggleHighContrast,
+        enable: enableHighContrast,
+        disable: disableHighContrast,
+        announce: announceToScreenReader,
+        isEnabled
+    };
 } 
