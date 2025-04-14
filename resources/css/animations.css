@@ -1,0 +1,99 @@
+/* Animation Styles
+-------------------------------------------------- */
+
+/* Checkmark Animation */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.checkmark-animation {
+    animation: checkmark 0.5s ease-out forwards;
+}
+
+.checkmark-animation svg {
+    color: #10B981; /* Green 500 */
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake-animation {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) forwards;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.pulse-animation {
+    animation: pulse 0.5s ease-in-out forwards;
+}
+
+/* Modal Animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+dialog[open] {
+    animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+/* Row transition for status changes */
+.todo-row-transition {
+    transition: background-color 0.3s ease-out;
+}
+
+/* Success feedback */
+.success-highlight {
+    background-color: rgba(16, 185, 129, 0.1); /* Green 500 with low opacity */
+}
+
+/* Warning feedback */
+.warning-highlight {
+    background-color: rgba(245, 158, 11, 0.1); /* Yellow 500 with low opacity */
+}
+
+/* Error feedback */
+.error-highlight {
+    background-color: rgba(239, 68, 68, 0.1); /* Red 500 with low opacity */
+} 

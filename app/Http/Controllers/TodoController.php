@@ -182,4 +182,48 @@ class TodoController extends Controller
         return redirect()->route('todos.index')
             ->with('success', 'Todo deleted successfully.');
     }
+
+    /**
+     * Update the status of a todo item via AJAX
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Todo $todo
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateStatus(Request $request, Todo $todo)
+    {
+        $request->validate([
+            'status' => 'required|string|in:not_started,in_progress,completed,on_hold,cancelled',
+        ]);
+        
+        $status = $request->input('status');
+        $oldStatus = $todo->status;
+        $todo->status = $status;
+        $todo->save();
+        
+        $parentUpdated = false;
+        $parentId = null;
+        
+        // If this is a subtask, update the parent todo's completion status
+        if ($todo->parent_id) {
+            $parent = Todo::find($todo->parent_id);
+            if ($parent) {
+                $parentId = $parent->id;
+                $totalSubtasks = $parent->children()->count();
+                $completedSubtasks = $parent->children()->where('status', 'completed')->count();
+                
+                // Update parent status calculation logic here if needed
+                $parentUpdated = true;
+            }
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => __('Todo status updated successfully'),
+            'parentUpdated' => $parentUpdated,
+            'parentId' => $parentId,
+            'status' => $status,
+            'oldStatus' => $oldStatus
+        ]);
+    }
 } 

@@ -179,9 +179,7 @@
                                         'cancelled' => 'red',
                                     ];
                                 @endphp
-                                <x-ui.badge :color="$statusColors[$todo->status->value]">
-                                    {{ $todo->status->name }}
-                                </x-ui.badge>
+                                <x-ui.todo-status-change :todo="$todo" />
                             </x-data.table.cell>
                             <x-data.table.cell>
                                 @php

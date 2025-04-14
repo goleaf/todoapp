@@ -1,0 +1,165 @@
+@props([
+    'todo',
+    'displayName' => true,
+    'size' => 'md'
+])
+
+@php
+    $statusOptions = [
+        'not_started' => __('Not Started'),
+        'in_progress' => __('In Progress'),
+        'completed' => __('Completed'),
+        'on_hold' => __('On Hold'),
+        'cancelled' => __('Cancelled')
+    ];
+    
+    $iconMap = [
+        'not_started' => 'heroicon-o-clock',
+        'in_progress' => 'heroicon-o-play',
+        'completed' => 'heroicon-o-check-circle',
+        'on_hold' => 'heroicon-o-pause',
+        'cancelled' => 'heroicon-o-x-circle'
+    ];
+    
+    $sizeClasses = [
+        'sm' => 'text-sm py-1 px-2',
+        'md' => 'text-base py-1.5 px-3',
+        'lg' => 'text-lg py-2 px-4'
+    ];
+@endphp
+
+<div 
+    x-data="{
+        status: '{{ $todo->status->value }}',
+        originalStatus: '{{ $todo->status->value }}',
+        isChanging: false,
+        statusId: 'status-{{ $todo->id }}',
+        
+        async updateStatus(newStatus) {
+            if (this.status === newStatus || this.isChanging) return;
+            
+            this.isChanging = true;
+            
+            try {
+                const response = await fetch('{{ route('todos.update-status', $todo) }}', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    this.status = newStatus;
+                    
+                    // Animate the row if completed
+                    if (newStatus === 'completed' && typeof $data.animations?.animateCheckmark === 'function') {
+                        $data.animations.animateCheckmark(this.statusId, true);
+                    }
+                    
+                    // Show toast message
+                    $dispatch('toast', { 
+                        message: '{{ __('Todo status updated successfully') }}', 
+                        type: 'success' 
+                    });
+                    
+                    // Update completed count for parent todo if it exists
+                    if (data.parentUpdated) {
+                        // Refresh the parent row
+                        $dispatch('refresh-parent-todo', { parentId: data.parentId });
+                    }
+                } else {
+                    const errorData = await response.json();
+                    $dispatch('toast', { 
+                        message: errorData.message || '{{ __('Failed to update todo status') }}', 
+                        type: 'error' 
+                    });
+                    this.status = this.originalStatus;
+                }
+            } catch (error) {
+                $dispatch('toast', { 
+                    message: '{{ __('An error occurred while updating status') }}', 
+                    type: 'error' 
+                });
+                this.status = this.originalStatus;
+            } finally {
+                this.isChanging = false;
+            }
+        }
+    }"
+    class="todo-status-change"
+>
+    <div class="flex items-center space-x-2">
+        <!-- Status Icon -->
+        <span 
+            :id="statusId"
+            :class="{
+                'text-gray-500 dark:text-gray-400': status === 'not_started',
+                'text-blue-500 dark:text-blue-400': status === 'in_progress',
+                'text-green-500 dark:text-green-400': status === 'completed',
+                'text-yellow-500 dark:text-yellow-400': status === 'on_hold',
+                'text-red-500 dark:text-red-400': status === 'cancelled'
+            }"
+        >
+            <template x-if="status === 'not_started'">
+                <x-ui.icon icon="{{ $iconMap['not_started'] }}" class="h-5 w-5" />
+            </template>
+            <template x-if="status === 'in_progress'">
+                <x-ui.icon icon="{{ $iconMap['in_progress'] }}" class="h-5 w-5" />
+            </template>
+            <template x-if="status === 'completed'">
+                <x-ui.icon icon="{{ $iconMap['completed'] }}" class="h-5 w-5" />
+            </template>
+            <template x-if="status === 'on_hold'">
+                <x-ui.icon icon="{{ $iconMap['on_hold'] }}" class="h-5 w-5" />
+            </template>
+            <template x-if="status === 'cancelled'">
+                <x-ui.icon icon="{{ $iconMap['cancelled'] }}" class="h-5 w-5" />
+            </template>
+        </span>
+        
+        <!-- Status Name (if displayName is true) -->
+        @if($displayName)
+            <span 
+                class="font-medium {{ $sizeClasses[$size] }}"
+                :class="{
+                    'text-gray-700 dark:text-gray-300': status === 'not_started',
+                    'text-blue-700 dark:text-blue-300': status === 'in_progress',
+                    'text-green-700 dark:text-green-300': status === 'completed',
+                    'text-yellow-700 dark:text-yellow-300': status === 'on_hold',
+                    'text-red-700 dark:text-red-300': status === 'cancelled'
+                }"
+            >
+                <span x-text="statusOptions[status]"></span>
+                <span x-show="isChanging" class="inline-block animate-spin">⟳</span>
+            </span>
+        @endif
+        
+        <!-- Status Dropdown -->
+        <x-ui.popover>
+            <x-slot name="trigger">
+                <x-ui.button variant="ghost" size="xs" icon="heroicon-o-chevron-down" />
+            </x-slot>
+            <x-slot name="menu">
+                @foreach($statusOptions as $value => $label)
+                    <x-ui.popover.item 
+                        type="button"
+                        @click="updateStatus('{{ $value }}')"
+                        :class="$value === 'completed' ? 'text-green-600 dark:text-green-400' : ''"
+                    >
+                        <span class="flex items-center">
+                            <x-ui.icon :icon="$iconMap[$value]" class="h-4 w-4 mr-2" />
+                            {{ $label }}
+                        </span>
+                    </x-ui.popover.item>
+                @endforeach
+            </x-slot>
+        </x-ui.popover>
+    </div>
+    
+    <script>
+        window.statusOptions = @json($statusOptions);
+    </script>
+</div> 

@@ -10,7 +10,8 @@ export default defineConfig({
                 'resources/css/app.css', 
                 'resources/js/app.js',
                 'resources/css/accessibility.css',
-                'resources/js/accessibility.js'
+                'resources/js/accessibility.js',
+                'resources/css/animations.css'
             ],
             refresh: [`resources/views/**/*`],
         }),
