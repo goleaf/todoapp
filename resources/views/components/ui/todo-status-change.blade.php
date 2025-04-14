@@ -4,30 +4,6 @@
     'size' => 'md'
 ])
 
-@php
-    $statusOptions = [
-        'not_started' => __('Not Started'),
-        'in_progress' => __('In Progress'),
-        'completed' => __('Completed'),
-        'on_hold' => __('On Hold'),
-        'cancelled' => __('Cancelled')
-    ];
-    
-    $iconMap = [
-        'not_started' => 'heroicon-o-clock',
-        'in_progress' => 'heroicon-o-play',
-        'completed' => 'heroicon-o-check-circle',
-        'on_hold' => 'heroicon-o-pause',
-        'cancelled' => 'heroicon-o-x-circle'
-    ];
-    
-    $sizeClasses = [
-        'sm' => 'text-sm py-1 px-2',
-        'md' => 'text-base py-1.5 px-3',
-        'lg' => 'text-lg py-2 px-4'
-    ];
-@endphp
-
 <div 
     x-data="{
         status: '{{ $todo->status->value }}',
@@ -61,7 +37,7 @@
                     
                     // Show toast message
                     $dispatch('toast', { 
-                        message: '{{ __('Todo status updated successfully') }}', 
+                        message: '{{ __('messages.todo_status_updated') }}', 
                         type: 'success' 
                     });
                     
@@ -73,14 +49,14 @@
                 } else {
                     const errorData = await response.json();
                     $dispatch('toast', { 
-                        message: errorData.message || '{{ __('Failed to update todo status') }}', 
+                        message: errorData.message || '{{ __('messages.todo_status_update_failed') }}', 
                         type: 'error' 
                     });
                     this.status = this.originalStatus;
                 }
             } catch (error) {
                 $dispatch('toast', { 
-                    message: '{{ __('An error occurred while updating status') }}', 
+                    message: '{{ __('messages.todo_status_update_error') }}', 
                     type: 'error' 
                 });
                 this.status = this.originalStatus;
@@ -138,13 +114,13 @@
         @endif
         
         <!-- Status Dropdown -->
-        <x-ui.popover>
+        <x-ui.dropdown.menu>
             <x-slot name="trigger">
                 <x-ui.button variant="ghost" size="xs" icon="heroicon-o-chevron-down" />
             </x-slot>
             <x-slot name="menu">
                 @foreach($statusOptions as $value => $label)
-                    <x-ui.popover.item 
+                    <x-ui.dropdown.item 
                         type="button"
                         @click="updateStatus('{{ $value }}')"
                         :class="$value === 'completed' ? 'text-green-600 dark:text-green-400' : ''"
@@ -153,10 +129,10 @@
                             <x-ui.icon :icon="$iconMap[$value]" class="h-4 w-4 mr-2" />
                             {{ $label }}
                         </span>
-                    </x-ui.popover.item>
+                    </x-ui.dropdown.item>
                 @endforeach
             </x-slot>
-        </x-ui.popover>
+        </x-ui.dropdown.menu>
     </div>
     
     <script>
