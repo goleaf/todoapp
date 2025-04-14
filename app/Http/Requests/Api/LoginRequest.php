@@ -39,7 +39,7 @@ class LoginRequest extends FormRequest
             'email.required' => __('validation.required', ['attribute' => __('auth.email')]),
             'email.email' => __('validation.email', ['attribute' => __('auth.email')]),
             'password.required' => __('validation.required', ['attribute' => __('auth.password')]),
-            'password.min' => __('validation.min.string', ['attribute' => __('auth.password'), 'min' => 8]),
+            'password.min' => __('validation.min_string', ['attribute' => __('auth.password'), 'min' => 8]),
         ];
     }
 } 

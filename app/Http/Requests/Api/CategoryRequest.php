@@ -67,10 +67,10 @@ class CategoryRequest extends FormRequest
         return [
             'name.required' => __('validation.required', ['attribute' => __('category.name')]),
             'name.string' => __('validation.string', ['attribute' => __('category.name')]),
-            'name.max' => __('validation.max.string', ['attribute' => __('category.name'), 'max' => 255]),
+            'name.max' => __('validation.max_string', ['attribute' => __('category.name'), 'max' => 255]),
             'name.unique' => __('validation.unique', ['attribute' => __('category.name')]),
             'color.string' => __('validation.string', ['attribute' => __('category.color')]),
-            'color.max' => __('validation.max.string', ['attribute' => __('category.color'), 'max' => 7]),
+            'color.max' => __('validation.max_string', ['attribute' => __('category.color'), 'max' => 7]),
         ];
     }
 } 

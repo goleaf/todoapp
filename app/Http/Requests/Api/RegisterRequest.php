@@ -48,10 +48,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name.required' => __('validation.required', ['attribute' => __('auth.name')]),
-            'name.max' => __('validation.max.string', ['attribute' => __('auth.name'), 'max' => 255]),
+            'name.max' => __('validation.max_string', ['attribute' => __('auth.name'), 'max' => 255]),
             'email.required' => __('validation.required', ['attribute' => __('auth.email')]),
             'email.email' => __('validation.email', ['attribute' => __('auth.email')]),
-            'email.max' => __('validation.max.string', ['attribute' => __('auth.email'), 'max' => 255]),
+            'email.max' => __('validation.max_string', ['attribute' => __('auth.email'), 'max' => 255]),
             'email.unique' => __('validation.unique', ['attribute' => __('auth.email')]),
             'password.required' => __('validation.required', ['attribute' => __('auth.password')]),
             'password.confirmed' => __('validation.confirmed', ['attribute' => __('auth.password')]),

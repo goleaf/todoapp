@@ -87,7 +87,7 @@ class TodoRequest extends FormRequest
         return [
             'title.required' => __('validation.required', ['attribute' => __('todo.title')]),
             'title.string' => __('validation.string', ['attribute' => __('todo.title')]),
-            'title.max' => __('validation.max.string', ['attribute' => __('todo.title'), 'max' => 255]),
+            'title.max' => __('validation.max_string', ['attribute' => __('todo.title'), 'max' => 255]),
             'description.string' => __('validation.string', ['attribute' => __('todo.description')]),
             'due_date.date' => __('validation.date', ['attribute' => __('todo.due_date')]),
             'priority.required' => __('validation.required', ['attribute' => __('todo.priority')]),
