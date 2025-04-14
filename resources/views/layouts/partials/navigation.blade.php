@@ -27,6 +27,36 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:ml-6 sm:flex sm:items-center">
                 
+                <!-- Language Selector -->
+                <x-ui.popover align="bottom" justify="right" class="mr-2">
+                    <!-- Trigger slot -->
+                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                        <x-ui.icon icon="heroicon-o-language" class="h-5 w-5 mr-1" />
+                        <span>{{ strtoupper(Session::get('locale', config('app.locale'))) }}</span>
+                    </button>
+
+                    <!-- Menu slot -->
+                    <x-slot name="menu">
+                        @php
+                            $locales = array_filter(array_map(function($path) {
+                                return basename($path);
+                            }, \Illuminate\Support\Facades\File::directories(base_path('lang'))), function($locale) {
+                                return preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $locale);
+                            });
+                        @endphp
+                        
+                        @foreach($locales as $locale)
+                            <x-ui.popover.item :href="route('language.switch', $locale)">
+                                {{ __('common.language_names.'.$locale, [], 'en') }}
+                            </x-ui.popover.item>
+                        @endforeach
+                        <x-ui.popover.divider />
+                        <x-ui.popover.item :href="route('settings.language.edit')">
+                            {{ __('navigation.language_settings') }}
+                        </x-ui.popover.item>
+                    </x-slot>
+                </x-ui.popover>
+                
                 <!-- Dark Mode Toggle -->
                 <x-ui.dark-mode-toggle />
                 
@@ -153,6 +183,30 @@
             
             <!-- Documentation and Repository Links for mobile -->
             <div class="mt-3 space-y-1 px-4">
+                <!-- Language Selector for Mobile -->
+                <div class="border-t border-gray-200 dark:border-gray-700 py-2 mb-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 mb-2 px-1">{{ __('navigation.language') }}</p>
+                    @php
+                        $locales = array_filter(array_map(function($path) {
+                            return basename($path);
+                        }, \Illuminate\Support\Facades\File::directories(base_path('lang'))), function($locale) {
+                            return preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $locale);
+                        });
+                        $currentLocale = Session::get('locale', config('app.locale'));
+                    @endphp
+                    
+                    @foreach($locales as $locale)
+                        <a href="{{ route('language.switch', $locale) }}" 
+                           class="block pl-3 pr-4 py-2 text-base font-medium {{ $locale === $currentLocale ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/10' : 'text-gray-600 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700' }} transition duration-150 ease-in-out">
+                            {{ __('common.language_names.'.$locale, [], 'en') }}
+                        </a>
+                    @endforeach
+                    
+                    <x-layout.navlist.item :href="route('settings.language.edit')">
+                        {{ __('navigation.language_settings') }}
+                    </x-layout.navlist.item>
+                </div>
+                
                 <x-layout.navlist.item href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
                     {{ __('Repository') }}
                 </x-layout.navlist.item>
