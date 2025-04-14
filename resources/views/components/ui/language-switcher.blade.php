@@ -10,18 +10,7 @@
                 @php
                     $currentLocale = app()->getLocale();
                     $currentLangName = \Locale::getDisplayName($currentLocale, $currentLocale);
-                    $flagMap = [
-                        'en' => '🇬🇧', 
-                        'ru' => '🇷🇺', 
-                        'es' => '🇪🇸', 
-                        'fr' => '🇫🇷', 
-                        'de' => '🇩🇪',
-                        'it' => '🇮🇹',
-                        'ja' => '🇯🇵',
-                        'zh' => '🇨🇳',
-                        'lt' => '🇱🇹'
-                    ];
-                    $currentFlag = $flagMap[$currentLocale] ?? '🌐';
+                    $currentFlag = \App\Helpers\LanguageHelper::getFlagForLanguage($currentLocale);
                 @endphp
                 <span class="flex items-center">
                     <span class="text-xs mr-2">{{ $currentFlag }}</span>
@@ -49,21 +38,16 @@
         >
             <div class="py-1" role="none">
                 @php
-                    $availableLocales = [];
-                    $directories = \Illuminate\Support\Facades\File::directories(resource_path('lang'));
-                    
-                    foreach ($directories as $directory) {
-                        $locale = basename($directory);
-                        $availableLocales[] = $locale;
-                    }
+                    $availableLanguages = \App\Helpers\TranslationHelper::getAvailableLanguages();
+                    $flagMap = \App\Helpers\LanguageHelper::getFlagMap();
                 @endphp
                 
-                @foreach($availableLocales as $localeCode)
+                @foreach(array_keys($availableLanguages) as $localeCode)
                     @php
                         $nativeName = \Locale::getDisplayName($localeCode, $localeCode);
                         $flag = $flagMap[$localeCode] ?? '🌐';
                     @endphp
-                    <a 
+                    <x-ui.link 
                         href="{{ route('language.switch', $localeCode) }}" 
                         class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 {{ app()->getLocale() == $localeCode ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
                         role="menuitem"
@@ -71,7 +55,7 @@
                     >
                         <span class="text-xs mr-2">{{ $flag }}</span>
                         {{ $nativeName }}
-                    </a>
+                    </x-ui.link>
                 @endforeach
             </div>
         </div>
