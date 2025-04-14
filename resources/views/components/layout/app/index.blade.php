@@ -3,6 +3,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-bind:class="{'dark': darkMode }">
 <head>
     <x-layout.app.head :title="$title" />
+    <script src="{{ asset('js/accessibilityToggle.js') }}"></script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
@@ -65,6 +66,9 @@
     
     <!-- Keyboard shortcuts help modal -->
     <x-ui.keyboard-shortcuts-help />
+    
+    <!-- Accessibility Toggle -->
+    <x-ui.accessibility-toggle />
     
     @stack('scripts')
 </body>
