@@ -2,22 +2,22 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Admin - Create New Todo') }}
+                {{ __('admin_todos.create_new_todo') }}
             </h2>
             <x-ui.button 
                 href="{{ route('admin.todos.index') }}" 
                 variant="secondary" 
                 icon="heroicon-s-arrow-left"
             >
-                {{ __('Back to Todos') }}
+                {{ __('admin_todos.back_to_todos') }}
             </x-ui.button>
         </div>
     </x-slot>
 
     <x-ui.card withBorder>
         <x-slot name="header">
-            <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('Todo Details') }}</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('Fill in the details for the new task.') }}</p>
+            <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('admin_todos.todo_details') }}</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('admin_todos.fill_details') }}</p>
         </x-slot>
         
         <form method="POST" action="{{ route('admin.todos.store') }}">
@@ -26,9 +26,9 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {{-- User --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('User')" for="user_id" :error="$errors->first('user_id')">
+                        <x-input.form.group :label="__('form.user')" for="user_id" :error="$errors->first('user_id')">
                             <x-input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
-                                <option value="">{{ __('Select a user') }}</option>
+                                <option value="">{{ __('admin_todos.select_user') }}</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }} ({{ $user->email }})
@@ -40,7 +40,7 @@
 
                     {{-- Title --}}
                     <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('Title')" for="title" :error="$errors->first('title')">
+                        <x-input.form.group :label="__('form.title')" for="title" :error="$errors->first('title')">
                             <x-input.input 
                                 type="text" 
                                 name="title" 
@@ -56,7 +56,7 @@
                     {{-- Description --}}
                     <div class="col-span-full">
                         <x-input.form.group 
-                            :label="__('Description')" 
+                            :label="__('form.description')" 
                             for="description" 
                             :error="$errors->first('description')" 
                             helpText="Write a few sentences about the task."
@@ -72,14 +72,14 @@
 
                     {{-- Status --}}
                     <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('Status')" for="status" :error="$errors->first('status')">
+                        <x-input.form.group :label="__('form.status')" for="status" :error="$errors->first('status')">
                             <x-input.select id="status" name="status" :invalid="$errors->has('status')">
-                                <option value="">{{ __('Select status') }}</option>
+                                <option value="">{{ __('admin_todos.select_status') }}</option>
                                 <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>
-                                    {{ __('Pending') }}
+                                    {{ __('admin_todos.pending') }}
                                 </option>
                                 <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>
-                                    {{ __('Completed') }}
+                                    {{ __('admin_todos.completed') }}
                                 </option>
                             </x-input.select>
                         </x-input.form.group>
@@ -92,14 +92,14 @@
                     href="{{ route('admin.todos.index') }}" 
                     variant="secondary"
                 >
-                    {{ __('Cancel') }}
+                    {{ __('admin_todos.cancel') }}
                 </x-ui.button>
                 <x-ui.button 
                     type="submit" 
                     variant="primary" 
                     icon="heroicon-o-check-circle"
                 >
-                    {{ __('Create Todo') }}
+                    {{ __('admin_todos.create_todo') }}
                 </x-ui.button>
             </div>
         </form>
