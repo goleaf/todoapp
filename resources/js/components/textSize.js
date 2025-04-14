@@ -97,6 +97,9 @@ export default function TextSize() {
             // Add the appropriate text size class
             document.documentElement.classList.add(`text-size-${savedTextSize}`);
             
+            // Apply highlight animation to key elements
+            this.applyHighlightAnimation();
+            
             // Dispatch an event for other components to respond to text size changes
             window.dispatchEvent(new CustomEvent('text-size-updated', { 
                 detail: { size: savedTextSize } 
@@ -106,12 +109,71 @@ export default function TextSize() {
             this.showNotification(savedTextSize);
         },
         
+        // Apply highlight animation to important text elements
+        applyHighlightAnimation() {
+            // Skip on initial load
+            if (this.initialLoad) {
+                return;
+            }
+            
+            // Select important text elements that should be highlighted
+            const elementsToHighlight = [
+                'p', 'h1', 'h2', 'h3', 'h4', 
+                '.card', '.alert', '.badge',
+                'button', 'a', 'label',
+                '.nav-link', '.btn'
+            ].join(',');
+            
+            // Get a limited set of visible elements (to avoid performance issues)
+            const visibleElements = Array.from(
+                document.querySelectorAll(elementsToHighlight)
+            ).filter(el => {
+                // Only select elements that are visible in the viewport
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }).slice(0, 25); // Limit to 25 elements for performance
+            
+            // Apply highlight class to each element
+            visibleElements.forEach(element => {
+                // Remove any existing animation
+                element.classList.remove('text-size-highlight');
+                
+                // Force a reflow to restart the animation
+                void element.offsetWidth;
+                
+                // Add the highlight class to trigger the animation
+                element.classList.add('text-size-highlight');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    element.classList.remove('text-size-highlight');
+                }, 1500);
+            });
+        },
+        
         setTextSize(size) {
             // Save the preference
             localStorage.setItem('textSize', size);
             
             // Apply the text size to the document
             this.applyTextSize();
+        },
+        
+        // Reset to the default text size (medium)
+        resetTextSize() {
+            // Remove the preference from localStorage
+            localStorage.removeItem('textSize');
+            
+            // Apply the default text size
+            this.applyTextSize();
+            
+            // Show a special reset notification
+            this.showNotification('reset');
         },
         
         showNotification(size) {
@@ -130,7 +192,8 @@ export default function TextSize() {
                         const messages = {
                             'small': 'Text size set to Small',
                             'medium': 'Text size set to Medium',
-                            'large': 'Text size set to Large'
+                            'large': 'Text size set to Large',
+                            'reset': 'Text size reset to default'
                         };
                         
                         toast.show({
@@ -166,10 +229,14 @@ export default function TextSize() {
             const sizeLabels = {
                 'small': 'Small',
                 'medium': 'Medium',
-                'large': 'Large'
+                'large': 'Large',
+                'reset': 'Default'
             };
             
-            notification.textContent = `Text size: ${sizeLabels[size] || size}`;
+            notification.textContent = size === 'reset' 
+                ? `Text size reset to default` 
+                : `Text size: ${sizeLabels[size] || size}`;
+            
             document.body.appendChild(notification);
             
             // Show and then fade out

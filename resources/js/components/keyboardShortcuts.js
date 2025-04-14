@@ -95,6 +95,14 @@ export default function KeyboardShortcuts() {
                                 this.setTextSize('large');
                             }
                             break;
+                            
+                        case '0':
+                            // Reset text size to default
+                            e.preventDefault();
+                            if (typeof this.resetTextSize === 'function') {
+                                this.resetTextSize();
+                            }
+                            break;
                     }
                 }
             });

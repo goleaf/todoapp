@@ -9,6 +9,23 @@ html * {
     transition: font-size 0.3s ease;
 }
 
+/* Text size highlight animation */
+@keyframes text-size-highlight {
+    0% {
+        background-color: rgba(79, 70, 229, 0);
+    }
+    30% {
+        background-color: rgba(79, 70, 229, 0.1);
+    }
+    100% {
+        background-color: rgba(79, 70, 229, 0);
+    }
+}
+
+.text-size-highlight {
+    animation: text-size-highlight 1.5s ease-in-out;
+}
+
 .text-size-small {
     font-size: 0.875rem; /* 14px */
 }

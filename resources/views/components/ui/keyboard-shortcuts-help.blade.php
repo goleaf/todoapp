@@ -123,6 +123,10 @@
                                     <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">s</kbd>
                                     <span class="text-gray-700 dark:text-gray-300">{{ __('Open Text Size Menu') }}</span>
                                 </div>
+                                <div class="col-span-1 flex items-center">
+                                    <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded shadow mr-2">0</kbd>
+                                    <span class="text-gray-700 dark:text-gray-300">{{ __('Reset Text Size') }}</span>
+                                </div>
                             </div>
                         </div>
                         

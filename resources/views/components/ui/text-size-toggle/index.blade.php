@@ -66,7 +66,6 @@
             
             <button
                 type="button"
-                x-ref="lastItem"
                 class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-900 dark:focus:text-gray-100"
                 x-on:click="setTextSize('large'); $refs.menu.classList.add('hidden')"
                 x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': localStorage.getItem('textSize') === 'large' }"
@@ -74,6 +73,22 @@
                 tabindex="0"
             >
                 <span class="text-lg">{{ __('Large') }}</span>
+            </button>
+            
+            <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+            
+            <button
+                type="button"
+                x-ref="lastItem"
+                class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-900 dark:focus:text-gray-100"
+                x-on:click="resetTextSize(); $refs.menu.classList.add('hidden')"
+                role="menuitem"
+                tabindex="0"
+            >
+                <div class="flex items-center">
+                    <x-ui.icon icon="heroicon-o-arrow-path" class="h-4 w-4 mr-2" />
+                    <span>{{ __('Reset to Default') }}</span>
+                </div>
             </button>
         </div>
     </div>
