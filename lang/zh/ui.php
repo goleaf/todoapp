@@ -1,41 +1,54 @@
 <?php
 
 return [
-  'accessibility_options' => 'Accessibility options',
-  'open_accessibility_menu' => 'Open accessibility menu',
-  'accessibility_options_title' => 'Accessibility Options',
-  'text_size' => 'Text Size',
-  'small' => 'Small',
-  'medium' => 'Medium',
-  'large' => 'Large',
-  'high_contrast' => 'High Contrast',
-  'toggle_high_contrast' => 'Toggle high contrast',
-  'keyboard_shortcut_high_contrast' => 'Keyboard shortcut: Alt+H',
-  'toggle_dark_mode' => 'Toggle dark mode',
-  'theme' => 'Theme',
-  'color_theme' => 'Color Theme',
-  'default_theme' => 'Default (Indigo)',
-  'ocean_blue' => 'Ocean Blue',
-  'forest_green' => 'Forest Green',
-  'royal_purple' => 'Royal Purple',
-  'warm_amber' => 'Warm Amber',
-  'not_started' => 'Not Started',
-  'in_progress' => 'In Progress',
-  'completed' => 'Completed',
-  'on_hold' => 'On Hold',
-  'cancelled' => 'Cancelled',
-  'todo_status_updated' => 'Todo status updated successfully',
-  'failed_update_status' => 'Failed to update todo status',
-  'error_updating_status' => 'An error occurred while updating status',
-  'search' => 'Search',
-  'close' => 'Close',
-  'keyboard_shortcuts' => 'Keyboard Shortcuts',
-  'keyboard_shortcuts_desc' => 'Use these keyboard shortcuts to quickly perform common actions',
-  'navigation' => 'Navigation',
-  'go_to_homepage' => 'Go to Homepage',
-  'go_to_todos' => 'Go to Todos',
-  'go_to_help' => 'Go to Help Page',
-  'show_help_dialog' => 'Show this help dialog',
-  'todo_actions' => 'Todo Actions',
-  'new_todo' => 'New Todo',
-];
+    // Accessibility menu
+    'accessibility_options' => '无障碍选项',
+    'open_accessibility_menu' => '打开无障碍菜单',
+    'accessibility_options_title' => '无障碍选项',
+    'text_size' => '文字大小',
+    'small' => '小',
+    'medium' => '中',
+    'large' => '大',
+    'high_contrast' => '高对比度',
+    'toggle_high_contrast' => '切换高对比度',
+    'keyboard_shortcut_high_contrast' => '键盘快捷键：Alt+H',
+    
+    // Dark mode toggle
+    'toggle_dark_mode' => '切换深色模式',
+    
+    // Theme switcher
+    'theme' => '主题',
+    'color_theme' => '颜色主题',
+    'default_theme' => '默认 (靛蓝)',
+    'ocean_blue' => '海洋蓝',
+    'forest_green' => '森林绿',
+    'royal_purple' => '皇家紫',
+    'warm_amber' => '暖琥珀',
+    
+    // Todo status
+    'not_started' => '未开始',
+    'in_progress' => '进行中',
+    'completed' => '已完成',
+    'on_hold' => '搁置',
+    'cancelled' => '已取消',
+    'todo_status_updated' => '待办事项状态更新成功',
+    'failed_update_status' => '更新待办事项状态失败',
+    'error_updating_status' => '更新状态时发生错误',
+    
+    // Search
+    'search' => '搜索',
+    
+    // Toast notifications
+    'close' => '关闭',
+    
+    // Keyboard shortcuts
+    'keyboard_shortcuts' => '键盘快捷键',
+    'keyboard_shortcuts_desc' => '使用这些键盘快捷键快速执行常用操作',
+    'navigation' => '导航',
+    'go_to_homepage' => '转到主页',
+    'go_to_todos' => '转到待办事项',
+    'go_to_help' => '转到帮助页面',
+    'show_help_dialog' => '显示此帮助对话框',
+    'todo_actions' => '待办事项操作',
+    'new_todo' => '新建待办事项',
+]; 
