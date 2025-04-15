@@ -1,0 +1,27 @@
+<?php
+
+return [
+  'user' => 'Użytkownik',
+  'title' => 'Tytuł',
+  'description' => 'Opis',
+  'status' => 'Status',
+  'priority' => 'Priorytet',
+  'due_date' => 'Termin wykonania',
+  'category' => 'Kategoria',
+  'submit' => 'Wyślij',
+  'save' => 'Zapisz',
+  'cancel' => 'Anuluj',
+  'delete' => 'Usuń',
+  'edit' => 'Edytuj',
+  'update' => 'Aktualizuj',
+  'create' => 'Utwórz',
+  'search' => 'Szukaj',
+  'reset' => 'Resetuj',
+  'filter' => 'Filtruj',
+  'apply' => 'Zastosuj',
+  'clear' => 'Wyczyść',
+  'required' => 'To pole jest wymagane',
+  'optional' => 'Opcjonalne',
+  'invalid' => 'Nieprawidłowe dane',
+  'select_option' => 'Wybierz opcję',
+];

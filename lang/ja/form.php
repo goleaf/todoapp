@@ -1,0 +1,27 @@
+<?php
+
+return [
+  'user' => 'ユーザー',
+  'title' => 'タイトル',
+  'description' => '説明',
+  'status' => 'ステータス',
+  'priority' => '優先度',
+  'due_date' => '期日',
+  'category' => 'カテゴリ',
+  'submit' => '送信',
+  'save' => '保存',
+  'cancel' => 'キャンセル',
+  'delete' => '削除',
+  'edit' => '編集',
+  'update' => '更新',
+  'create' => '作成',
+  'search' => '検索',
+  'reset' => 'リセット',
+  'filter' => 'フィルター',
+  'apply' => '適用',
+  'clear' => 'クリア',
+  'required' => 'このフィールドは必須です',
+  'optional' => '任意',
+  'invalid' => '無効な入力',
+  'select_option' => 'オプションを選択',
+];

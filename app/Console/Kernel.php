@@ -13,11 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\ScanTranslations::class,
-        Commands\SyncTranslations::class,
-        Commands\FlattenTranslations::class,
-        Commands\FindTranslatableStrings::class,
-        Commands\MigrateComponentNames::class,
+        Commands\TranslationManager::class,
+        Commands\ComponentManager::class,
+        Commands\UserManager::class,
     ];
     
     /**

@@ -1,0 +1,26 @@
+<?php
+
+return [
+  'dashboard' => 'Panel',
+  'todos' => 'Zadania',
+  'help' => 'Pomoc',
+  'settings' => 'Ustawienia',
+  'admin' => 'Admin',
+  'platform' => 'Platforma',
+  'profile' => 'Profil',
+  'log_in' => 'Zaloguj się',
+  'log_out' => 'Wyloguj się',
+  'register' => 'Zarejestruj się',
+  'repository' => 'Repozytorium',
+  'documentation' => 'Dokumentacja',
+  'text_size' => 'Rozmiar tekstu',
+  'small' => 'Mały',
+  'medium' => 'Średni',
+  'large' => 'Duży',
+  'toggle_high_contrast' => 'Przełącz tryb wysokiego kontrastu',
+  'toggle_sidebar' => 'Przełącz pasek boczny',
+  'accessibility_options' => 'Opcje dostępności',
+  'open_accessibility_menu' => 'Otwórz menu dostępności',
+  'language' => 'Język',
+  'language_settings' => 'Ustawienia języka',
+];

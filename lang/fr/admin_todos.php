@@ -1,14 +1,14 @@
 <?php
 
 return [
-  'create_new_todo' => 'UNTRANSLATED: Create New Todo',
-  'back_to_todos' => 'UNTRANSLATED: Back to Todos',
-  'todo_details' => 'UNTRANSLATED: Todo Details',
-  'fill_details' => 'UNTRANSLATED: Fill in the details for the new todo item.',
-  'select_user' => 'UNTRANSLATED: Select a user',
-  'select_status' => 'UNTRANSLATED: Select a status',
-  'pending' => 'UNTRANSLATED: Pending',
-  'completed' => 'UNTRANSLATED: Completed',
-  'cancel' => 'UNTRANSLATED: Cancel',
-  'create_todo' => 'UNTRANSLATED: Create Todo',
+  'create_new_todo' => 'Créer une nouvelle tâche',
+  'back_to_todos' => 'Retour aux tâches',
+  'todo_details' => 'Détails de la tâche',
+  'fill_details' => 'Remplissez les détails de la nouvelle tâche.',
+  'select_user' => 'Sélectionner un utilisateur',
+  'select_status' => 'Sélectionner un statut',
+  'pending' => 'En attente',
+  'completed' => 'Terminé',
+  'cancel' => 'Annuler',
+  'create_todo' => 'Créer une tâche',
 ];

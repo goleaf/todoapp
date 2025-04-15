@@ -1,0 +1,26 @@
+<?php
+
+return [
+  'dashboard' => 'Prietaisų skydelis',
+  'todos' => 'Užduotys',
+  'help' => 'Pagalba',
+  'settings' => 'Nustatymai',
+  'admin' => 'Administratorius',
+  'platform' => 'Platforma',
+  'profile' => 'Profilis',
+  'log_in' => 'Prisijungti',
+  'log_out' => 'Atsijungti',
+  'register' => 'Registruotis',
+  'repository' => 'Saugykla',
+  'documentation' => 'Dokumentacija',
+  'text_size' => 'Teksto dydis',
+  'small' => 'Mažas',
+  'medium' => 'Vidutinis',
+  'large' => 'Didelis',
+  'toggle_high_contrast' => 'Perjungti didelio kontrasto režimą',
+  'toggle_sidebar' => 'Perjungti šoninę juostą',
+  'accessibility_options' => 'Pritaikymo neįgaliesiems parinktys',
+  'open_accessibility_menu' => 'Atidaryti pritaikymo neįgaliesiems meniu',
+  'language' => 'Kalba',
+  'language_settings' => 'Kalbos nustatymai',
+];

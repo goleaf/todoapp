@@ -1,0 +1,26 @@
+<?php
+
+return [
+  'dashboard' => 'ダッシュボード',
+  'todos' => 'Todos',
+  'help' => 'ヘルプ',
+  'settings' => '設定',
+  'admin' => '管理',
+  'platform' => 'プラットフォーム',
+  'profile' => 'プロフィール',
+  'log_in' => 'ログイン',
+  'log_out' => 'ログアウト',
+  'register' => '登録',
+  'repository' => 'リポジトリ',
+  'documentation' => 'ドキュメンテーション',
+  'text_size' => '文字サイズ',
+  'small' => '小',
+  'medium' => '中',
+  'large' => '大',
+  'toggle_high_contrast' => 'ハイコントラストモードの切り替え',
+  'toggle_sidebar' => 'サイドバーの切り替え',
+  'accessibility_options' => 'アクセシビリティオプション',
+  'open_accessibility_menu' => 'アクセシビリティメニューを開く',
+  'language' => '言語',
+  'language_settings' => '言語設定',
+];

@@ -1,0 +1,27 @@
+<?php
+
+return [
+  'user' => 'Vartotojas',
+  'title' => 'Pavadinimas',
+  'description' => 'Aprašymas',
+  'status' => 'Būsena',
+  'priority' => 'Prioritetas',
+  'due_date' => 'Terminas',
+  'category' => 'Kategorija',
+  'submit' => 'Pateikti',
+  'save' => 'Išsaugoti',
+  'cancel' => 'Atšaukti',
+  'delete' => 'Ištrinti',
+  'edit' => 'Redaguoti',
+  'update' => 'Atnaujinti',
+  'create' => 'Sukurti',
+  'search' => 'Ieškoti',
+  'reset' => 'Atkurti',
+  'filter' => 'Filtruoti',
+  'apply' => 'Taikyti',
+  'clear' => 'Išvalyti',
+  'required' => 'Šis laukas yra privalomas',
+  'optional' => 'Neprivaloma',
+  'invalid' => 'Netinkama įvestis',
+  'select_option' => 'Pasirinkite parinktį',
+];

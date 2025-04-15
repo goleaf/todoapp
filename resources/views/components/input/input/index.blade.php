@@ -24,7 +24,7 @@ $classes = [
 @endphp
 
 <?php if ($label): ?>
-<x-input.field>
+<x-input.input.field>
     <x-input.label :for="$id" :value="$label" />
     <input {{ $formControlAttributes }} {{ $attributes->merge(['id' => $id])->class($classes) }} value="{{ $value }}">
     <x-input.input-error :for="$id" />
