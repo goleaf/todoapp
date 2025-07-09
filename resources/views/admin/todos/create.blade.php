@@ -14,94 +14,66 @@
         </div>
     </x-slot>
 
-    <x-ui.card withBorder>
-        <x-slot name="header">
-            <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{{ __('admin_todos.todo_details') }}</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{{ __('admin_todos.fill_details') }}</p>
-        </x-slot>
-        
-        <form method="POST" action="{{ route('admin.todos.store') }}">
-            @csrf
-            <div class="space-y-12">
-                <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    {{-- User --}}
-                    <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('form.user')" for="user_id" :error="$errors->first('user_id')">
-                            <x-input.select id="user_id" name="user_id" required :invalid="$errors->has('user_id')">
-                                <option value="">{{ __('admin_todos.select_user') }}</option>
-                                @foreach ($users as $user)
+    <x-ui.container>
+        <div class="py-12">
+            <h2 class="text-2xl font-bold mb-6">Create New Todo</h2>
+            
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form action="{{ route('admin.todos.store') }}" method="POST">
+                        @csrf
+                        
+                        <div class="mb-4">
+                            <label for="user_id" class="block text-sm font-medium text-gray-700">User</label>
+                            <select name="user_id" id="user_id" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Select User</option>
+                                @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }} ({{ $user->email }})
                                     </option>
                                 @endforeach
-                            </x-input.select>
-                        </x-input.form.group>
-                    </div>
-
-                    {{-- Title --}}
-                    <div class="sm:col-span-3">
-                        <x-input.form.group :label="__('form.title')" for="title" :error="$errors->first('title')">
-                            <x-input.input 
-                                type="text" 
-                                name="title" 
-                                id="title" 
-                                :value="old('title')" 
-                                required 
-                                autofocus 
-                                :invalid="$errors->has('title')" 
-                            />
-                        </x-input.form.group>
-                    </div>
-
-                    {{-- Description --}}
-                    <div class="col-span-full">
-                        <x-input.form.group 
-                            :label="__('form.description')" 
-                            for="description" 
-                            :error="$errors->first('description')" 
-                            helpText="Write a few sentences about the task."
-                        >
-                            <x-input.textarea
-                                id="description"
-                                name="description"
-                                :invalid="$errors->has('description')"
-                                :value="old('description')"
-                            />
-                        </x-input.form.group>
-                    </div>
-
-                    {{-- Status --}}
-                    <div class="sm:col-span-2">
-                        <x-input.form.group :label="__('form.status')" for="status" :error="$errors->first('status')">
-                            <x-input.select id="status" name="status" :invalid="$errors->has('status')">
-                                <option value="">{{ __('admin_todos.select_status') }}</option>
-                                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>
-                                    {{ __('admin_todos.pending') }}
-                                </option>
-                                <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>
-                                    {{ __('admin_todos.completed') }}
-                                </option>
-                            </x-input.select>
-                        </x-input.form.group>
-                    </div>
+                            </select>
+                            @error('user_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                            <input type="text" name="title" id="title" value="{{ old('title') }}" required
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            @error('title')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="description" id="description" rows="3"
+                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('description') }}</textarea>
+                            @error('description')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="completed" id="completed" value="1" {{ old('completed') ? 'checked' : '' }}
+                                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="completed" class="ml-2 block text-sm text-gray-700">Completed</label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-end">
+                            <a href="{{ route('admin.todos.index') }}" class="text-gray-500 hover:text-gray-700 mr-4">Cancel</a>
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                Create Todo
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="mt-6 flex items-center justify-end gap-x-6">
-                <x-ui.button 
-                    href="{{ route('admin.todos.index') }}" 
-                    variant="secondary"
-                >
-                    {{ __('admin_todos.cancel') }}
-                </x-ui.button>
-                <x-ui.button 
-                    type="submit" 
-                    variant="primary" 
-                    icon="heroicon-o-check-circle"
-                >
-                    {{ __('admin_todos.create_todo') }}
-                </x-ui.button>
-            </div>
-        </form>
-    </x-ui.card>
+        </div>
+    </x-ui.container>
 </x-layout.app>

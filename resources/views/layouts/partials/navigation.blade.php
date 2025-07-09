@@ -50,7 +50,7 @@
                                 {{ __('common.language_names.'.$locale, [], 'en') }}
                             </x-ui.popover.item>
                         @endforeach
-                        <x-ui.popover.divider />
+                        <x-ui.dropdown.divider />
                         <x-ui.popover.item :href="route('settings.language.edit')">
                             {{ __('navigation.language_settings') }}
                         </x-ui.popover.item>

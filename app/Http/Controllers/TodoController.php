@@ -93,13 +93,38 @@ class TodoController extends Controller
             'status' => 'nullable|string|in:pending,in_progress,completed',
             'category_id' => 'nullable|exists:categories,id',
             'parent_id' => 'nullable|exists:todos,id',
+            'is_recurring' => 'nullable|boolean',
+            'repeat_frequency' => 'required_if:is_recurring,1|nullable|in:daily,weekly,monthly,custom',
+            'repeat_interval' => 'required_if:is_recurring,1|nullable|integer|min:1|max:365',
+            'repeat_days' => 'nullable|array',
+            'repeat_days.*' => 'nullable|integer|min:1|max:7',
+            'repeat_until' => 'nullable|date|after_or_equal:due_date',
         ]);
 
         // Set user ID
         $validated['user_id'] = Auth::id();
         
+        // Handle repeat_days field, convert to JSON
+        if (isset($validated['repeat_days']) && is_array($validated['repeat_days'])) {
+            $validated['repeat_days'] = array_filter($validated['repeat_days']); // Remove empty values
+        }
+        
+        // If not recurring, unset recurring fields
+        if (!($validated['is_recurring'] ?? false)) {
+            unset($validated['repeat_frequency']);
+            unset($validated['repeat_interval']);
+            unset($validated['repeat_days']);
+            unset($validated['repeat_until']);
+        }
+        
         // Create the todo
-        Todo::create($validated);
+        $todo = Todo::create($validated);
+        
+        // If it's a recurring todo, generate the first instance
+        if ($todo->is_recurring) {
+            // Run the generate command to create the first instance
+            $this->dispatch(new \App\Jobs\GenerateRecurringTodoInstances($todo));
+        }
 
         return redirect()->route('todos.index')
             ->with('success', __('messages.todo_created'));
@@ -116,7 +141,7 @@ class TodoController extends Controller
         }
 
         // Load relationships
-        $todo->load(['category', 'subtasks']);
+        $todo->load(['category', 'subtasks', 'recurrenceInstances']);
 
         return view('todos.show', compact('todo'));
     }
@@ -161,6 +186,12 @@ class TodoController extends Controller
             'status' => 'required|string|in:pending,in_progress,completed',
             'category_id' => 'nullable|exists:categories,id',
             'parent_id' => 'nullable|exists:todos,id',
+            'is_recurring' => 'nullable|boolean',
+            'repeat_frequency' => 'required_if:is_recurring,1|nullable|in:daily,weekly,monthly,custom',
+            'repeat_interval' => 'required_if:is_recurring,1|nullable|integer|min:1|max:365',
+            'repeat_days' => 'nullable|array',
+            'repeat_days.*' => 'nullable|integer|min:1|max:7',
+            'repeat_until' => 'nullable|date|after_or_equal:due_date',
         ]);
 
         // Ensure a todo can't be its own parent
@@ -169,8 +200,43 @@ class TodoController extends Controller
                 ->withErrors(['parent_id' => __('messages.todo_self_parent')])
                 ->withInput();
         }
+        
+        // Handle repeat_days field, convert to JSON
+        if (isset($validated['repeat_days']) && is_array($validated['repeat_days'])) {
+            $validated['repeat_days'] = array_filter($validated['repeat_days']); // Remove empty values
+        }
+        
+        // If not recurring, unset recurring fields
+        if (!($validated['is_recurring'] ?? false)) {
+            $validated['repeat_frequency'] = null;
+            $validated['repeat_interval'] = null;
+            $validated['repeat_days'] = null;
+            $validated['repeat_until'] = null;
+        }
+        
+        // Only allow updating recurring properties on parent todos, not instances
+        if ($todo->recurring_parent_id !== null) {
+            unset($validated['is_recurring']);
+            unset($validated['repeat_frequency']);
+            unset($validated['repeat_interval']);
+            unset($validated['repeat_days']);
+            unset($validated['repeat_until']);
+        }
 
         $todo->update($validated);
+        
+        // If it's a recurring todo and the fields have changed, regenerate instances
+        if ($todo->is_recurring && $todo->isDirty([
+            'due_date', 'repeat_frequency', 'repeat_interval', 'repeat_days', 'repeat_until'
+        ])) {
+            // Remove future instances
+            $todo->recurrenceInstances()
+                ->where('due_date', '>', now())
+                ->delete();
+                
+            // Regenerate instances
+            $this->dispatch(new \App\Jobs\GenerateRecurringTodoInstances($todo));
+        }
 
         return redirect()->route('todos.index')
             ->with('success', __('messages.todo_updated'));
@@ -184,6 +250,11 @@ class TodoController extends Controller
         // Check if the todo belongs to the authenticated user
         if (Auth::id() !== $todo->user_id) {
             abort(403, __('messages.unauthorized'));
+        }
+        
+        // If this is a recurring parent, delete all its instances
+        if ($todo->is_recurring) {
+            $todo->recurrenceInstances()->delete();
         }
 
         $todo->delete();

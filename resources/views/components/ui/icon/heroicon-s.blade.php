@@ -1,5 +1,21 @@
 @props(['icon', 'width' => 24, 'height' => 24, 'class' => ''])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @php
 use Illuminate\Support\Str;
 

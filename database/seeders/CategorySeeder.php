@@ -21,8 +21,38 @@ class CategorySeeder extends Seeder
             $users = User::factory(1)->create();
         }
 
-        $users->each(function ($user) {
-            Category::factory(3)->create([
+        // Define some preset categories
+        $categories = [
+            [
+                'name' => 'Work',
+                'description' => 'Work-related tasks and projects',
+                'color' => '#4a5568',
+            ],
+            [
+                'name' => 'Personal',
+                'description' => 'Personal tasks and errands',
+                'color' => '#48bb78',
+            ],
+            [
+                'name' => 'Urgent',
+                'description' => 'High priority tasks that need immediate attention',
+                'color' => '#e53e3e',
+            ],
+        ];
+
+        $users->each(function ($user) use ($categories) {
+            // Create preset categories for each user
+            foreach ($categories as $category) {
+                Category::create([
+                    'user_id' => $user->id,
+                    'name' => $category['name'],
+                    'description' => $category['description'],
+                    'color' => $category['color'],
+                ]);
+            }
+            
+            // Create some random categories as well
+            Category::factory(2)->create([
                 'user_id' => $user->id,
             ]);
         });

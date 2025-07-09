@@ -1,110 +1,53 @@
 <x-layout.app>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('admin_todo.page_title') }}
-            </h2>
-            {{-- Optional: Add Create button if Admins can create todos --}}
-            {{-- <a href="{{ route('admin.todos.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                 <x-ui.icon icon="heroicon-s-plus" class="w-5 h-5 mr-1.5 -ml-0.5" />
-                {{ __('Create New Todo') }}
-            </a> --}}
-        </div>
-
-        {{-- Optional Filters (Similar to todos.index if needed) --}}
-        {{-- @include('admin.todos.partials.filters') --}}
-
-        {{-- Todo List Table --}}
-        <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
-            @if($todos->count() > 0)
-                <div class="overflow-x-auto">
-                    <x-data.table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+    <x-ui.container>
+        <div class="py-12">
+            <h2 class="text-2xl font-bold mb-6">Admin Todos List</h2>
+            
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="mb-4">
+                        <a href="{{ route('admin.todos.create') }}" class="px-4 py-2 text-white bg-blue-500 rounded">Add New Todo</a>
+                    </div>
+                    
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100 sm:pl-6">{{ __('admin_todo.id') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('admin_todo.user') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('todo.title') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('todo.category') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('todo.status') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('todo.priority') }}</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('todo.created_at') }}</th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                    <span class="sr-only">{{ __('todo.actions') }}</span>
-                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-800">
+                        <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($todos as $todo)
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-6">{{ $todo->id }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                        {{-- Optional: Link to admin user view --}}
-                                        {{ $todo->user->name }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $todo->title }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $todo->category?->name ?? __('todo.category_none') }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                         <span @class([
-                                            'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
-                                             match ($todo->status) {
-                                                App\Enums\TodoStatus::COMPLETED => 'bg-green-50 dark:bg-green-400/10 text-green-700 dark:text-green-400 ring-green-600/20 dark:ring-green-400/20',
-                                                App\Enums\TodoStatus::IN_PROGRESS => 'bg-blue-50 dark:bg-blue-400/10 text-blue-700 dark:text-blue-400 ring-blue-700/10 dark:ring-blue-400/30',
-                                                App\Enums\TodoStatus::PENDING => 'bg-gray-50 dark:bg-gray-400/10 text-gray-600 dark:text-gray-400 ring-gray-500/10 dark:ring-gray-400/20',
-                                            }
-                                        ])>
-                                            {{ $todo->status->label() }}
-                                        </span>
-                                    </td>
-                                     <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                        <span @class([
-                                            'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
-                                            match ($todo->priority) {
-                                                App\Enums\TodoPriority::HIGH => 'bg-red-50 dark:bg-red-400/10 text-red-700 dark:text-red-400 ring-red-600/10 dark:ring-red-400/20',
-                                                App\Enums\TodoPriority::MEDIUM => 'bg-yellow-50 dark:bg-yellow-400/10 text-yellow-800 dark:text-yellow-500 ring-yellow-600/20 dark:ring-yellow-400/20',
-                                                App\Enums\TodoPriority::LOW => 'bg-blue-50 dark:bg-blue-400/10 text-blue-700 dark:text-blue-400 ring-blue-700/10 dark:ring-blue-400/30',
-                                            }
-                                        ])>
-                                            {{ $todo->priority->label() }}
-                                        </span>
-                                    </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400" title="{{ $todo->created_at->translatedFormat('Y-m-d H:i:s') }}">
-                                        {{ $todo->created_at->diffForHumans() }}
-                                    </td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <div class="flex space-x-3 justify-end">
-                                             {{-- Assuming admin routes like admin.todos.show, admin.todos.edit, etc. exist --}}
-                                            <x-ui.link href="{{ route('admin.todos.show', $todo) }}" class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-200">{{ __('common.view') }}</x-ui.link>
-                                            <x-ui.link href="{{ route('admin.todos.edit', $todo) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-200">{{ __('common.edit') }}</x-ui.link>
-                                            <form action="{{ route('admin.todos.destroy', $todo) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('admin_todo.delete_confirm') }}')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <x-ui.button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">{{ __('common.delete') }}</x-ui.button>
-                                            </form>
-                                        </div>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $todo->id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $todo->title }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $todo->user->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $todo->completed ? 'Completed' : 'Pending' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $todo->created_at->format('Y-m-d') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <a href="{{ route('admin.todos.edit', $todo) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <a href="{{ route('admin.todos.show', $todo) }}" class="ml-2 text-blue-600 hover:text-blue-900">View</a>
+                                        
+                                        <form method="POST" action="{{ route('admin.todos.destroy', $todo) }}" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="ml-2 text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this todo?')">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
-                    </x-data.table>
-                    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-                        <x-data.pagination :paginator="$todos" />
+                    </table>
+                    
+                    <div class="mt-4">
+                        {{ $todos->links() }}
                     </div>
                 </div>
-            @else
-                {{-- Empty State --}}
-                 <div class="text-center px-4 py-12 sm:p-16">
-                     {{-- <x-ui.icon icon="heroicon-o-clipboard-document-list" class="mx-auto h-12 w-12 text-gray-400" /> --}}
-                    <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('admin_todo.empty_title') }}</h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('admin_todo.empty_description') }}</p>
-                     {{-- Optional: Add Create button if Admins can create todos --}}
-                    {{-- <div class="mt-6">
-                        <a href="{{ route('admin.todos.create') }}" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
-                             <x-ui.icon icon="heroicon-s-plus" class="w-5 h-5 mr-1.5 -ml-0.5" />
-                            {{ __('Create New Todo') }}
-                        </a>
-                    </div> --}}
-                </div>
-            @endif
+            </div>
         </div>
-    </div>
+    </x-ui.container>
 </x-layout.app>

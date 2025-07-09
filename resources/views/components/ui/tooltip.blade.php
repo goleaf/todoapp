@@ -1,7 +1,24 @@
 @props([
+
     'text' => '',
     'position' => 'top', // top, bottom, left, right
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div {{ $attributes->merge(['class' => 'relative group']) }}>
     {{ $slot }}

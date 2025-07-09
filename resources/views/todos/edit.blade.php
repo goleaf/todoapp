@@ -131,10 +131,10 @@
                         <div class="sm:col-span-2">
                             <x-input.form.group :label="__('todo.due_date')" for="due_date" :error="$errors->first('due_date')">
                                 <x-input.input 
-                                    type="date" 
+                                    type="datetime-local" 
                                     name="due_date" 
                                     id="due_date" 
-                                    :value="old('due_date', $todo->due_date?->format('Y-m-d'))" 
+                                    :value="old('due_date', $todo->due_date?->format('Y-m-d\TH:i'))" 
                                     :invalid="$errors->has('due_date')" 
                                 />
                             </x-input.form.group>

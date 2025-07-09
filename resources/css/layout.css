@@ -7,11 +7,3 @@
         "main    aside"
         "footer  aside";
 }
-
-.layout.with-sidebar {
-    grid-template-columns: min-content minmax(0, 1fr) min-content;
-    grid-template-areas:
-        "header  header  header"
-        "sidebar main    aside"
-        "sidebar footer  aside";
-}

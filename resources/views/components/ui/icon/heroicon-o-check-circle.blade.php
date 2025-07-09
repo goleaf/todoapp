@@ -1,3 +1,21 @@
+@props([])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @php
 $attributes = $attributes->class('inline-block');
 @endphp

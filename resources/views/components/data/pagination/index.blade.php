@@ -1,5 +1,23 @@
 @props(['paginator'])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @if ($paginator->hasPages())
     @if (method_exists($paginator, 'links') && method_exists($paginator, 'onEachSide'))
         {{-- Full paginator with numbers --}}

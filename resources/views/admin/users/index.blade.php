@@ -58,11 +58,13 @@
                                         {{-- <x-ui.link href="{{ route('admin.users.show', $user) }}" class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-200">{{ __('View') }}</x-ui.link> --}}
                                         <x-ui.link href="{{ route('admin.users.edit', $user) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-200">{{ __('Edit') }}</x-ui.link>
                                         {{-- Add Delete form if needed --}}
-                                        {{-- <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this user?') }}')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-ui.button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">{{ __('Delete') }}</x-ui.button>
-                                        </form> --}}
+                                        @if(auth()->id() !== $user->id)
+                                            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200" onclick="return confirm('{{ __('Are you sure you want to delete this user?') }}')">{{ __('Delete') }}</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

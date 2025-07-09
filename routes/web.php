@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/language', [Settings\LanguageController::class, 'update'])->name('settings.language.update');
     
     // Admin Routes
-    Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         // Users
         Route::get('/users', [AdminController::class, 'listUsers'])->name('users.index');
         Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
 /**
  * Admin Translation Management Routes
  */
-Route::middleware(['auth', 'admin'])->prefix('admin/translations')->name('admin.translations.')->group(function () {
+Route::middleware('auth', 'admin')->prefix('admin/translations')->name('admin.translations.')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\TranslationController::class, 'index'])->name('index');
     Route::get('/create-language', [App\Http\Controllers\Admin\TranslationController::class, 'createLanguage'])->name('create-language');
     Route::post('/create-language', [App\Http\Controllers\Admin\TranslationController::class, 'storeLanguage'])->name('store-language');
@@ -132,8 +132,17 @@ Route::prefix('api')->group(function () {
         ]);
         
         // Category API routes
-        Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
+        Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class)->names([
+            'index' => 'categories.api.index',
+            'store' => 'categories.api.store',
+            'show' => 'categories.api.show',
+            'update' => 'categories.api.update',
+            'destroy' => 'categories.api.destroy',
+        ]);
     });
 });
+
+// Categories routes
+Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
 require __DIR__.'/auth.php';

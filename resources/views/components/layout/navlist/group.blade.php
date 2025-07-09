@@ -1,8 +1,25 @@
 @props([
+
     'expandable' => false,
     'expanded' => true,
     'heading' => null,
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <?php if ($expandable && $heading): ?>
 

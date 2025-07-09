@@ -3,6 +3,8 @@
 return [
     'dashboard' => 'Dashboard',
     'todos' => 'Todos',
+    'categories' => 'Categories',
+    'admin' => 'Admin',
     'settings' => 'Settings',
     'profile' => 'Profile',
     'logout' => 'Log Out',
@@ -12,6 +14,7 @@ return [
     'english' => 'English',
     'russian' => 'Russian',
     'toggle_sidebar' => 'Toggle sidebar',
+    'toggle_mobile_menu' => 'Toggle mobile menu',
     'repository' => 'Repository',
     'documentation' => 'Documentation',
     'confirm_delete' => 'Are you sure you want to delete this? This action cannot be undone.',

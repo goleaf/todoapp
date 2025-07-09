@@ -48,6 +48,7 @@ class CategoryTest extends TestCase
         $categoryData = [
             'user_id' => $user->id,
             'name' => 'Test Category',
+            'description' => 'A test category description',
             'color' => '#FF5733',
         ];
         
@@ -63,6 +64,6 @@ class CategoryTest extends TestCase
         
         $fillable = $category->getFillable();
         
-        $this->assertEquals(['user_id', 'name', 'color'], $fillable);
+        $this->assertEquals(['name', 'description', 'color', 'user_id'], $fillable);
     }
 } 

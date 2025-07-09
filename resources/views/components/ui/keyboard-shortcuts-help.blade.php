@@ -1,5 +1,21 @@
 @props([])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div x-data="{ isOpen: false }" x-show="isOpen" x-on:keydown.window.escape="isOpen = false" x-on:keydown.window="handleKeyboardShortcuts($event)" @keyboard-shortcuts-help-open.window="isOpen = true" @keyboard-shortcuts-help-close.window="isOpen = false" x-cloak class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         <div

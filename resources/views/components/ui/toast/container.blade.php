@@ -1,5 +1,21 @@
 @props(['position' => 'bottom-right'])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div 
     x-data="Toast()"
     @toast.window="add($event.detail.message, $event.detail.options || {})"

@@ -13,9 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call the user seeder
+        // Call the seeders in order of dependency
         $this->call([
             UserSeeder::class,
+            CategorySeeder::class,
+            TodoSeeder::class,
         ]);
     }
 }

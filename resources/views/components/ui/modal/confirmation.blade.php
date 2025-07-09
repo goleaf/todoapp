@@ -1,6 +1,29 @@
 @props([
+
     'id',
-    'title' => __('common.confirm'),
+    'title' => __('common.confirm')
+
+@php
+    // Initialize required variables if they don't exist
+    $attributes = $attributes ?? collect();
+    $slot = $slot ?? '';
+    $modalId = $modalId ?? '';
+    $sizeCss = $sizeCss ?? '';
+    $backdropClass = $backdropClass ?? '';
+    
+    // Get attributes from component service if not already set
+    if (empty($modalId)) {
+        $params = [
+            'id' => $id ?? null,
+            'size' => $size ?? 'md',
+            'blur' => $blur ?? false,
+        ];
+        $attrs = app(\App\Services\BladeComponentService::class)->getModalAttributes($params);
+        $modalId = $attrs['modalId'];
+        $sizeCss = $attrs['sizeCss'];
+        $backdropClass = $attrs['backdropClass'];
+    }
+@endphp,
     'message' => __('common.confirm_action'),
     'confirm' => __('common.confirm'),
     'cancel' => __('common.cancel'),

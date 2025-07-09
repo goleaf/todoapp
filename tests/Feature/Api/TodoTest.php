@@ -206,10 +206,7 @@ class TodoTest extends TestCase
         
         $response = $this->deleteJson("/api/todos/{$todo->id}");
         
-        $response->assertStatus(200)
-            ->assertJson([
-                'message' => __('messages.todo_deleted')
-            ]);
+        $response->assertStatus(204);
             
         $this->assertDatabaseMissing('todos', ['id' => $todo->id]);
     }

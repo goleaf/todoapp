@@ -3,6 +3,8 @@
 return [
     'dashboard' => 'Tableau de bord',
     'todos' => 'Tâches',
+    'categories' => 'Catégories',
+    'admin' => 'Administration',
     'settings' => 'Paramètres',
     'profile' => 'Profil',
     'logout' => 'Déconnexion',
@@ -12,6 +14,7 @@ return [
     'english' => 'Anglais',
     'russian' => 'Russe',
     'toggle_sidebar' => 'Basculer la barre latérale',
+    'toggle_mobile_menu' => 'Basculer le menu mobile',
     'repository' => 'Dépôt',
     'documentation' => 'Documentation',
     'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer ceci ? Cette action ne peut pas être annulée.',

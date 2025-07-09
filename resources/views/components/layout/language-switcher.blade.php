@@ -1,3 +1,5 @@
+@props([])
+
 <div class="relative" x-data="{ open: false }">
     <button
         @click="open = !open"

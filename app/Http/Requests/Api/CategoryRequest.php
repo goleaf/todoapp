@@ -27,6 +27,7 @@ class CategoryRequest extends FormRequest
 
         $rules = [
             'color' => 'nullable|string|max:7', // e.g., #RRGGBB
+            'description' => 'nullable|string|max:1000',
         ];
 
         if ($this->isMethod('post')) {
@@ -69,6 +70,8 @@ class CategoryRequest extends FormRequest
             'name.string' => __('validation.string', ['attribute' => __('category.name')]),
             'name.max' => __('validation.max_string', ['attribute' => __('category.name'), 'max' => 255]),
             'name.unique' => __('validation.unique', ['attribute' => __('category.name')]),
+            'description.string' => __('validation.string', ['attribute' => __('category.description')]),
+            'description.max' => __('validation.max_string', ['attribute' => __('category.description'), 'max' => 1000]),
             'color.string' => __('validation.string', ['attribute' => __('category.color')]),
             'color.max' => __('validation.max_string', ['attribute' => __('category.color'), 'max' => 7]),
         ];

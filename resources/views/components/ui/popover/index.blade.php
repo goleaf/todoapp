@@ -5,28 +5,6 @@
     'trigger' => null,
 ])
 
-@php
-    $alignmentClasses = match ($align) {
-        'left' => 'origin-top-left left-0',
-        'top' => 'origin-top',
-        'bottom' => 'origin-bottom',
-        'right' => 'origin-top-right right-0',
-        'left-bottom' => 'origin-bottom-left left-0 bottom-0',
-        'right-bottom' => 'origin-bottom-right right-0 bottom-0',
-        default => 'origin-top-right right-0',
-    };
-
-    $widthClasses = match ($width) {
-        '48' => 'w-48',
-        '56' => 'w-56',
-        '64' => 'w-64',
-        '72' => 'w-72',
-        '80' => 'w-80',
-        'auto' => 'w-auto',
-        default => 'w-48',
-    };
-@endphp
-
 <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
     <div @click="open = !open">
         {{ $trigger ?? $slot }}

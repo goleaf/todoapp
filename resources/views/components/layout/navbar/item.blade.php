@@ -1,7 +1,7 @@
 @props([
     'current' => false,
     'before' => '',
-    'after' => '',
+    'after' => ''
 ])
 
 <a aria-current="{{ $current ? 'page' : '' }}" {{ $attributes->class([

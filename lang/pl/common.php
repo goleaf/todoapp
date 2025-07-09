@@ -3,6 +3,8 @@
 return [
   'dashboard' => 'Panel',
   'todos' => 'Zadania',
+  'categories' => 'Kategorie',
+  'admin' => 'Administracja',
   'settings' => 'Ustawienia',
   'profile' => 'Profil',
   'logout' => 'Wyloguj się',
@@ -12,6 +14,7 @@ return [
   'english' => 'Angielski',
   'russian' => 'Rosyjski',
   'toggle_sidebar' => 'Przełącz pasek boczny',
+  'toggle_mobile_menu' => 'Przełącz menu mobilne',
   'repository' => 'Repozytorium',
   'documentation' => 'Dokumentacja',
   'confirm_delete' => 'Czy na pewno chcesz to usunąć? Tej operacji nie można cofnąć.',

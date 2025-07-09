@@ -1,3 +1,21 @@
+@props([])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="language-switcher">
     <div class="relative" x-data="{ open: false }">
         <button 
@@ -7,11 +25,7 @@
             aria-label="{{ __('messages.select_language') }}"
         >
             <span class="text-sm font-medium">
-                @php
-                    $currentLocale = app()->getLocale();
-                    $currentLangName = \Locale::getDisplayName($currentLocale, $currentLocale);
-                    $currentFlag = \App\Helpers\LanguageHelper::getFlagForLanguage($currentLocale);
-                @endphp
+                {{-- PHP logic moved to BladeComponentService --}}
                 <span class="flex items-center">
                     <span class="text-xs mr-2">{{ $currentFlag }}</span>
                     {{ $currentLangName }}

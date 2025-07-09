@@ -1,17 +1,28 @@
 @props([
+
     'type' => 'info',
     'message' => '',
     'timeout' => 5000,
     'position' => 'bottom-right',
 ])
 
-@php
-    $typeClasses = [
-        'info' => 'bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-100 border-blue-300 dark:border-blue-700',
-        'success' => 'bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-100 border-green-300 dark:border-green-700',
-        'warning' => 'bg-yellow-50 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 border-yellow-300 dark:border-yellow-700',
-        'error' => 'bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-100 border-red-300 dark:border-red-700',
-    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- PHP logic moved to BladeComponentService --}}
     
     $iconClasses = [
         'info' => 'text-blue-500 dark:text-blue-400',

@@ -1,22 +1,52 @@
+@props([])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div 
-    x-data="{}"
-    x-show="$store.sidebar.open"
+    x-show="open"
+    @click.away="open = false"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 transform -translate-y-2"
+    x-transition:enter-end="opacity-100 transform translate-y-0"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 transform translate-y-0"
+    x-transition:leave-end="opacity-0 transform -translate-y-2"
     class="md:hidden border-t border-gray-200 dark:border-gray-700"
 >
     <div class="px-2 pt-2 pb-3 space-y-1">
         <x-layout.navlist.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
-            {{ __('Dashboard') }}
+            {{ __('common.dashboard') }}
         </x-layout.navlist.item>
         
         @if(Route::has('todos.index'))
         <x-layout.navlist.item :href="route('todos.index')" :current="request()->routeIs('todos.*')">
-            {{ __('Todos') }}
+            {{ __('common.todos') }}
+        </x-layout.navlist.item>
+        @endif
+        
+        @if(Route::has('categories.index'))
+        <x-layout.navlist.item :href="route('categories.index')" :current="request()->routeIs('categories.*')">
+            {{ __('common.categories') }}
         </x-layout.navlist.item>
         @endif
         
         @if(auth()->check() && auth()->user()->hasRole('admin'))
         <x-layout.navlist.item :href="route('admin.todos.index')" :current="request()->routeIs('admin.todos.*')">
-            {{ __('Admin') }}
+            {{ __('common.admin') }}
         </x-layout.navlist.item>
         @endif
     </div>
@@ -37,25 +67,20 @@
         
         <div class="mt-3 px-2 space-y-1">
             <x-layout.navlist.item :href="route('settings.profile.edit')">
-                {{ __('Settings') }}
+                {{ __('common.settings') }}
             </x-layout.navlist.item>
             
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <x-layout.navlist.item href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                    {{ __('Log Out') }}
+                    {{ __('common.logout') }}
                 </x-layout.navlist.item>
             </form>
         </div>
         @endauth
         
         <div class="mt-3 px-2 space-y-1">
-            <x-layout.navlist.item href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
-                {{ __('Repository') }}
-            </x-layout.navlist.item>
-            <x-layout.navlist.item href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-            </x-layout.navlist.item>
+            <!-- Removed repository and documentation links as per todo.md -->
         </div>
     </div>
 </div> 

@@ -5,15 +5,18 @@
     'currentSort' => null,
 ])
 
-@php
-    $classes = 'py-3.5 px-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100';
-    
-    if ($sortable) {
-        $classes .= ' cursor-pointer select-none';
-    }
-@endphp
 
-<th {{ $attributes->merge(['class' => $classes, 'scope' => 'col']) }}>
+
+
+
+
+
+{{-- Define the class string directly in the attributes merge --}}
+<th {{ $attributes->merge([
+    'class' => 'py-3.5 px-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100' . 
+              ($sortable ? ' cursor-pointer select-none' : ''),
+    'scope' => 'col'
+]) }}>
     @if ($sortable)
         <div class="flex items-center group">
             <span>{{ $slot }}</span>

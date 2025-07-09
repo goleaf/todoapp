@@ -1,6 +1,4 @@
-@php
-use App\Helpers\TodoHelper;
-@endphp
+@use App\Helpers\TodoHelper
 
 <x-layout.app :title="__('todo.todos')">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -159,10 +157,7 @@ use App\Helpers\TodoHelper;
                             <x-data.table.cell>{{ $todo->category?->name ?? __('todo.category_none') }}</x-data.table.cell>
                             <x-data.table.cell>{{ $todo->due_date ? $todo->due_date->translatedFormat('Y-m-d') : __('todo.no_due_date') }}</x-data.table.cell>
                             <x-data.table.cell>
-                                @php
-                                    $priorityColors = TodoHelper::getPriorityColors();
-                                @endphp
-                                <x-ui.badge :color="$priorityColors[$todo->priority->value]">
+                                <x-ui.badge :color="TodoHelper::getPriorityColors()[$todo->priority->value]">
                                     {{ $todo->priority->label() }}
                                 </x-ui.badge>
                             </x-data.table.cell>
@@ -170,12 +165,8 @@ use App\Helpers\TodoHelper;
                                 <x-ui.todo-status-change :todo="$todo" />
                             </x-data.table.cell>
                             <x-data.table.cell>
-                                @php
-                                    $subtaskCounts = TodoHelper::getSubtaskCounts($todo);
-                                    $badgeColor = TodoHelper::getSubtaskBadgeColor($todo);
-                                @endphp
-                                <x-ui.badge :color="$badgeColor">
-                                    {{ $subtaskCounts['completed'] }} / {{ $subtaskCounts['total'] }}
+                                <x-ui.badge :color="TodoHelper::getSubtaskBadgeColor($todo)">
+                                    {{ TodoHelper::getSubtaskCounts($todo)['completed'] }} / {{ TodoHelper::getSubtaskCounts($todo)['total'] }}
                                 </x-ui.badge>
                             </x-data.table.cell>
                             <x-data.table.cell class="text-right">

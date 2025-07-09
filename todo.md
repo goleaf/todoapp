@@ -1,3 +1,26 @@
+# TodoApp Improvement Tasks
+
+## Functionality & Features
+- [ ] Create todo categories CRUD and assign todo items to categories
+- [ ] Remove repository and documentation links from header
+- [ ] Refactor all design and add all functions to user dashboard
+- [ ] Fix checkbox click handling (currently shows JSON output, should show all information logically)
+
+## Performance Optimization
+- [ ] Improve overall system speed (currently very slow)
+- [ ] Optimize performance without using cache
+- [ ] Add Laravel Debugbar for performance monitoring and debugging
+
+## Implementation Plan
+1. Set up Laravel Debugbar first to monitor performance
+2. Implement categories CRUD operations
+3. Add category assignment to todo items
+4. Fix checkbox handling to show proper information
+5. Remove unnecessary header items
+6. Refactor UI/UX design
+7. Implement performance optimizations
+8. Create git commit and push changes
+
 Below is an extended version of your project TODOs and improvements list, rewritten as clear, step-by-step instructions tailored for a custom todo app. The instructions are designed for older users who may not be familiar with IT systems, using simple language and avoiding technical jargon. I've expanded the task list significantly, focusing on practical, user-friendly features for a todo app, while keeping the structure grounded in your original document. No AI-specific solutions are included, and the focus is on manual, human-friendly enhancements that prioritize ease of use for non-tech-savvy individuals.
 
 ---

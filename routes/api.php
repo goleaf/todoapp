@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TodoController; // Import TodoController
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Todo API routes
     Route::apiResource('/todos', TodoController::class);
+    Route::get('/todos/statistics', [TodoController::class, 'statistics'])->name('api.todos.statistics');
 
     // Category API routes
-    Route::apiResource('/categories', \App\Http\Controllers\Api\CategoryController::class);
+    Route::apiResource('/categories', CategoryController::class)->names([
+        'index' => 'categories.api.index',
+        'store' => 'categories.api.store',
+        'show' => 'categories.api.show',
+        'update' => 'categories.api.update',
+        'destroy' => 'categories.api.destroy',
+    ]);
 });

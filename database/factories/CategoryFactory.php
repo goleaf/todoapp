@@ -23,6 +23,7 @@ class CategoryFactory extends Factory
         return [
             'user_id' => $user->id,
             'name' => $this->faker->unique()->word(), // Unique category name per user might be good
+            'description' => $this->faker->sentence(), // Add description field
             'color' => $this->faker->hexColor(),
         ];
     }

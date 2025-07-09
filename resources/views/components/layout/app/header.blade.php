@@ -1,5 +1,7 @@
 @props(['title' => null, 'withNav' => true, 'withFooter' => true])
 
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || window.matchMedia('(prefers-color-scheme: dark)').matches }" :class="{ 'dark': darkMode }" class="h-full antialiased">
     <head>
@@ -16,8 +18,8 @@
                             <button 
                                 type="button" 
                                 class="flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400" 
-                                x-on:click="$store.sidebar.toggle()"
-                                aria-label="{{ __('common.toggle_sidebar') }}"
+                                x-on:click="$refs.mobileMenu.open = !$refs.mobileMenu.open"
+                                aria-label="{{ __('common.toggle_mobile_menu') }}"
                             >
                                 <x-ui.icon icon="phosphor-list" aria-hidden="true" width="20" height="20" />
                             </button>
@@ -39,22 +41,19 @@
                             </x-layout.navbar.item>
                             @endif
                             
+                            @if(Route::has('categories.index'))
+                            <x-layout.navbar.item :href="route('categories.index')" :current="request()->routeIs('categories.*')">
+                                {{ __('common.categories') }}
+                            </x-layout.navbar.item>
+                            @endif
+                            
                             <!-- Add other navigation items here -->
                         </nav>
                     </div>
                     
                     <div class="flex items-center space-x-4">
                         <!-- Documentation and Repository Links -->
-                        <div class="hidden md:flex md:items-center md:space-x-3">
-                            <a href="https://github.com/imacrayon/blade-starter-kit" target="_blank" 
-                               class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                                {{ __('common.repository') }}
-                            </a>
-                            <a href="https://laravel.com/docs/starter-kits" target="_blank" 
-                               class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">
-                                {{ __('common.documentation') }}
-                            </a>
-                        </div>
+                        <!-- Removed repository and documentation links as per todo.md -->
                         
                         <!-- Accessibility Menu -->
                         <x-ui.accessibility-menu />
@@ -125,6 +124,11 @@
                 </div>
             </div>
         </header>
+
+        <!-- Mobile menu -->
+        <div x-data="{ open: false }" x-ref="mobileMenu">
+            <x-layout.app.mobile-menu />
+        </div>
 
         {{ $slot }}
     </body>

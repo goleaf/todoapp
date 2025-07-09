@@ -16,13 +16,13 @@ use Illuminate\Support\Str;
     'text-gray-500 dark:text-white/80',
     'border border-transparent',
     'aria-current:text-(--color-accent-content) hover:aria-current:text-(--color-accent-content)',
-    match($variant) { // Hover...
-        'primary' => 'hover:text-gray-800 dark:hover:text-white hover:bg-gray-800/5 dark:hover:bg-white/[7%]',
+    match($variant ?? 'primary') { // Hover...
         'secondary' => 'hover:text-gray-800 dark:hover:text-white hover:bg-gray-800/[4%] dark:hover:bg-white/[7%]',
+        default => 'hover:text-gray-800 dark:hover:text-white hover:bg-gray-800/5 dark:hover:bg-white/[7%]',
     },
-    match($variant) { // Current...
-        'primary' => 'aria-current:bg-white dark:aria-current:bg-white/[7%] aria-current:border aria-current:border-gray-200 dark:aria-current:border-transparent',
+    match($variant ?? 'primary') { // Current...
         'secondary' => 'aria-current:bg-gray-800/[4%] dark:aria-current:bg-white/[7%]',
+        default => 'aria-current:bg-white dark:aria-current:bg-white/[7%] aria-current:border aria-current:border-gray-200 dark:aria-current:border-transparent',
     },
 ]) }}>
     @if (is_string($before) && $before !== '')

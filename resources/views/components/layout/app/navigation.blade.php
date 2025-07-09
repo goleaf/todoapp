@@ -1,3 +1,7 @@
+@props([])
+
+
+
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -201,6 +205,40 @@
                     >
                         <span class="text-lg">{{ __('navigation.large') }}</span>
                     </button>
+                </div>
+            </div>
+            
+            <!-- Dark Mode Toggle for mobile -->
+            <div class="mt-3 space-y-1 px-4 border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    {{ __('navigation.appearance') }}
+                </div>
+                <div x-data="{ mode: localStorage.getItem('darkMode') === 'true' ? 'dark' : 'light' }">
+                    <div class="flex space-x-2">
+                        <button 
+                            type="button"
+                            class="px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                            x-on:click="localStorage.setItem('darkMode', 'false'); window.location.reload();"
+                            x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': mode === 'light' }"
+                        >
+                            <div class="flex items-center">
+                                <x-ui.icon icon="heroicon-o-sun" class="h-5 w-5 mr-1" />
+                                <span>{{ __('navigation.light') }}</span>
+                            </div>
+                        </button>
+                        
+                        <button 
+                            type="button"
+                            class="px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                            x-on:click="localStorage.setItem('darkMode', 'true'); window.location.reload();"
+                            x-bind:class="{ 'bg-gray-100 dark:bg-gray-700': mode === 'dark' }"
+                        >
+                            <div class="flex items-center">
+                                <x-ui.icon icon="heroicon-o-moon" class="h-5 w-5 mr-1" />
+                                <span>{{ __('navigation.dark') }}</span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

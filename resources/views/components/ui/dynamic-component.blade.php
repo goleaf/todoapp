@@ -1,20 +1,25 @@
-@props(['component'])
+@props(['component', 'cacheExpiry' => 3600])
 
-@php
-    // Direct approach to avoid circular references
-    $parts = explode('.', $component);
-    $tag = array_pop($parts);
-    $path = implode('/', $parts);
-    
-    if (!empty($path)) {
-        $path = $path . '/';
-    }
-    
-    $viewPath = "components.{$path}{$tag}";
-@endphp
 
-@if(view()->exists($viewPath))
-    @include($viewPath, ['attributes' => $attributes, 'slot' => $slot])
+
+
+
+
+
+@if(config('app.env') === 'production')
+    @php
+        // Generate a base cache key. @cache directive will vary based on rendered content.
+        // Include attributes potentially affecting the render output in the key.
+        $cacheKey = 'dynamic_component_render:' . $component . ':' . md5(json_encode($attributes->getAttributes()));
+    @endphp
+    @cache($cacheKey, $cacheExpiry)
+        <x-dynamic-component :component="$component" {{ $attributes }}>
+            {{ $slot }}
+        </x-dynamic-component>
+    @endcache
 @else
-    <span class="text-red-500">Component not found: {{ $component }}</span>
+    {{-- Render directly in non-production --}}
+    <x-dynamic-component :component="$component" {{ $attributes }}>
+        {{ $slot }}
+    </x-dynamic-component>
 @endif 

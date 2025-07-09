@@ -14,7 +14,8 @@ class AdminTest extends TestCase
     {
         $user = User::factory()->create(['is_admin' => true]);
 
-        $response = $this->actingAs($user)->get('/admin/users');
+        $response = $this->actingAs($user)
+                         ->get(route('admin.users.index'));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.users.index');
@@ -24,7 +25,8 @@ class AdminTest extends TestCase
     {
         $user = User::factory()->create(['is_admin' => true]);
 
-        $response = $this->actingAs($user)->get('/admin/todos');
+        $response = $this->actingAs($user)
+                         ->get(route('admin.todos.index'));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.todos.index');
@@ -32,14 +34,14 @@ class AdminTest extends TestCase
 
     public function test_admin_users_page_is_not_accessible_by_unauthenticated_user(): void
     {
-        $response = $this->get('/admin/users');
+        $response = $this->get(route('admin.users.index'));
 
         $response->assertRedirect('/login');
     }
 
     public function test_admin_todos_page_is_not_accessible_by_unauthenticated_user(): void
     {
-        $response = $this->get('/admin/todos');
+        $response = $this->get(route('admin.todos.index'));
 
         $response->assertRedirect('/login');
     }

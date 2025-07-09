@@ -1,1 +1,147 @@
-<?php\n\nnamespace Tests\\Unit\\Console\\Commands;\n\nuse Illuminate\\Support\\Facades\\File;\nuse Tests\\TestCase;\n\nclass FindTranslatableStringsTest extends TestCase\n{\n    protected string $testViewPath;\n    protected string $testAppPath;\n    protected string $testLangPath;\n\n    protected function setUp(): void\n    {\n        parent::setUp();\n        $this->testViewPath = resource_path(\'views_test\');\n        $this->testAppPath = app_path(\'app_test\');\n        $this->testLangPath = base_path(\'lang_test\');\n\n        // Cleanup and setup test directories\n        File::deleteDirectory($this->testViewPath);\n        File::deleteDirectory($this->testAppPath);\n        File::deleteDirectory($this->testLangPath);\n        File::makeDirectory($this->testViewPath . \'/subdir\', 0755, true);\n        File::makeDirectory($this->testAppPath . \'/Http/Controllers\', 0755, true);\n        File::makeDirectory($this->testLangPath . \'/en\', 0755, true);\n        \n        // Mock paths\n        $this->app->instance(\'path.resources\', dirname($this->testViewPath)); // Point to parent of views_test\n        $this->app->instance(\'path.app\', $this->testAppPath);\n        $this->app->instance(\'path.lang\', $this->testLangPath);\n    }\n\n    protected function tearDown(): void\n    {\n        File::deleteDirectory($this->testViewPath);\n        File::deleteDirectory($this->testAppPath);\n        File::deleteDirectory($this->testLangPath);\n        parent::tearDown();\n    }\n\n    /** @test */\n    public function it_finds_hardcoded_strings_in_blade_files()\n    {\n        $bladeContent = <<<BLADE\n        <div>\n            <h1>{{ __(\'already.translated\') }}</h1>\n            <p>This is a hardcoded string with punctuation!</p>\n            <p>Short string</p> {{-- Should be ignored --}}\n            <button>Click Me Please</button>\n            <a href=\"#\" title=\"{{ \$variable }}\">{{ trans(\'another.key\', [\'p\' => 1]) }}</a>\n            <input placeholder=\"Enter your name here.\">\n            @lang(\'foo.bar\')\n            <p class=\"{{ \$class }}\">Don't translate \'this\' part.</p>\n        </div>\n        BLADE;\n        File::put($this->testViewPath . \'/test.blade.php\', $bladeContent);\n\n        $this->artisan(\'translations:find\')\n            ->expectsOutputContaining(\'This is a hardcoded string with punctuation!\')\n            ->expectsOutputContaining(\'Click Me Please\')\n            ->expectsOutputContaining(\'Enter your name here.\')\n            ->doesntExpectOutputContaining(\'Short string\')\n            ->doesntExpectOutputContaining(\'already.translated\')\n            ->doesntExpectOutputContaining(\'another.key\')\n            ->doesntExpectOutputContaining(\'foo.bar\')\n            ->expectsOutput(\'Found 3 potentially hardcoded strings:\')\n            ->assertExitCode(0);\n    }\n    \n    /** @test */\n    public function it_finds_hardcoded_strings_in_php_files()\n    {\n        $phpContent = <<<PHP\n        <?php\n        namespace App\\Http\\Controllers;\n        class TestController {\n            public function index() {\n                \$message1 = __('translated.message');\n                return response()->json(['message' => 'Operation was successful.']);\n            }\n            public function store() {\n                echo \"Data saved correctly!\";\n                Session::flash('status', 'Profile updated!');\n                throw new \\Exception('Something went wrong, please try again.');\n            }\n        }\n        PHP;\n        File::put($this->testAppPath . \'/Http/Controllers/TestController.php\', $phpContent);\n        \n        $this->artisan(\'translations:find\')\n            ->expectsOutputContaining(\'Operation was successful.\')\n            ->expectsOutputContaining(\'Data saved correctly!\')\n            ->expectsOutputContaining(\'Profile updated!\')\n            ->expectsOutputContaining(\'Something went wrong, please try again.\')\n            ->doesntExpectOutputContaining(\'translated.message\')\n            ->expectsOutput(\'Found 4 potentially hardcoded strings:\')\n            ->assertExitCode(0);\n    }\n    \n    /** @test */\n    public function it_exports_found_strings_to_file()\n    {\n        $bladeContent = '<p>Export this string please.</p>';\n        $phpContent = '<?php return [\'message\' => \"And export this one too, okay?\"];';\n        File::put($this->testViewPath . \'/export.blade.php\', $bladeContent);\n        File::put($this->testAppPath . \'/ExportModel.php\', $phpContent);\n        \n        $exportFilePath = $this->testLangPath . \'/en/export_test.php\';\n        File::delete($exportFilePath); // Ensure it doesn't exist\n        \n        $this->artisan('translations:find --export=export_test')\n             ->expectsOutputContaining(\"Exported 2 translations to {$exportFilePath}\")\n             ->assertExitCode(0);\n             \n        $this->assertFileExists($exportFilePath);\n        $translations = include $exportFilePath;\n        \n        $this->assertCount(2, $translations);\n        $this->assertArrayHasKey('export_this_string_please', $translations);\n        $this->assertEquals('Export this string please.', $translations['export_this_string_please']);\n        $this->assertArrayHasKey('and_export_this_one_too_okay', $translations);\n        $this->assertEquals('And export this one too, okay?', $translations['and_export_this_one_too_okay']);\n    }\n    \n    /** @test */\n    public function it_merges_with_existing_export_file()\n    {\n        $bladeContent = '<p>New string for export.</p>';\n        File::put($this->testViewPath . \'/merge.blade.php\', $bladeContent);\n        \n        $exportFilePath = $this->testLangPath . \'/en/merge_test.php\';\n        $existingContent = ['existing_key' => 'Existing Value'];\n        $contentString = \"<?php\\n\\nreturn \" . var_export($existingContent, true) . \";\\n\";\n        File::put($exportFilePath, $contentString);\n        \n        $this->artisan('translations:find --export=merge_test')\n             ->assertExitCode(0);\n             \n        $translations = include $exportFilePath;\n        $this->assertCount(2, $translations);\n        $this->assertArrayHasKey('existing_key', $translations);\n        $this->assertArrayHasKey('new_string_for_export', $translations);\n        $this->assertEquals('New string for export.', $translations['new_string_for_export']);\n    }\n} 
+<?php
+
+namespace Tests\Unit\Console\Commands;
+
+use Illuminate\Support\Facades\File;
+use Tests\TestCase;
+
+class FindTranslatableStringsTest extends TestCase
+{
+    protected string $testViewPath;
+    protected string $testAppPath;
+    protected string $testLangPath;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->testViewPath = resource_path('views_test');
+        $this->testAppPath = app_path('app_test');
+        $this->testLangPath = base_path('lang_test');
+
+        // Cleanup and setup test directories
+        File::deleteDirectory($this->testViewPath);
+        File::deleteDirectory($this->testAppPath);
+        File::deleteDirectory($this->testLangPath);
+        File::makeDirectory($this->testViewPath . '/subdir', 0755, true);
+        File::makeDirectory($this->testAppPath . '/Http/Controllers', 0755, true);
+        File::makeDirectory($this->testLangPath . '/en', 0755, true);
+        
+        // Mock paths
+        $this->app->instance('path.resources', dirname($this->testViewPath)); // Point to parent of views_test
+        $this->app->instance('path.app', $this->testAppPath);
+        $this->app->instance('path.lang', $this->testLangPath);
+    }
+
+    protected function tearDown(): void
+    {
+        File::deleteDirectory($this->testViewPath);
+        File::deleteDirectory($this->testAppPath);
+        File::deleteDirectory($this->testLangPath);
+        parent::tearDown();
+    }
+
+    /** @test */
+    public function it_finds_hardcoded_strings_in_blade_files()
+    {
+        $bladeContent = <<<BLADE
+        <div>
+            <h1>{{ __('already.translated') }}</h1>
+            <p>This is a hardcoded string with punctuation!</p>
+            <p>Short string</p> {{-- Should be ignored --}}
+            <button>Click Me Please</button>
+            <a href="#" title="{{ $variable }}">{{ trans('another.key', ['p' => 1]) }}</a>
+            <input placeholder="Enter your name here.">
+            @lang('foo.bar')
+            <p class="{{ $class }}">Don't translate 'this' part.</p>
+        </div>
+        BLADE;
+        File::put($this->testViewPath . '/test.blade.php', $bladeContent);
+
+        $this->artisan('translations:find')
+            ->expectsOutputContaining('This is a hardcoded string with punctuation!')
+            ->expectsOutputContaining('Click Me Please')
+            ->expectsOutputContaining('Enter your name here.')
+            ->doesntExpectOutputContaining('Short string')
+            ->doesntExpectOutputContaining('already.translated')
+            ->doesntExpectOutputContaining('another.key')
+            ->doesntExpectOutputContaining('foo.bar')
+            ->expectsOutput('Found 3 potentially hardcoded strings:')
+            ->assertExitCode(0);
+    }
+    
+    /** @test */
+    public function it_finds_hardcoded_strings_in_php_files()
+    {
+        $phpContent = <<<PHP
+        <?php
+        namespace App\Http\Controllers;
+        class TestController {
+            public function index() {
+                $message1 = __('translated.message');
+                return response()->json(['message' => 'Operation was successful.']);
+            }
+            public function store() {
+                echo "Data saved correctly!";
+                Session::flash('status', 'Profile updated!');
+                throw new \Exception('Something went wrong, please try again.');
+            }
+        }
+        PHP;
+        File::put($this->testAppPath . '/Http/Controllers/TestController.php', $phpContent);
+        
+        $this->artisan('translations:find')
+            ->expectsOutputContaining('Operation was successful')
+            ->expectsOutputContaining('Data saved correctly!')
+            ->expectsOutputContaining('Profile updated!')
+            ->expectsOutputContaining('Something went wrong, please try again')
+            ->doesntExpectOutputContaining('translated.message')
+            ->expectsOutput('Found 4 potentially hardcoded strings:')
+            ->assertExitCode(0);
+    }
+    
+    /** @test */
+    public function it_exports_found_strings_to_file()
+    {
+        $bladeContent = '<p>Export this string please.</p>';
+        $phpContent = '<?php return [\'message\' => "And export this one too, okay?"];';
+        File::put($this->testViewPath . '/export.blade.php', $bladeContent);
+        File::put($this->testAppPath . '/ExportModel.php', $phpContent);
+        
+        $exportFilePath = $this->testLangPath . '/en/export_test.php';
+        File::delete($exportFilePath); // Ensure it doesn't exist
+        
+        $this->artisan('translations:find --export=export_test')
+             ->expectsOutputContaining("Exported 2 translations to $exportFilePath")
+             ->assertExitCode(0);
+            
+        $this->assertFileExists($exportFilePath);
+        $translations = include $exportFilePath;
+        
+        $this->assertCount(2, $translations);
+        $this->assertArrayHasKey('export_this_string_please', $translations);
+        $this->assertEquals('Export this string please.', $translations['export_this_string_please']);
+        $this->assertArrayHasKey('and_export_this_one_too_okay', $translations);
+        $this->assertEquals('And export this one too, okay?', $translations['and_export_this_one_too_okay']);
+    }
+    
+    /** @test */
+    public function it_merges_with_existing_export_file()
+    {
+        $bladeContent = '<p>New string for export.</p>';
+        File::put($this->testViewPath . '/merge.blade.php', $bladeContent);
+        
+        $exportFilePath = $this->testLangPath . '/en/merge_test.php';
+        $existingContent = ['existing_key' => 'Existing Value'];
+        $contentString = "<?php\n\nreturn " . var_export($existingContent, true) . ";\n";
+        File::put($exportFilePath, $contentString);
+        
+        $this->artisan('translations:find --export=merge_test')
+             ->assertExitCode(0);
+            
+        $translations = include $exportFilePath;
+        $this->assertCount(2, $translations);
+        $this->assertArrayHasKey('existing_key', $translations);
+        $this->assertArrayHasKey('new_string_for_export', $translations);
+        $this->assertEquals('New string for export.', $translations['new_string_for_export']);
+    }
+} 

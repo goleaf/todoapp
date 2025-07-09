@@ -1,3 +1,5 @@
+@props([])
+
 {{-- High Contrast Toggle Button Component --}}
 <div class="accessibility-control high-contrast-control">
     <button id="high-contrast-toggle" 

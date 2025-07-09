@@ -1,8 +1,25 @@
 @props([
+
     'todo',
     'displayName' => true,
     'size' => 'md'
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div 
     x-data="{
@@ -41,20 +58,32 @@
                         type: 'success' 
                     });
                     
-                    // Update completed count for parent todo if it exists
+                    // If parent was updated, trigger a UI refresh
                     if (data.parentUpdated) {
-                        // Refresh the parent row
+                        // Refresh the parent row or dispatch event to update the parent UI
                         $dispatch('refresh-parent-todo', { parentId: data.parentId });
                     }
                 } else {
-                    const errorData = await response.json();
+                    // Get error message from response
+                    let errorMessage = '{{ __('messages.todo_status_update_failed') }}';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.message || errorMessage;
+                    } catch (e) {
+                        // If response is not json, use default error message
+                    }
+                    
+                    // Show error message
                     $dispatch('toast', { 
-                        message: errorData.message || '{{ __('messages.todo_status_update_failed') }}', 
+                        message: errorMessage, 
                         type: 'error' 
                     });
+                    
+                    // Revert to original status
                     this.status = this.originalStatus;
                 }
             } catch (error) {
+                // Show generic error message for network or other failures
                 $dispatch('toast', { 
                     message: '{{ __('messages.todo_status_update_error') }}', 
                     type: 'error' 

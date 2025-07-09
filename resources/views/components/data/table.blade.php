@@ -1,5 +1,23 @@
 @props(['striped' => false])
 
-<x-data.table.index :striped="$striped" {{ $attributes }}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<x-data.table :striped="$striped" {{ $attributes }}>
     {{ $slot }}
 </x-data.table.index> 

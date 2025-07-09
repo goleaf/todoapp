@@ -1,6 +1,25 @@
 @props([
+
     'type' => 'default', // 'default', 'primary', 'action'
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @php
     $classes = [
